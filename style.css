@@ -421,6 +421,8 @@ body {
   gap: 12px;
 }
 
+.day-nav[hidden] { display: none; }
+
 .day-nav-btn {
   display: flex;
   align-items: center;
