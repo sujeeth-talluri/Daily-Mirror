@@ -1,6 +1,6 @@
 (() => {
   // TODO: replace with your real email before publishing — used by the "Reply to me" link.
-  const REPLY_EMAIL = 'your-email@example.com';
+  const REPLY_EMAIL = 'suji056@gmail.com';
 
   let entries = [];
   let activeTheme = null;
