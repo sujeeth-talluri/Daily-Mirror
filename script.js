@@ -55,11 +55,36 @@
   // Records a view for a specific entry (or the homepage) as its own tracked path —
   // needed because this is a single HTML page; without this, GoatCounter would lump
   // every entry together as one pageview instead of counting each day separately.
+  // GoatCounter's script loads with `async`, so it may not be ready yet the first
+  // time we try to track a view (e.g. the featured entry on initial page load).
+  // Queue the call and flush it once the script actually finishes loading, instead
+  // of silently dropping that view.
+  let pendingTracks = [];
+  let goatcounterReady = false;
+
   function trackView(path, title) {
     if (window.goatcounter && window.goatcounter.count) {
       window.goatcounter.count({ path, title, event: false });
+    } else if (!goatcounterReady) {
+      pendingTracks.push({ path, title });
     }
   }
+
+  function flushPendingTracks() {
+    goatcounterReady = true;
+    pendingTracks.forEach(({ path, title }) => {
+      if (window.goatcounter && window.goatcounter.count) {
+        window.goatcounter.count({ path, title, event: false });
+      }
+    });
+    pendingTracks = [];
+  }
+
+  window.addEventListener('load', () => {
+    // By the window 'load' event, GoatCounter's async script has had every
+    // chance to finish; flush anything we couldn't send immediately.
+    setTimeout(flushPendingTracks, 300);
+  });
 
   // Fetches and displays the public view count for one specific path,
   // into the given element id. Fails silently if GoatCounter isn't set up yet.
@@ -84,7 +109,6 @@
     const e = entries[0];
     const meta = metaLine([`Day ${e.day}`, e.date ? formatDate(e.date) : '', e.passage || '']);
     document.getElementById('featured-meta-line').textContent = meta;
-    document.getElementById('featured-image').src = `images/${e.slug}.jpg`;
     document.getElementById('featured-title').textContent = e.title;
     document.getElementById('featured-themes').innerHTML =
       (e.themes || []).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('');
@@ -144,13 +168,10 @@
       li.className = 'entry-card';
       const meta = metaLine([`Day ${e.day}`, e.date ? formatDate(e.date) : '', e.passage || '']);
       li.innerHTML = `
-        <img class="card-image" src="images/${e.slug}.jpg" alt="" loading="lazy" />
-        <div class="card-body">
-          <div class="card-meta">${meta}</div>
-          <h2>${escapeHtml(e.title)}</h2>
-          <p class="card-question">${escapeHtml(e.closing_question || '')}</p>
-          <div class="card-chips">${(e.themes || []).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('')}</div>
-        </div>
+        <div class="card-meta">${meta}</div>
+        <h2>${escapeHtml(e.title)}</h2>
+        <p class="card-question">${escapeHtml(e.closing_question || '')}</p>
+        <div class="card-chips">${(e.themes || []).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('')}</div>
       `;
       li.addEventListener('click', () => { location.hash = `#/entry/${e.slug}`; });
       entriesList.appendChild(li);
@@ -185,7 +206,6 @@
 
     const meta = metaLine([`Day ${e.day}`, e.date ? formatDate(e.date) : '', e.passage || '']);
     document.getElementById('entry-meta-line').textContent = meta;
-    document.getElementById('entry-image').src = `images/${e.slug}.jpg`;
     document.getElementById('entry-title').textContent = e.title;
     document.getElementById('entry-themes').innerHTML =
       (e.themes || []).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('');
