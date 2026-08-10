@@ -1,6 +1,6 @@
 (() => {
   // TODO: replace with your real email before publishing — used by the "Reply to me" link.
-  const REPLY_EMAIL = 'suji056@example.com';
+  const REPLY_EMAIL = 'your-email@example.com';
 
   let entries = [];
   let activeTheme = null;
@@ -43,11 +43,48 @@
     route();
   }
 
+  // Reads the GoatCounter site code straight from the tracking script tag,
+  // so there's only one place (that script tag) to configure it.
+  function getGoatCounterCode() {
+    const gcScript = document.querySelector('script[data-goatcounter]');
+    if (!gcScript) return null;
+    const match = gcScript.getAttribute('data-goatcounter').match(/https:\/\/([^.]+)\.goatcounter\.com/);
+    return match ? match[1] : null;
+  }
+
+  // Records a view for a specific entry (or the homepage) as its own tracked path —
+  // needed because this is a single HTML page; without this, GoatCounter would lump
+  // every entry together as one pageview instead of counting each day separately.
+  function trackView(path, title) {
+    if (window.goatcounter && window.goatcounter.count) {
+      window.goatcounter.count({ path, title, event: false });
+    }
+  }
+
+  // Fetches and displays the public view count for one specific path,
+  // into the given element id. Fails silently if GoatCounter isn't set up yet.
+  function showViewCount(path, elementId) {
+    const code = getGoatCounterCode();
+    const el = document.getElementById(elementId);
+    if (!code || !el) return;
+
+    fetch(`https://${code}.goatcounter.com/counter/${encodeURIComponent(path)}.json`)
+      .then(r => r.ok ? r.json() : Promise.reject())
+      .then(data => {
+        const count = data.count_unique || data.count;
+        if (count) {
+          el.innerHTML += `<span class="dot">·</span>${count} ${count === 1 ? 'reader' : 'readers'}`;
+        }
+      })
+      .catch(() => { /* counter not enabled yet, or blocked by an ad-blocker */ });
+  }
+
   function renderFeatured() {
     if (!entries.length) { featured.hidden = true; return; }
     const e = entries[0];
     const meta = metaLine([`Day ${e.day}`, e.date ? formatDate(e.date) : '', e.passage || '']);
     document.getElementById('featured-meta-line').textContent = meta;
+    document.getElementById('featured-image').src = `images/${e.slug}.jpg`;
     document.getElementById('featured-title').textContent = e.title;
     document.getElementById('featured-themes').innerHTML =
       (e.themes || []).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('');
@@ -55,6 +92,7 @@
     document.getElementById('featured-question').textContent = e.closing_question || '';
     wireShare(e, document.getElementById('featured-share-btn'));
     wireReply(e, document.getElementById('featured-reply-btn'));
+    showViewCount(`/entry/${e.slug}`, 'featured-meta-line');
   }
 
   function allThemes() {
@@ -106,10 +144,13 @@
       li.className = 'entry-card';
       const meta = metaLine([`Day ${e.day}`, e.date ? formatDate(e.date) : '', e.passage || '']);
       li.innerHTML = `
-        <div class="card-meta">${meta}</div>
-        <h2>${escapeHtml(e.title)}</h2>
-        <p class="card-question">${escapeHtml(e.closing_question || '')}</p>
-        <div class="card-chips">${(e.themes || []).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('')}</div>
+        <img class="card-image" src="images/${e.slug}.jpg" alt="" loading="lazy" />
+        <div class="card-body">
+          <div class="card-meta">${meta}</div>
+          <h2>${escapeHtml(e.title)}</h2>
+          <p class="card-question">${escapeHtml(e.closing_question || '')}</p>
+          <div class="card-chips">${(e.themes || []).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('')}</div>
+        </div>
       `;
       li.addEventListener('click', () => { location.hash = `#/entry/${e.slug}`; });
       entriesList.appendChild(li);
@@ -131,6 +172,9 @@
     dayNav.hidden = true;
     listView.hidden = false;
     renderList(); // recompute featured visibility now that entryView is hidden again
+    if (entries.length && !searchInput.value.trim() && !activeTheme) {
+      trackView(`/entry/${entries[0].slug}`, entries[0].title); // featured entry is what's actually shown here
+    }
     window.scrollTo(0, 0);
   }
 
@@ -141,6 +185,7 @@
 
     const meta = metaLine([`Day ${e.day}`, e.date ? formatDate(e.date) : '', e.passage || '']);
     document.getElementById('entry-meta-line').textContent = meta;
+    document.getElementById('entry-image').src = `images/${e.slug}.jpg`;
     document.getElementById('entry-title').textContent = e.title;
     document.getElementById('entry-themes').innerHTML =
       (e.themes || []).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('');
@@ -151,6 +196,8 @@
     renderDayNav(e);
     wireShare(e, shareBtn);
     wireReply(e, replyBtn);
+    trackView(`/entry/${e.slug}`, e.title);
+    showViewCount(`/entry/${e.slug}`, 'entry-meta-line');
     window.scrollTo(0, 0);
   }
 
