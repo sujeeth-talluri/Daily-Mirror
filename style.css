@@ -14,29 +14,6 @@
   --mono:    'IBM Plex Mono', monospace;
 }
 
-/* ===== Dark mode: same warm-dawn character, inverted for night reading.
-   Values chosen to clear WCAG AA (4.5:1) at every text size used — see
-   scripts/ commit notes for the contrast math. ===== */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --sky:      #1B1F2E;
-    --paper:    #242A3D;
-    --ink:      #EDEEF0;
-    --ink-soft: #A8AFC4;
-    --gold:     #D9A94E;
-    --clay:     #D69A85;
-    --line:     #3A4058;
-    --shadow:   0 1px 2px rgba(0,0,0,0.35), 0 8px 24px rgba(0,0,0,0.4);
-  }
-
-  body {
-    background-image:
-      radial-gradient(circle at 15% 8%, rgba(217,169,78,0.10), transparent 42%),
-      radial-gradient(circle at 85% 92%, rgba(214,154,133,0.08), transparent 45%),
-      linear-gradient(180deg, #20263A 0%, var(--sky) 40%);
-  }
-}
-
 * { box-sizing: border-box; }
 
 html { scroll-behavior: smooth; }
@@ -53,6 +30,78 @@ body {
   font-family: var(--body);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+}
+
+/* ===== Dark mode: same warm-dawn character, inverted for night reading.
+   Values chosen to clear WCAG AA (4.5:1) at every text size used.
+   Automatic via system preference, UNLESS overridden by the manual toggle
+   (theme-toggle.js sets data-theme="light"/"dark" on <html> and persists it
+   to localStorage — that choice always wins over the system setting). These
+   rules must come AFTER the base :root/body rules above: same specificity,
+   so later-in-file is what lets them override at all. ===== */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --sky:      #1B1F2E;
+    --paper:    #242A3D;
+    --ink:      #EDEEF0;
+    --ink-soft: #A8AFC4;
+    --gold:     #D9A94E;
+    --clay:     #D69A85;
+    --line:     #3A4058;
+    --shadow:   0 1px 2px rgba(0,0,0,0.35), 0 8px 24px rgba(0,0,0,0.4);
+  }
+
+  html:not([data-theme="light"]) body {
+    background-image:
+      radial-gradient(circle at 15% 8%, rgba(217,169,78,0.10), transparent 42%),
+      radial-gradient(circle at 85% 92%, rgba(214,154,133,0.08), transparent 45%),
+      linear-gradient(180deg, #20263A 0%, #1B1F2E 40%);
+  }
+}
+
+:root[data-theme="dark"] {
+  --sky:      #1B1F2E;
+  --paper:    #242A3D;
+  --ink:      #EDEEF0;
+  --ink-soft: #A8AFC4;
+  --gold:     #D9A94E;
+  --clay:     #D69A85;
+  --line:     #3A4058;
+  --shadow:   0 1px 2px rgba(0,0,0,0.35), 0 8px 24px rgba(0,0,0,0.4);
+}
+
+html[data-theme="dark"] body {
+  background-image:
+    radial-gradient(circle at 15% 8%, rgba(217,169,78,0.10), transparent 42%),
+    radial-gradient(circle at 85% 92%, rgba(214,154,133,0.08), transparent 45%),
+    linear-gradient(180deg, #20263A 0%, #1B1F2E 40%);
+}
+
+/* ===== Theme toggle button ===== */
+.theme-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow);
+  z-index: 100;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.theme-toggle:hover {
+  border-color: var(--gold);
+  transform: translateY(-1px);
 }
 
 .wrap {
@@ -555,7 +604,7 @@ body {
   body { background: #fff; }
   .dawn-line, .site-header .meta-row, .about-toggle, .controls,
   .back-link, .entry-actions, .day-nav, .related, .site-footer,
-  #list-view { display: none !important; }
+  .theme-toggle, #list-view { display: none !important; }
   .entry-body { font-size: 13pt; color: #000; }
   .closing-question { color: #000; border-top-color: #000; }
 }

@@ -135,6 +135,7 @@ def render_page(entry, older, newer, gc_code):
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>(function(){{var t=localStorage.getItem('daily-mirror-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);}})();</script>
 <title>{escape_html(title)} — The Daily Mirror</title>
 <meta name="description" content="{escape_html(description)}">
 <link rel="canonical" href="{canonical}">
@@ -224,6 +225,7 @@ def render_page(entry, older, newer, gc_code):
     .catch(function() {{ /* counter not enabled yet, or blocked by an ad-blocker */ }});
 }})();
 </script>
+<script src="../../theme-toggle.js"></script>
 
 </body>
 </html>

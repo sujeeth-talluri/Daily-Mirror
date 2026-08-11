@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Applies a saved theme choice before first paint, so a manual dark-mode
+     pick doesn't flash light before theme-toggle.js finishes loading. -->
+<script>(function(){var t=localStorage.getItem('daily-mirror-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);})();</script>
 <title>The Daily Mirror</title>
 <meta name="description" content="A daily reflection series — timeless truth translated into the ordinary moments of everyday life.">
 <link rel="canonical" href="https://sujeeth-talluri.github.io/Daily-Mirror/">
@@ -137,6 +140,7 @@
 </footer>
 
 <script src="script.js"></script>
+<script src="theme-toggle.js"></script>
 
 <!-- no_onload: true — we track each entry manually below (a single-page site needs custom paths, not the default automatic pageview) -->
 <script data-goatcounter="https://dailymirror.goatcounter.com/count" data-goatcounter-settings='{"no_onload": true}' async src="//gc.zgo.at/count.js"></script>
