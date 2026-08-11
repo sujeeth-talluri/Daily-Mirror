@@ -7,16 +7,18 @@ A permanent, public archive of Sujeeth Talluri's daily Bible reading reflections
 ## Structure
 
 ```
-daily-mirror/
-├── entries/              ← source of truth. One markdown file per day.
-├── site/                 ← the public website (GitHub Pages serves this)
-│   ├── index.html
-│   ├── style.css
-│   ├── script.js
-│   └── entries.json      ← auto-generated index, powers search/themes
+daily-mirror/                    ← repo root, served directly by GitHub Pages
+├── entries/                     ← source of truth. One markdown file per day.
+├── entry/                       ← auto-generated. One static, crawlable, shareable page per entry.
+├── index.html, style.css, script.js   ← the interactive site (search/filter/related)
+├── entries.json                 ← auto-generated index, powers search/themes
+├── feed.xml, feed.xsl           ← auto-generated RSS feed
+├── sitemap.xml, robots.txt      ← auto-generated, for search engines
 ├── scripts/
-│   └── build_index.py    ← regenerates entries.json from entries/*.md
-├── TEMPLATE.md            ← copy this for each new entry
+│   ├── build_index.py           ← regenerates entries.json from entries/*.md
+│   ├── build_feed.py            ← regenerates feed.xml from entries.json
+│   └── build_pages.py           ← regenerates entry/*, sitemap.xml, robots.txt from entries.json
+├── TEMPLATE.md                  ← copy this for each new entry
 └── README.md
 ```
 
@@ -25,7 +27,10 @@ daily-mirror/
 1. Complete Bible reading + write today's mirror (with GPT, using your Project).
 2. Copy `TEMPLATE.md` → `entries/day-NN-short-slug.md` (or `YYYY-MM-DD-slug.md` once you're tracking dates consistently).
 3. Fill in the frontmatter (day number, date if known, themes, closing question) and paste the final mirror text below it.
-4. Run `python3 scripts/build_index.py` to regenerate `site/entries.json`
+4. Run the build scripts, in this order, from the repo root:
+   - `python3 scripts/build_index.py` — regenerates `entries.json`
+   - `python3 scripts/build_feed.py` — regenerates `feed.xml`
+   - `python3 scripts/build_pages.py` — regenerates the per-entry static pages under `entry/`, plus `sitemap.xml` and `robots.txt`
 5. `git add . && git commit -m "Day N: <title>" && git push`
 
 That's it — the live site updates automatically once pushed (GitHub Pages rebuilds on every push).

@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://sujeeth-talluri.github.io/Daily-Mirror/sitemap.xml

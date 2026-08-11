@@ -1,6 +1,5 @@
 (() => {
-  // TODO: replace with your real email before publishing — used by the "Reply to me" link.
-  const REPLY_EMAIL = 'your-email@example.com';
+  const REPLY_EMAIL = 'suji056@gmail.com';
 
   let entries = [];
   let activeTheme = null;
@@ -165,15 +164,15 @@
 
     filtered.forEach(e => {
       const li = document.createElement('li');
-      li.className = 'entry-card';
       const meta = metaLine([`Day ${e.day}`, e.date ? formatDate(e.date) : '', e.passage || '']);
       li.innerHTML = `
-        <div class="card-meta">${meta}</div>
-        <h2>${escapeHtml(e.title)}</h2>
-        <p class="card-question">${escapeHtml(e.closing_question || '')}</p>
-        <div class="card-chips">${(e.themes || []).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('')}</div>
+        <a class="entry-card" href="#/entry/${e.slug}">
+          <div class="card-meta">${meta}</div>
+          <h2>${escapeHtml(e.title)}</h2>
+          <p class="card-question">${escapeHtml(e.closing_question || '')}</p>
+          <div class="card-chips">${(e.themes || []).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('')}</div>
+        </a>
       `;
-      li.addEventListener('click', () => { location.hash = `#/entry/${e.slug}`; });
       entriesList.appendChild(li);
     });
   }
@@ -189,6 +188,7 @@
   }
 
   function showList() {
+    document.title = 'The Daily Mirror';
     entryView.hidden = true;
     dayNav.hidden = true;
     listView.hidden = false;
@@ -200,6 +200,7 @@
   }
 
   function showEntry(e) {
+    document.title = `${e.title} — The Daily Mirror`;
     listView.hidden = true;
     entryView.hidden = false;
     featured.hidden = true;
@@ -249,9 +250,18 @@
     }
   }
 
+  // The SPA itself is browsed via #/entry/<slug> hash routes, but those are never
+  // sent to the server or reliably indexed/previewed by crawlers and social bots.
+  // Sharing should point at the real static per-entry page instead (see
+  // scripts/build_pages.py) so link previews show that day's actual title/text.
+  function canonicalEntryUrl(slug) {
+    const baseDir = location.pathname.replace(/[^/]*$/, ''); // strip trailing index.html, if present
+    return `${location.origin}${baseDir}entry/${slug}/`;
+  }
+
   function wireShare(e, btn) {
     btn.onclick = async () => {
-      const url = `${location.origin}${location.pathname}#/entry/${e.slug}`;
+      const url = canonicalEntryUrl(e.slug);
       const shareData = { title: e.title, text: e.closing_question || '', url };
       if (navigator.share) {
         try { await navigator.share(shareData); } catch (err) { /* user cancelled */ }

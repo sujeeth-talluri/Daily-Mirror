@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 """
-Generates site/feed.xml (RSS 2.0) from site/entries.json.
+Generates feed.xml (RSS 2.0) from entries.json.
 Run this after build_index.py, before committing.
-
-IMPORTANT: set SITE_URL below to your actual GitHub Pages URL before first publish.
 """
 import json
+import re
 from datetime import datetime, timezone
 from email.utils import format_datetime
 from pathlib import Path
@@ -19,28 +18,45 @@ OUTPUT = ROOT / "feed.xml"
 
 
 def rfc822(date_str):
-    """Best-effort RFC 822 date for RSS; falls back to 'now' if no date is set."""
-    if date_str:
-        try:
-            dt = datetime.strptime(date_str, "%Y-%m-%d").replace(tzinfo=timezone.utc)
-            return format_datetime(dt)
-        except ValueError:
-            pass
-    return format_datetime(datetime.now(timezone.utc))
+    dt = datetime.strptime(date_str, "%Y-%m-%d").replace(tzinfo=timezone.utc)
+    return format_datetime(dt)
+
+
+def load_existing_pubdates():
+    """Reads the feed.xml already on disk (if any) so entries without an explicit
+    `date` keep the pubDate they were first published with, instead of getting
+    re-stamped with 'now' on every rebuild — which would make a feed reader think
+    all 45+ entries just went live simultaneously, every single time we publish."""
+    if not OUTPUT.exists():
+        return {}
+    text = OUTPUT.read_text(encoding="utf-8")
+    pairs = re.findall(
+        r'<guid isPermaLink="false">(.*?)</guid>\s*<pubDate>(.*?)</pubDate>', text
+    )
+    return dict(pairs)
 
 
 def main():
     entries = json.loads(ENTRIES_JSON.read_text(encoding="utf-8"))
+    existing = load_existing_pubdates()
+    now = format_datetime(datetime.now(timezone.utc))
 
     items = []
     for e in entries:
-        link = f"{SITE_URL}#/entry/{e['slug']}"
+        if e.get("date"):
+            pub_date = rfc822(e["date"])
+        elif e["slug"] in existing:
+            pub_date = existing[e["slug"]]
+        else:
+            pub_date = now  # genuinely new entry, first time it's ever been built
+
+        link = f"{SITE_URL}entry/{e['slug']}/"
         summary = (e.get("closing_question") or "").strip()
         items.append(f"""    <item>
       <title>{escape(e['title'])}</title>
       <link>{escape(link)}</link>
       <guid isPermaLink="false">{escape(e['slug'])}</guid>
-      <pubDate>{rfc822(e.get('date'))}</pubDate>
+      <pubDate>{pub_date}</pubDate>
       <description>{escape(summary)}</description>
     </item>""")
 
@@ -58,8 +74,6 @@ def main():
 """
     OUTPUT.write_text(rss, encoding="utf-8")
     print(f"Wrote {len(items)} items to {OUTPUT}")
-    if "YOUR-USERNAME" in SITE_URL:
-        print("⚠️  SITE_URL is still a placeholder — edit scripts/build_feed.py before publishing.")
 
 
 if __name__ == "__main__":
