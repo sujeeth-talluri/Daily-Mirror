@@ -4,14 +4,37 @@
   --paper:      #FBF8F0;   /* warm page for reading */
   --ink:        #232A3D;   /* deep indigo ink, not black */
   --ink-soft:   #5B6478;   /* muted secondary text */
-  --gold:       #B4872E;   /* first light — primary accent */
-  --clay:       #A66C5B;   /* muted dawn clay — secondary accent */
+  --gold:       #876522;   /* first light — primary accent. Darkened from #B4872E for WCAG AA at small sizes (5.05:1 on paper) */
+  --clay:       #8D5B4D;   /* muted dawn clay — secondary accent. Darkened from #A66C5B for WCAG AA at small sizes (5.30:1 on paper) */
   --line:       #DCDBE4;   /* hairline dividers */
   --shadow:     0 1px 2px rgba(35,42,61,0.04), 0 8px 24px rgba(35,42,61,0.05);
 
   --display: 'Fraunces', serif;
   --body:    'Source Serif 4', serif;
   --mono:    'IBM Plex Mono', monospace;
+}
+
+/* ===== Dark mode: same warm-dawn character, inverted for night reading.
+   Values chosen to clear WCAG AA (4.5:1) at every text size used — see
+   scripts/ commit notes for the contrast math. ===== */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --sky:      #1B1F2E;
+    --paper:    #242A3D;
+    --ink:      #EDEEF0;
+    --ink-soft: #A8AFC4;
+    --gold:     #D9A94E;
+    --clay:     #D69A85;
+    --line:     #3A4058;
+    --shadow:   0 1px 2px rgba(0,0,0,0.35), 0 8px 24px rgba(0,0,0,0.4);
+  }
+
+  body {
+    background-image:
+      radial-gradient(circle at 15% 8%, rgba(217,169,78,0.10), transparent 42%),
+      radial-gradient(circle at 85% 92%, rgba(214,154,133,0.08), transparent 45%),
+      linear-gradient(180deg, #20263A 0%, var(--sky) 40%);
+  }
 }
 
 * { box-sizing: border-box; }

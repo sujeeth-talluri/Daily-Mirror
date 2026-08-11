@@ -1,0 +1,14 @@
+{
+  "name": "The Daily Mirror",
+  "short_name": "Daily Mirror",
+  "description": "A daily reflection series — timeless truth translated into the ordinary moments of everyday life.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#EDEEF3",
+  "theme_color": "#876522",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

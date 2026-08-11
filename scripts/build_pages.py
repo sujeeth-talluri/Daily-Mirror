@@ -27,6 +27,7 @@ SITE_URL = "https://sujeeth-talluri.github.io/Daily-Mirror/"
 ROOT = Path(__file__).parent.parent
 ENTRIES_JSON = ROOT / "entries.json"
 PAGES_DIR = ROOT / "entry"
+OG_IMAGES_DIR = ROOT / "og"
 
 FAVICON = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%AA%9E%3C/text%3E%3C/svg%3E"
 
@@ -83,7 +84,10 @@ def render_page(entry, older, newer):
     meta = meta_line([f"Day {entry['day']}", format_date(entry.get("date")), entry.get("passage") or ""])
     themes_html = "".join(f'<span class="tag">{escape_html(t)}</span>' for t in entry.get("themes") or [])
     body_html = render_body(entry.get("body", ""), entry.get("closing_question", ""))
-    og_image = f"{SITE_URL}og-image.png"
+    # Falls back to the shared image if generate_og_images.py (optional, needs
+    # Pillow) hasn't been run for this entry yet.
+    has_custom_image = (OG_IMAGES_DIR / f"{slug}.png").exists()
+    og_image = f"{SITE_URL}og/{slug}.png" if has_custom_image else f"{SITE_URL}og-image.png"
 
     json_ld = {
         "@context": "https://schema.org",
@@ -116,6 +120,9 @@ def render_page(entry, older, newer):
 <link rel="canonical" href="{canonical}">
 
 <link rel="icon" href="{FAVICON}">
+<link rel="apple-touch-icon" href="../../apple-touch-icon.png">
+<link rel="manifest" href="../../manifest.json">
+<meta name="theme-color" content="#876522">
 
 <meta property="og:title" content="{escape_html(title)}">
 <meta property="og:description" content="{escape_html(description)}">

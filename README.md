@@ -31,9 +31,12 @@ daily-mirror/                    ← repo root, served directly by GitHub Pages
    - `python3 scripts/build_index.py` — regenerates `entries.json`
    - `python3 scripts/build_feed.py` — regenerates `feed.xml`
    - `python3 scripts/build_pages.py` — regenerates the per-entry static pages under `entry/`, plus `sitemap.xml` and `robots.txt`
+   - *(optional, needs `pip install Pillow`)* `python3 scripts/generate_og_images.py` — regenerates `og/<slug>.png`, the unique share-preview image for each entry. Skip this on a rushed day; `build_pages.py` automatically falls back to the shared `og-image.png` for any entry without one.
 5. `git add . && git commit -m "Day N: <title>" && git push`
 
 That's it — the live site updates automatically once pushed (GitHub Pages rebuilds on every push).
+
+`scripts/generate_icons.py` is a separate one-off (also needs Pillow) for the home-screen install icons — only re-run it if the site's mark ever changes, not part of the daily flow.
 
 ## One-time setup (do this once)
 
