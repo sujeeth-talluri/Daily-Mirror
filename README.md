@@ -17,7 +17,10 @@ daily-mirror/                    ← repo root, served directly by GitHub Pages
 ├── scripts/
 │   ├── build_index.py           ← regenerates entries.json from entries/*.md
 │   ├── build_feed.py            ← regenerates feed.xml from entries.json
-│   └── build_pages.py           ← regenerates entry/*, sitemap.xml, robots.txt from entries.json
+│   ├── build_pages.py           ← regenerates entry/*, sitemap.xml, robots.txt from entries.json
+│   ├── generate_og_images.py    ← optional, needs Pillow — see below
+│   └── generate_icons.py        ← one-off, needs Pillow — see below
+├── .github/workflows/build.yml  ← runs build_index/build_feed/build_pages automatically on push
 ├── TEMPLATE.md                  ← copy this for each new entry
 └── README.md
 ```
@@ -27,29 +30,26 @@ daily-mirror/                    ← repo root, served directly by GitHub Pages
 1. Complete Bible reading + write today's mirror (with GPT, using your Project).
 2. Copy `TEMPLATE.md` → `entries/day-NN-short-slug.md` (or `YYYY-MM-DD-slug.md` once you're tracking dates consistently).
 3. Fill in the frontmatter (day number, date if known, themes, closing question) and paste the final mirror text below it.
-4. Run the build scripts, in this order, from the repo root:
-   - `python3 scripts/build_index.py` — regenerates `entries.json`
-   - `python3 scripts/build_feed.py` — regenerates `feed.xml`
-   - `python3 scripts/build_pages.py` — regenerates the per-entry static pages under `entry/`, plus `sitemap.xml` and `robots.txt`
-   - *(optional, needs `pip install Pillow`)* `python3 scripts/generate_og_images.py` — regenerates `og/<slug>.png`, the unique share-preview image for each entry. Skip this on a rushed day; `build_pages.py` automatically falls back to the shared `og-image.png` for any entry without one.
-5. `git add . && git commit -m "Day N: <title>" && git push`
+4. `git add entries/day-NN-*.md && git commit -m "Day N: <title>" && git push`
 
-That's it — the live site updates automatically once pushed (GitHub Pages rebuilds on every push).
+That's it. A GitHub Action (`.github/workflows/build.yml`) runs `build_index.py`, `build_feed.py`, and `build_pages.py` automatically on every push to `main`, and pushes a follow-up commit with the regenerated `entries.json`, `feed.xml`, `entry/*`, and `sitemap.xml` if anything changed. GitHub Pages then redeploys from that. Check the **Actions** tab on GitHub if a day's entry doesn't show up — that's where a failed build would surface.
 
-`scripts/generate_icons.py` is a separate one-off (also needs Pillow) for the home-screen install icons — only re-run it if the site's mark ever changes, not part of the daily flow.
+**Optional, not automated:** `python3 scripts/generate_og_images.py` (needs `pip install Pillow` locally) regenerates `og/<slug>.png`, the unique share-preview image for each entry. It's not in the GitHub Action because it depends on Windows-specific fonts (Cambria, Consolas, Segoe UI Emoji) that don't exist on the Action's Linux runner. Run it locally when you want a custom share image for a new entry; skip it and `build_pages.py` falls back to the shared `og-image.png` automatically.
+
+`scripts/generate_icons.py` is a separate one-off (also needs Pillow, run locally) for the home-screen install icons — only re-run it if the site's mark ever changes, not part of the daily flow.
 
 ## One-time setup (do this once)
 
 1. Create a new **public** GitHub repo, e.g. `daily-mirror`
 2. Push this entire folder's contents to it
-3. Go to repo **Settings → Pages** → set source to the `main` branch, folder `/site`
+3. Go to repo **Settings → Pages** → set source to **Deploy from a branch** → `main` branch, folder `/ (root)`
 4. Your site will be live at `https://<your-username>.github.io/daily-mirror/`
 5. (Optional) Add a custom domain later under Settings → Pages
 
 ## Before you go live — two things only you can fill in
 
-1. **Your email**, in `site/script.js` — find `REPLY_EMAIL = 'your-email@example.com'` near the top and replace it. This powers the "Reply to me" button (no public comments, by design — see below).
-2. **Your GitHub Pages URL**, in `scripts/build_feed.py` — find `SITE_URL = "https://YOUR-USERNAME.github.io/daily-mirror/"` and set it to your actual URL once you know it. Needed for the RSS feed's links to work. Re-run `python3 scripts/build_feed.py` after editing.
+1. **Your email**, in `script.js` — find `REPLY_EMAIL` near the top and replace it. This powers the "Reply to me" button (no public comments, by design — see below).
+2. **Your GitHub Pages URL**, in `scripts/build_feed.py` and `scripts/build_pages.py` — both have a `SITE_URL` constant near the top; set it to your actual URL once you know it, then push (the GitHub Action will pick it up on the next build).
 
 ## What's new in this version
 

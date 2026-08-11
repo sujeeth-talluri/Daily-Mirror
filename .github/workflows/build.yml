@@ -1,0 +1,50 @@
+name: Build site
+
+# Runs the required publish pipeline automatically on every push to main, so
+# adding an entries/*.md file and pushing is the whole workflow — no need to
+# remember to run build_index.py / build_feed.py / build_pages.py by hand.
+#
+# generate_og_images.py and generate_icons.py are NOT run here: they need
+# Pillow plus specific fonts (cambria/consolas/segoe emoji) that only exist
+# on Windows, where they were originally written to run. Porting them to
+# Ubuntu would mean substituting different fonts and re-rendering all
+# existing share images to match, which is a bigger, separate decision, not
+# an "automate what already exists" one. build_pages.py already falls back
+# to the shared og-image.png for any entry without a custom one, so skipping
+# this step here doesn't break anything — it stays a manual, optional,
+# local step exactly as documented in the README.
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run build pipeline
+        run: |
+          python scripts/build_index.py
+          python scripts/build_feed.py
+          python scripts/build_pages.py
+
+      - name: Commit generated files if anything changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add entries.json feed.xml entry/ sitemap.xml robots.txt
+          if git diff --cached --quiet; then
+            echo "Nothing to commit — generated output already up to date."
+          else
+            git commit -m "Auto-build: regenerate entries.json, feed.xml, entry pages, sitemap"
+            git push
+          fi
