@@ -22,7 +22,7 @@
 <meta name="twitter:description" content="Do I react to every voice I hear... or do I first stop and check if it's true?">
 <meta name="twitter:image" content="https://sujeeth-talluri.github.io/Daily-Mirror/og/day-31-the-announcement.png">
 
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BlogPosting", "headline": "The Announcement", "description": "Do I react to every voice I hear... or do I first stop and check if it's true?", "url": "https://sujeeth-talluri.github.io/Daily-Mirror/entry/day-31-the-announcement/", "author": {"@type": "Person", "name": "Sujeeth Talluri"}, "isPartOf": {"@type": "Blog", "name": "The Daily Mirror", "url": "https://sujeeth-talluri.github.io/Daily-Mirror/"}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BlogPosting", "headline": "The Announcement", "description": "Do I react to every voice I hear... or do I first stop and check if it's true?", "url": "https://sujeeth-talluri.github.io/Daily-Mirror/entry/day-31-the-announcement/", "author": {"@type": "Person", "name": "Sujeeth Talluri"}, "isPartOf": {"@type": "Blog", "name": "The Daily Mirror", "url": "https://sujeeth-talluri.github.io/Daily-Mirror/"}, "datePublished": "2026-08-09"}</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400;1,8..60,500&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -44,7 +44,7 @@
 <main class="wrap">
   <article id="entry-view">
     <a class="back-link" href="../../index.html">← All entries</a>
-    <div class="entry-meta">Day 31</div>
+    <div class="entry-meta" id="page-meta">Day 31 · August 9, 2026</div>
     <h2 id="entry-title">The Announcement</h2>
     <div class="entry-chips"><span class="tag">comparison</span><span class="tag">urgency-vs-truth</span><span class="tag">postponement</span></div>
     <div class="entry-body"><p>A train was expected any minute.</p><p>The platform was crowded.</p><p>Families.</p><p>Students.</p><p>Office-goers.</p><p>People carrying bags bigger than themselves.</p><p>Suddenly someone shouted,</p><p>"Wrong platform! The train is coming on Platform 2."</p><p>Within seconds people started running.</p><p>Some picked up two bags.</p><p>Some dragged their children.</p><p>Some didn't even know who shouted.</p><p>They simply followed everyone else.</p><p>Nobody stopped to check.</p><p>Only one elderly porter stayed where he was.</p><p>A man running past asked,</p><p>"Why are you still sitting? Didn't you hear?"</p><p>The porter smiled.</p><p>"I heard."</p><p>"I'm just waiting for the announcement."</p><p>Less than a minute later, the station announcement came.</p><p>"The train will arrive on Platform 5."</p><p>The same platform everyone had left.</p><p>People slowly walked back...</p><p>carrying the same luggage they had hurried away with.</p><p>The porter hadn't moved an inch.</p><div class="mirror-marker">🪞 Mirror</div><p>Nobody stopped to check.</p><p>One person shouted.</p><p>Everyone reacted.</p><p>Makes me think.</p></div>
@@ -63,6 +63,35 @@
     <p>Written each morning, one reading at a time. Est. 2026.</p>
   </div>
 </footer>
+
+<!-- no_onload: true, matching index.html — tracked manually below under the same
+     virtual path the SPA uses, so this page's views (arrived at via share links,
+     RSS, or search) count toward the same total instead of going unrecorded. -->
+<script data-goatcounter="https://dailymirror.goatcounter.com/count" data-goatcounter-settings='{"no_onload": true}' async src="//gc.zgo.at/count.js"></script>
+<script>
+(function() {
+  var path = "/entry/day-31-the-announcement", title = "The Announcement";
+  function track() {
+    if (window.goatcounter && window.goatcounter.count) {
+      window.goatcounter.count({ path: path, title: title, event: false });
+    } else {
+      setTimeout(track, 300);
+    }
+  }
+  window.addEventListener('load', function() { setTimeout(track, 300); });
+
+  fetch('https://dailymirror.goatcounter.com/counter/' + encodeURIComponent(path) + '.json')
+    .then(function(r) { return r.ok ? r.json() : Promise.reject(); })
+    .then(function(data) {
+      var count = data.count_unique || data.count;
+      var el = document.getElementById('page-meta');
+      if (count && el) {
+        el.innerHTML += '<span class="dot">·</span>' + count + ' ' + (count == 1 ? 'reader' : 'readers');
+      }
+    })
+    .catch(function() { /* counter not enabled yet, or blocked by an ad-blocker */ });
+})();
+</script>
 
 </body>
 </html>

@@ -22,7 +22,7 @@
 <meta name="twitter:description" content="The values I say I have... are they really the values my decisions reveal?">
 <meta name="twitter:image" content="https://sujeeth-talluri.github.io/Daily-Mirror/og/day-17-just-not-today.png">
 
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BlogPosting", "headline": "Just Not Today.", "description": "The values I say I have... are they really the values my decisions reveal?", "url": "https://sujeeth-talluri.github.io/Daily-Mirror/entry/day-17-just-not-today/", "author": {"@type": "Person", "name": "Sujeeth Talluri"}, "isPartOf": {"@type": "Blog", "name": "The Daily Mirror", "url": "https://sujeeth-talluri.github.io/Daily-Mirror/"}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BlogPosting", "headline": "Just Not Today.", "description": "The values I say I have... are they really the values my decisions reveal?", "url": "https://sujeeth-talluri.github.io/Daily-Mirror/entry/day-17-just-not-today/", "author": {"@type": "Person", "name": "Sujeeth Talluri"}, "isPartOf": {"@type": "Blog", "name": "The Daily Mirror", "url": "https://sujeeth-talluri.github.io/Daily-Mirror/"}, "datePublished": "2026-08-09"}</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400;1,8..60,500&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -44,7 +44,7 @@
 <main class="wrap">
   <article id="entry-view">
     <a class="back-link" href="../../index.html">← All entries</a>
-    <div class="entry-meta">Day 17</div>
+    <div class="entry-meta" id="page-meta">Day 17 · August 9, 2026</div>
     <h2 id="entry-title">Just Not Today.</h2>
     <div class="entry-chips"><span class="tag">pride</span><span class="tag">fear</span><span class="tag">postponement</span></div>
     <div class="entry-body"><p>Before they got married, they made a promise to each other.</p><p>"No matter how big the fight is, let's never sleep without sorting it out."</p><p>They both believed it.</p><p>In fact, whenever friends asked for marriage advice, they would say,</p><p>"Never let silence grow. Sit together, talk it through and sort it out."</p><p>Years later, one painful argument changed the atmosphere at home.</p><p>He wanted to go and talk.</p><p>But a thought came.</p><p>"Why should I go first? I didn't start this."</p><p>She wanted to talk too.</p><p>But another thought came.</p><p>"If I go first, he'll think what he did was okay."</p><p>That night, neither of them spoke.</p><p>The next day, both wanted to.</p><p>But now it felt awkward.</p><p>Three days passed.</p><p>Then a week.</p><p>It wasn't that they no longer valued communication.</p><p>They simply convinced themselves that, for this situation, staying silent was the better decision.</p><div class="mirror-marker">🪞 The Mirror...</div><p>I think this is how most of us slowly drift.</p><p>Not because we stop believing our values...</p><p>But because pressure gives us reasons that sound more convincing than the values we once held.</p><p>It's easy to say,</p><p>"These are my values."</p><p>Life quietly replies,</p><p>"Show them to me."</p><p>The values I truly live by are not the ones I speak about when life is easy.</p><p>They're the ones that remain when fear, hurt, pride or pressure ask me to choose differently.</p></div>
@@ -63,6 +63,35 @@
     <p>Written each morning, one reading at a time. Est. 2026.</p>
   </div>
 </footer>
+
+<!-- no_onload: true, matching index.html — tracked manually below under the same
+     virtual path the SPA uses, so this page's views (arrived at via share links,
+     RSS, or search) count toward the same total instead of going unrecorded. -->
+<script data-goatcounter="https://dailymirror.goatcounter.com/count" data-goatcounter-settings='{"no_onload": true}' async src="//gc.zgo.at/count.js"></script>
+<script>
+(function() {
+  var path = "/entry/day-17-just-not-today", title = "Just Not Today.";
+  function track() {
+    if (window.goatcounter && window.goatcounter.count) {
+      window.goatcounter.count({ path: path, title: title, event: false });
+    } else {
+      setTimeout(track, 300);
+    }
+  }
+  window.addEventListener('load', function() { setTimeout(track, 300); });
+
+  fetch('https://dailymirror.goatcounter.com/counter/' + encodeURIComponent(path) + '.json')
+    .then(function(r) { return r.ok ? r.json() : Promise.reject(); })
+    .then(function(data) {
+      var count = data.count_unique || data.count;
+      var el = document.getElementById('page-meta');
+      if (count && el) {
+        el.innerHTML += '<span class="dot">·</span>' + count + ' ' + (count == 1 ? 'reader' : 'readers');
+      }
+    })
+    .catch(function() { /* counter not enabled yet, or blocked by an ad-blocker */ });
+})();
+</script>
 
 </body>
 </html>

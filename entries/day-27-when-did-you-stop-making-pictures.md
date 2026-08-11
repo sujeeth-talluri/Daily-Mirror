@@ -1,5 +1,5 @@
 ---
-date: 
+date: 2026-08-09
 day: 27
 title: "When Did You Stop Making Pictures?"
 passage: ""

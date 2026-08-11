@@ -1,5 +1,5 @@
 ---
-date: 
+date: 2026-08-09
 day: 11
 title: "Almost Clean"
 passage: ""

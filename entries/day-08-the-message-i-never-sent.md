@@ -1,5 +1,5 @@
 ---
-date: 
+date: 2026-08-09
 day: 8
 title: "The Message I Never Sent"
 passage: ""

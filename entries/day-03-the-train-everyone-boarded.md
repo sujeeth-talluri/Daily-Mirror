@@ -1,5 +1,5 @@
 ---
-date: 
+date: 2026-08-09
 day: 3
 title: "The Train Everyone Boarded"
 passage: ""

@@ -1,5 +1,5 @@
 ---
-date: 
+date: 2026-08-09
 day: 20
 title: "It Ends With Me."
 passage: ""

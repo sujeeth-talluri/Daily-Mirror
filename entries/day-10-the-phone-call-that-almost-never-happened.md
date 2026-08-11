@@ -1,5 +1,5 @@
 ---
-date: 
+date: 2026-08-09
 day: 10
 title: "The Phone Call That Almost Never Happened"
 passage: ""

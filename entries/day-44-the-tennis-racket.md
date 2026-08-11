@@ -1,5 +1,5 @@
 ---
-date: 
+date: 2026-08-10
 day: 44
 title: "The Tennis Racket"
 passage: ""

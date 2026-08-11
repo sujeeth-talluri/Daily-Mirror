@@ -1,5 +1,5 @@
 ---
-date: 
+date: 2026-08-09
 day: 18
 title: "It's Probably Nothing."
 passage: ""

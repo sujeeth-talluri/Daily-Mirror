@@ -1,5 +1,5 @@
 ---
-date: 
+date: 2026-08-09
 day: 33
 title: "The Kite"
 passage: ""

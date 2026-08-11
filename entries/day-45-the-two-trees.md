@@ -1,5 +1,5 @@
 ---
-date: 
+date: 2026-08-11
 day: 45
 title: "The Two Trees"
 passage: ""

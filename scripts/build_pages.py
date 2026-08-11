@@ -29,6 +29,17 @@ ENTRIES_JSON = ROOT / "entries.json"
 PAGES_DIR = ROOT / "entry"
 OG_IMAGES_DIR = ROOT / "og"
 
+
+def get_goatcounter_code():
+    """Reads the GoatCounter site code straight from index.html's script tag —
+    single source of truth, so these pages can't drift out of sync with it the
+    way index.html itself once did (see git history: YOUR-CODE placeholder)."""
+    html = (ROOT / "index.html").read_text(encoding="utf-8")
+    match = re.search(r"https://([^.]+)\.goatcounter\.com", html)
+    if not match:
+        raise SystemExit("Could not find a GoatCounter site code in index.html")
+    return match.group(1)
+
 FAVICON = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%AA%9E%3C/text%3E%3C/svg%3E"
 
 FONTS_LINK = (
@@ -51,9 +62,12 @@ def format_date(iso):
         return ""
     try:
         from datetime import datetime
-        return datetime.strptime(iso, "%Y-%m-%d").strftime("%B %-d, %Y")
+        dt = datetime.strptime(iso, "%Y-%m-%d")
     except ValueError:
         return ""
+    # %-d (no leading zero) is a glibc extension, unsupported on Windows — build
+    # the string manually instead of relying on a platform-specific strftime flag.
+    return f"{dt.strftime('%B')} {dt.day}, {dt.year}"
 
 
 def render_body(body, closing_question):
@@ -76,7 +90,7 @@ def meta_description(entry):
     return (text[:155] + "…") if len(text) > 155 else text
 
 
-def render_page(entry, older, newer):
+def render_page(entry, older, newer, gc_code):
     slug = entry["slug"]
     title = entry["title"]
     canonical = f"{SITE_URL}entry/{slug}/"
@@ -109,6 +123,12 @@ def render_page(entry, older, newer):
         nav_links.append(f'<a class="day-nav-btn day-nav-next" href="../{newer["slug"]}/">'
                           f'<span class="day-nav-label">Day {newer["day"]}</span><span class="day-nav-arrow">→</span></a>')
     nav_html = f'<nav class="day-nav" aria-label="Previous and next entries">{"".join(nav_links)}</nav>' if nav_links else ""
+
+    # Same virtual path the SPA already tracks entries under (script.js's trackView),
+    # so views recorded here and views recorded via #/entry/<slug> browsing accumulate
+    # under one count instead of silently splitting into two untracked totals.
+    gc_path = f"/entry/{slug}"
+    gc_title_json = json.dumps(title, ensure_ascii=False)
 
     return f"""<!DOCTYPE html>
 <html lang="en">
@@ -156,7 +176,7 @@ def render_page(entry, older, newer):
 <main class="wrap">
   <article id="entry-view">
     <a class="back-link" href="../../index.html">← All entries</a>
-    <div class="entry-meta">{escape_html(meta)}</div>
+    <div class="entry-meta" id="page-meta">{escape_html(meta)}</div>
     <h2 id="entry-title">{escape_html(title)}</h2>
     <div class="entry-chips">{themes_html}</div>
     <div class="entry-body">{body_html}</div>
@@ -175,6 +195,35 @@ def render_page(entry, older, newer):
     <p>Written each morning, one reading at a time. Est. 2026.</p>
   </div>
 </footer>
+
+<!-- no_onload: true, matching index.html — tracked manually below under the same
+     virtual path the SPA uses, so this page's views (arrived at via share links,
+     RSS, or search) count toward the same total instead of going unrecorded. -->
+<script data-goatcounter="https://{gc_code}.goatcounter.com/count" data-goatcounter-settings='{{"no_onload": true}}' async src="//gc.zgo.at/count.js"></script>
+<script>
+(function() {{
+  var path = {json.dumps(gc_path)}, title = {gc_title_json};
+  function track() {{
+    if (window.goatcounter && window.goatcounter.count) {{
+      window.goatcounter.count({{ path: path, title: title, event: false }});
+    }} else {{
+      setTimeout(track, 300);
+    }}
+  }}
+  window.addEventListener('load', function() {{ setTimeout(track, 300); }});
+
+  fetch('https://{gc_code}.goatcounter.com/counter/' + encodeURIComponent(path) + '.json')
+    .then(function(r) {{ return r.ok ? r.json() : Promise.reject(); }})
+    .then(function(data) {{
+      var count = data.count_unique || data.count;
+      var el = document.getElementById('page-meta');
+      if (count && el) {{
+        el.innerHTML += '<span class="dot">·</span>' + count + ' ' + (count == 1 ? 'reader' : 'readers');
+      }}
+    }})
+    .catch(function() {{ /* counter not enabled yet, or blocked by an ad-blocker */ }});
+}})();
+</script>
 
 </body>
 </html>
@@ -197,13 +246,14 @@ def build_robots():
 
 def main():
     entries = json.loads(ENTRIES_JSON.read_text(encoding="utf-8"))  # already day-desc sorted
+    gc_code = get_goatcounter_code()
 
     for i, entry in enumerate(entries):
         older = entries[i + 1] if i + 1 < len(entries) else None  # smaller day number
         newer = entries[i - 1] if i > 0 else None                  # larger day number
         page_dir = PAGES_DIR / entry["slug"]
         page_dir.mkdir(parents=True, exist_ok=True)
-        (page_dir / "index.html").write_text(render_page(entry, older, newer), encoding="utf-8")
+        (page_dir / "index.html").write_text(render_page(entry, older, newer, gc_code), encoding="utf-8")
 
     (ROOT / "sitemap.xml").write_text(build_sitemap(entries), encoding="utf-8")
     (ROOT / "robots.txt").write_text(build_robots(), encoding="utf-8")

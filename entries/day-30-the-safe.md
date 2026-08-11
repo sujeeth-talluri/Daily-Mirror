@@ -1,5 +1,5 @@
 ---
-date: 
+date: 2026-08-09
 day: 30
 title: "The Safe"
 passage: ""

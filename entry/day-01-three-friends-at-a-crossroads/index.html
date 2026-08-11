@@ -22,7 +22,7 @@
 <meta name="twitter:description" content="Which voice have I given permission to guide me?">
 <meta name="twitter:image" content="https://sujeeth-talluri.github.io/Daily-Mirror/og/day-01-three-friends-at-a-crossroads.png">
 
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BlogPosting", "headline": "Three Friends at a Crossroads", "description": "Which voice have I given permission to guide me?", "url": "https://sujeeth-talluri.github.io/Daily-Mirror/entry/day-01-three-friends-at-a-crossroads/", "author": {"@type": "Person", "name": "Sujeeth Talluri"}, "isPartOf": {"@type": "Blog", "name": "The Daily Mirror", "url": "https://sujeeth-talluri.github.io/Daily-Mirror/"}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BlogPosting", "headline": "Three Friends at a Crossroads", "description": "Which voice have I given permission to guide me?", "url": "https://sujeeth-talluri.github.io/Daily-Mirror/entry/day-01-three-friends-at-a-crossroads/", "author": {"@type": "Person", "name": "Sujeeth Talluri"}, "isPartOf": {"@type": "Blog", "name": "The Daily Mirror", "url": "https://sujeeth-talluri.github.io/Daily-Mirror/"}, "datePublished": "2026-08-09"}</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400;1,8..60,500&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -44,7 +44,7 @@
 <main class="wrap">
   <article id="entry-view">
     <a class="back-link" href="../../index.html">← All entries</a>
-    <div class="entry-meta">Day 1</div>
+    <div class="entry-meta" id="page-meta">Day 1 · August 9, 2026</div>
     <h2 id="entry-title">Three Friends at a Crossroads</h2>
     <div class="entry-chips"><span class="tag">fear</span><span class="tag">false-security</span><span class="tag">milestone-vs-journey</span><span class="tag">postponement</span></div>
     <div class="entry-body"><p>Three friends arrived at a fork in the road.</p><p>The first looked around and saw a large crowd taking the left path.</p><p>"So many people can't be wrong," he thought.</p><p>Without much thought, he joined them.</p><p>Years later, he realized that most of the crowd had simply been following one another.</p><p>The second friend stood still.</p><p>He asked one person for advice.</p><p>Then another.</p><p>Then another.</p><p>Every person gave a different answer.</p><p>Afraid of making the wrong choice, he spent so much time listening that he never really moved forward.</p><p>The third friend carried a map that had guided him well for years.</p><p>Halfway through his journey, an older traveler stopped him.</p><p>"That map is old," he said. "I know a better route."</p><p>The advice sounded reasonable.</p><p>The traveler seemed experienced.</p><p>So he folded the map and followed him.</p><p>The road was pleasant at first.</p><p>But it slowly took him further and further away from where he wanted to go.</p><p>Now tell me.</p><p>Which friend made the biggest mistake?</p><p>The one who followed the crowd?</p><p>The one who listened to everyone?</p><p>Or the one who abandoned the map?</p><p>Perhaps all three made the same mistake.</p><p>They trusted every voice except the one that should have guided them.</p><p>Reflection</p><p>Every day we stand at our own crossroads.</p><p>Some voices appeal to popularity.</p><p>Some appeal to fear.</p><p>Some appeal to comfort.</p><p>Some simply tell us what we want to hear.</p><p>The direction of our life is often determined by a simple question:</p></div>
@@ -63,6 +63,35 @@
     <p>Written each morning, one reading at a time. Est. 2026.</p>
   </div>
 </footer>
+
+<!-- no_onload: true, matching index.html — tracked manually below under the same
+     virtual path the SPA uses, so this page's views (arrived at via share links,
+     RSS, or search) count toward the same total instead of going unrecorded. -->
+<script data-goatcounter="https://dailymirror.goatcounter.com/count" data-goatcounter-settings='{"no_onload": true}' async src="//gc.zgo.at/count.js"></script>
+<script>
+(function() {
+  var path = "/entry/day-01-three-friends-at-a-crossroads", title = "Three Friends at a Crossroads";
+  function track() {
+    if (window.goatcounter && window.goatcounter.count) {
+      window.goatcounter.count({ path: path, title: title, event: false });
+    } else {
+      setTimeout(track, 300);
+    }
+  }
+  window.addEventListener('load', function() { setTimeout(track, 300); });
+
+  fetch('https://dailymirror.goatcounter.com/counter/' + encodeURIComponent(path) + '.json')
+    .then(function(r) { return r.ok ? r.json() : Promise.reject(); })
+    .then(function(data) {
+      var count = data.count_unique || data.count;
+      var el = document.getElementById('page-meta');
+      if (count && el) {
+        el.innerHTML += '<span class="dot">·</span>' + count + ' ' + (count == 1 ? 'reader' : 'readers');
+      }
+    })
+    .catch(function() { /* counter not enabled yet, or blocked by an ad-blocker */ });
+})();
+</script>
 
 </body>
 </html>

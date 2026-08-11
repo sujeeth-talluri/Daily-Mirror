@@ -1,5 +1,5 @@
 ---
-date: 
+date: 2026-08-09
 day: 23
 title: "When Did My Heart Become Like This?"
 passage: ""

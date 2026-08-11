@@ -1,5 +1,5 @@
 ---
-date: 
+date: 2026-08-09
 day: 7
 title: "The Teacher Nobody Remembered"
 passage: ""

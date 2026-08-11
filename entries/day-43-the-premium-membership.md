@@ -1,5 +1,5 @@
 ---
-date: 
+date: 2026-08-09
 day: 43
 title: "The Premium Membership"
 passage: ""

@@ -1,5 +1,5 @@
 ---
-date: 
+date: 2026-08-09
 day: 40
 title: "The Child Who Couldn't Sleep"
 passage: ""

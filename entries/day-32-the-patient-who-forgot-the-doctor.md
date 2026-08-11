@@ -1,5 +1,5 @@
 ---
-date: 
+date: 2026-08-09
 day: 32
 title: "The Patient Who Forgot the Doctor"
 passage: ""

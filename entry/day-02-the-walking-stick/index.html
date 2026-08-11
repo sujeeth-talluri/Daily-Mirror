@@ -22,7 +22,7 @@
 <meta name="twitter:description" content="Which habit, principle, or value has helped shape your life—and have you quietly begun to neglect it simply because things are going well?">
 <meta name="twitter:image" content="https://sujeeth-talluri.github.io/Daily-Mirror/og/day-02-the-walking-stick.png">
 
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BlogPosting", "headline": "The Walking Stick", "description": "Which habit, principle, or value has helped shape your life—and have you quietly begun to neglect it simply because things are going well?", "url": "https://sujeeth-talluri.github.io/Daily-Mirror/entry/day-02-the-walking-stick/", "author": {"@type": "Person", "name": "Sujeeth Talluri"}, "isPartOf": {"@type": "Blog", "name": "The Daily Mirror", "url": "https://sujeeth-talluri.github.io/Daily-Mirror/"}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BlogPosting", "headline": "The Walking Stick", "description": "Which habit, principle, or value has helped shape your life—and have you quietly begun to neglect it simply because things are going well?", "url": "https://sujeeth-talluri.github.io/Daily-Mirror/entry/day-02-the-walking-stick/", "author": {"@type": "Person", "name": "Sujeeth Talluri"}, "isPartOf": {"@type": "Blog", "name": "The Daily Mirror", "url": "https://sujeeth-talluri.github.io/Daily-Mirror/"}, "datePublished": "2026-08-09"}</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400;1,8..60,500&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -44,7 +44,7 @@
 <main class="wrap">
   <article id="entry-view">
     <a class="back-link" href="../../index.html">← All entries</a>
-    <div class="entry-meta">Day 2</div>
+    <div class="entry-meta" id="page-meta">Day 2 · August 9, 2026</div>
     <h2 id="entry-title">The Walking Stick</h2>
     <div class="entry-chips"><span class="tag">postponement</span></div>
     <div class="entry-body"><p>An elderly man had climbed mountains all his life.</p><p>Wherever he went, he carried the same walking stick.</p><p>A young hiker once smiled and asked,</p><p>"After all these years, do you still need that old stick?"</p><p>The old man replied,</p><p>"It isn't for the easy paths. It's for the places where I think I don't need it."</p><p>The young man laughed.</p><p>Months later, they met again.</p><p>This time the young man had slipped badly during a hike.</p><p>The old man helped him up and said,</p><p>"Most people aren't defeated on the difficult trails. They become careless on the familiar ones."</p><p>Life is much the same.</p><p>When we're uncertain, we seek advice.</p><p>When we're struggling, we're careful.</p><p>When we're successful, experienced, or comfortable, we slowly stop depending on the habits that brought us there.</p><p>The greatest risk is not the steep climb.</p><p>It's believing we've climbed enough to stop paying attention.</p><p>Reflection</p></div>
@@ -63,6 +63,35 @@
     <p>Written each morning, one reading at a time. Est. 2026.</p>
   </div>
 </footer>
+
+<!-- no_onload: true, matching index.html — tracked manually below under the same
+     virtual path the SPA uses, so this page's views (arrived at via share links,
+     RSS, or search) count toward the same total instead of going unrecorded. -->
+<script data-goatcounter="https://dailymirror.goatcounter.com/count" data-goatcounter-settings='{"no_onload": true}' async src="//gc.zgo.at/count.js"></script>
+<script>
+(function() {
+  var path = "/entry/day-02-the-walking-stick", title = "The Walking Stick";
+  function track() {
+    if (window.goatcounter && window.goatcounter.count) {
+      window.goatcounter.count({ path: path, title: title, event: false });
+    } else {
+      setTimeout(track, 300);
+    }
+  }
+  window.addEventListener('load', function() { setTimeout(track, 300); });
+
+  fetch('https://dailymirror.goatcounter.com/counter/' + encodeURIComponent(path) + '.json')
+    .then(function(r) { return r.ok ? r.json() : Promise.reject(); })
+    .then(function(data) {
+      var count = data.count_unique || data.count;
+      var el = document.getElementById('page-meta');
+      if (count && el) {
+        el.innerHTML += '<span class="dot">·</span>' + count + ' ' + (count == 1 ? 'reader' : 'readers');
+      }
+    })
+    .catch(function() { /* counter not enabled yet, or blocked by an ad-blocker */ });
+})();
+</script>
 
 </body>
 </html>

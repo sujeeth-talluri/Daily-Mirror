@@ -1,5 +1,5 @@
 ---
-date: 
+date: 2026-08-09
 day: 15
 title: "Just Tell Me I'm Fine."
 passage: ""

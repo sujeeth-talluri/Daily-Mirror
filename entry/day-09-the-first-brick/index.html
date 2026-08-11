@@ -22,7 +22,7 @@
 <meta name="twitter:description" content="Maybe it begins with one simple act of faith today.">
 <meta name="twitter:image" content="https://sujeeth-talluri.github.io/Daily-Mirror/og/day-09-the-first-brick.png">
 
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BlogPosting", "headline": "The First Brick", "description": "Maybe it begins with one simple act of faith today.", "url": "https://sujeeth-talluri.github.io/Daily-Mirror/entry/day-09-the-first-brick/", "author": {"@type": "Person", "name": "Sujeeth Talluri"}, "isPartOf": {"@type": "Blog", "name": "The Daily Mirror", "url": "https://sujeeth-talluri.github.io/Daily-Mirror/"}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BlogPosting", "headline": "The First Brick", "description": "Maybe it begins with one simple act of faith today.", "url": "https://sujeeth-talluri.github.io/Daily-Mirror/entry/day-09-the-first-brick/", "author": {"@type": "Person", "name": "Sujeeth Talluri"}, "isPartOf": {"@type": "Blog", "name": "The Daily Mirror", "url": "https://sujeeth-talluri.github.io/Daily-Mirror/"}, "datePublished": "2026-08-09"}</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400;1,8..60,500&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -44,7 +44,7 @@
 <main class="wrap">
   <article id="entry-view">
     <a class="back-link" href="../../index.html">← All entries</a>
-    <div class="entry-meta">Day 9</div>
+    <div class="entry-meta" id="page-meta">Day 9 · August 9, 2026</div>
     <h2 id="entry-title">The First Brick</h2>
     <div class="entry-chips"><span class="tag">postponement</span></div>
     <div class="entry-body"><p>A young man dreamed of building a home for his family.</p><p>Every year he talked about it.</p><p>"I'll start when I have more savings."</p><p>"I'll start when my salary increases."</p><p>"I'll start when the timing feels right."</p><p>Years went by.</p><p>One evening, he met an old mason who had built houses all his life.</p><p>The old man listened quietly and then asked,</p><p>"So... have you laid the first brick?"</p><p>The young man smiled.</p><p>"Not yet."</p><p>The mason picked up a brick lying nearby, placed it on the ground and said,</p><p>"Every house I've ever built started exactly like this."</p><p>"One brick."</p><p>"You don't build a home by waiting until you can see the whole house."</p><p>"You build it by laying the first brick."</p><p>Those words stayed with him.</p><p>The next week, he bought his first load of bricks.</p><p>The house wasn't finished that day.</p><p>But for the first time...</p><p>It had begun.</p><p>That got me thinking...</p><p>Sometimes we're waiting for confidence before we begin.</p><p>Sometimes we're waiting for certainty before we obey.</p><p>Sometimes we're waiting for life to become easier before we take the next step.</p><p>But maybe progress doesn't begin when everything is clear.</p><p>Maybe it begins the moment we decide to lay the first brick.</p><p>Just a thought...</p><p>Is there an area of my life where I've been waiting for the perfect time...</p><p>when all that's really needed is the courage to take the first faithful step?</p><p>Maybe the life I'm hoping for doesn't begin with a miracle...</p></div>
@@ -63,6 +63,35 @@
     <p>Written each morning, one reading at a time. Est. 2026.</p>
   </div>
 </footer>
+
+<!-- no_onload: true, matching index.html — tracked manually below under the same
+     virtual path the SPA uses, so this page's views (arrived at via share links,
+     RSS, or search) count toward the same total instead of going unrecorded. -->
+<script data-goatcounter="https://dailymirror.goatcounter.com/count" data-goatcounter-settings='{"no_onload": true}' async src="//gc.zgo.at/count.js"></script>
+<script>
+(function() {
+  var path = "/entry/day-09-the-first-brick", title = "The First Brick";
+  function track() {
+    if (window.goatcounter && window.goatcounter.count) {
+      window.goatcounter.count({ path: path, title: title, event: false });
+    } else {
+      setTimeout(track, 300);
+    }
+  }
+  window.addEventListener('load', function() { setTimeout(track, 300); });
+
+  fetch('https://dailymirror.goatcounter.com/counter/' + encodeURIComponent(path) + '.json')
+    .then(function(r) { return r.ok ? r.json() : Promise.reject(); })
+    .then(function(data) {
+      var count = data.count_unique || data.count;
+      var el = document.getElementById('page-meta');
+      if (count && el) {
+        el.innerHTML += '<span class="dot">·</span>' + count + ' ' + (count == 1 ? 'reader' : 'readers');
+      }
+    })
+    .catch(function() { /* counter not enabled yet, or blocked by an ad-blocker */ });
+})();
+</script>
 
 </body>
 </html>
