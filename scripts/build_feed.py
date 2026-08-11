@@ -14,8 +14,8 @@ from xml.sax.saxutils import escape
 SITE_URL = "https://sujeeth-talluri.github.io/Daily-Mirror/"
 
 ROOT = Path(__file__).parent.parent
-ENTRIES_JSON = ROOT / "site" / "entries.json"
-OUTPUT = ROOT / "site" / "feed.xml"
+ENTRIES_JSON = ROOT / "entries.json"
+OUTPUT = ROOT / "feed.xml"
 
 
 def rfc822(date_str):
@@ -45,6 +45,7 @@ def main():
     </item>""")
 
     rss = f"""<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="feed.xsl"?>
 <rss version="2.0">
   <channel>
     <title>The Daily Mirror</title>

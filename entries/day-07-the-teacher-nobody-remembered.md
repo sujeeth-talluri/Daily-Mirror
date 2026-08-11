@@ -4,7 +4,7 @@ day: 7
 title: "The Teacher Nobody Remembered"
 passage: ""
 themes: ["self-examination"]
-closing_question: "Or have I quietly moved on, thinking they were \"just words,\" when for me, they became so much more?"
+closing_question: "Or have I quietly moved on, thinking they were "just words," when for me, they became so much more?"
 ---
 
 At a school reunion, everyone was busy catching up.

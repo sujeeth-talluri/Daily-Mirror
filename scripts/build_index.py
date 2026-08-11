@@ -10,7 +10,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).parent.parent
 ENTRIES_DIR = ROOT / "entries"
-OUTPUT = ROOT / "site" / "entries.json"
+OUTPUT = ROOT / "entries.json"
 
 
 def parse_frontmatter(text):
