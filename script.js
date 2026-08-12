@@ -7,9 +7,25 @@
   const SUBSCRIBE_URL = 'https://follow.it/the-daily-mirror?leanpub';
 
   let entries = [];
-  let activeTheme = null;
+  let activeGroup = null;
 
-  const listView = document.getElementById('list-view');
+  // Reader-facing theme taxonomy (brief §21): the 20 granular tags authored
+  // per-entry stay exactly as-is in entries.json and on each entry's own
+  // chips — they're useful, specific, and not going away. This is just what
+  // the Archive page's filter row shows instead of all 20 at once. Every
+  // existing tag maps to exactly one group here.
+  const THEME_GROUPS = {
+    'Self-Examination': ['self-examination', 'hidden-intentions'],
+    'Fear & Security': ['fear', 'false-security', 'false-peace'],
+    'Pride & Comparison': ['pride', 'comparison', 'love-of-approval'],
+    'Postponement': ['postponement', 'complacency', 'urgency-vs-truth', 'ignoring-warning-signs', 'distraction'],
+    'Refusal to Change': ['refusal-to-change', 'self-reliance', 'milestone-vs-journey'],
+    'Identity': ['identity'],
+    'Gratitude & Compassion': ['gratitude', 'compassion'],
+    'Presence': ['presence'],
+  };
+
+  const archiveView = document.getElementById('archive-view');
   const entryView = document.getElementById('entry-view');
   const featured = document.getElementById('featured');
   const listLabel = document.getElementById('list-label');
@@ -17,7 +33,6 @@
   const emptyState = document.getElementById('empty-state');
   const searchInput = document.getElementById('search');
   const chipsWrap = document.getElementById('theme-chips');
-  const entryCount = document.getElementById('entry-count');
   const backBtn = document.getElementById('back-btn');
   const dayNav = document.getElementById('day-nav');
   const shareBtn = document.getElementById('share-btn');
@@ -28,10 +43,17 @@
   if (SUBSCRIBE_URL) {
     document.querySelectorAll('.subscribe-link').forEach((el) => { el.href = SUBSCRIBE_URL; });
   } else {
-    document.getElementById('subscribe-dot').hidden = true;
     document.getElementById('header-subscribe-link').hidden = true;
     document.getElementById('footer-subscribe-cta').hidden = true;
   }
+
+  function toggleAbout() {
+    const panel = document.getElementById('about-panel');
+    panel.hidden = !panel.hidden;
+    if (!panel.hidden) panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+  document.getElementById('nav-about-btn').addEventListener('click', toggleAbout);
+  document.getElementById('footer-about-btn').addEventListener('click', toggleAbout);
 
   fetch('entries.json')
     .then(r => r.json())
@@ -44,12 +66,13 @@
     });
 
   function init() {
-    entryCount.textContent = `${entries.length} ${entries.length === 1 ? 'entry' : 'entries'}`;
-
     renderFeatured();
     renderThemeChips();
     renderList();
-    backBtn.addEventListener('click', () => { location.hash = ''; });
+    // Whoever's viewing a single entry almost certainly arrived via the
+    // Archive list or a shared link, not the Today page — Archive is the
+    // more useful "back" destination either way.
+    backBtn.addEventListener('click', () => { location.hash = '#/archive'; });
     searchInput.addEventListener('input', renderList);
     window.addEventListener('hashchange', route);
     route();
@@ -157,24 +180,18 @@
     showViewCount(`/entry/${e.slug}`, 'featured-meta-line');
   }
 
-  function allThemes() {
-    const set = new Set();
-    entries.forEach(e => (e.themes || []).forEach(t => set.add(t)));
-    return [...set].sort();
-  }
-
   function renderThemeChips() {
     chipsWrap.innerHTML = '';
-    allThemes().forEach(theme => {
+    Object.keys(THEME_GROUPS).forEach(group => {
       const chip = document.createElement('button');
       chip.className = 'chip';
-      chip.textContent = theme;
+      chip.textContent = group;
       chip.addEventListener('click', () => {
-        activeTheme = activeTheme === theme ? null : theme;
+        activeGroup = activeGroup === group ? null : group;
         renderThemeChips();
         renderList();
       });
-      if (theme === activeTheme) chip.classList.add('active');
+      if (group === activeGroup) chip.classList.add('active');
       chipsWrap.appendChild(chip);
     });
   }
@@ -184,38 +201,85 @@
   }
 
   function renderList() {
+    // Archive is the complete archive (brief §18/§19) — includes today's
+    // entry too, unlike the old homepage list which excluded it because it
+    // was already shown inline just above.
     const q = searchInput.value.trim().toLowerCase();
-    const isFiltering = !!q || !!activeTheme;
-    const pool = isFiltering ? entries : entries.slice(1); // exclude featured entry when idle
+    const isFiltering = !!q || !!activeGroup;
+    const groupTags = activeGroup ? THEME_GROUPS[activeGroup] : null;
 
-    const filtered = pool.filter(e => {
-      const matchesTheme = !activeTheme || (e.themes || []).includes(activeTheme);
+    const filtered = entries.filter(e => {
+      const matchesTheme = !groupTags || groupTags.some(t => (e.themes || []).includes(t));
       const haystack = [e.title, e.body, e.closing_question, (e.themes || []).join(' ')].join(' ').toLowerCase();
       const matchesSearch = !q || haystack.includes(q);
       return matchesTheme && matchesSearch;
     });
 
-    featured.hidden = isFiltering || entryView.hidden === false;
-    listLabel.textContent = isFiltering ? 'Results' : 'Past Reflections';
+    listLabel.textContent = isFiltering
+      ? 'Results'
+      : `Past Reflections · ${entries.length} ${entries.length === 1 ? 'entry' : 'entries'}`;
 
     entriesList.innerHTML = '';
     emptyState.hidden = filtered.length > 0;
+    emptyState.textContent = q
+      ? `No reflections found for "${searchInput.value.trim()}".`
+      : 'No reflections match yet. Try a different word or theme.';
 
     filtered.forEach(e => {
       const li = document.createElement('li');
       const meta = metaLine([`Day ${e.day}`, e.date ? formatDate(e.date) : '', e.passage || '']);
-      const thumbnail = e.image ? `<img class="card-image" src="${e.image}" alt="" loading="lazy">` : '';
+      const thumbnail = e.image ? `<img class="row-image" src="${e.image}" alt="" loading="lazy">` : '';
       li.innerHTML = `
-        <a class="entry-card" href="#/entry/${e.slug}">
+        <a class="entry-row" href="#/entry/${e.slug}">
           ${thumbnail}
-          <div class="card-meta">${meta}</div>
-          <h2>${escapeHtml(e.title)}</h2>
-          <p class="card-question">${escapeHtml(e.closing_question || '')}</p>
-          <div class="card-chips">${(e.themes || []).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('')}</div>
+          <div class="entry-row-content">
+            <div class="row-meta">${meta}</div>
+            <h2>${escapeHtml(e.title)}</h2>
+            <p class="row-question">${escapeHtml(e.closing_question || '')}</p>
+            <div class="row-chips">${(e.themes || []).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('')}</div>
+          </div>
         </a>
       `;
       entriesList.appendChild(li);
     });
+  }
+
+  // Yesterday, one entry that shares a theme with today's, and one more for
+  // variety — never a fabricated "most read" pick (brief §18: no reliable
+  // analytics for that, so don't pretend to have one).
+  function pickContinueReflecting() {
+    if (entries.length < 2) return [];
+    const today = entries[0];
+    const used = new Set([today.slug]);
+    const picks = [];
+
+    const yesterday = entries[1];
+    if (yesterday) { picks.push({ label: 'Yesterday', entry: yesterday }); used.add(yesterday.slug); }
+
+    const related = entries.find(e => !used.has(e.slug) && (e.themes || []).some(t => (today.themes || []).includes(t)));
+    if (related) { picks.push({ label: 'From the same reflection', entry: related }); used.add(related.slug); }
+
+    const remaining = entries.filter(e => !used.has(e.slug));
+    if (remaining.length) {
+      picks.push({ label: 'Another reflection', entry: remaining[Math.floor(Math.random() * remaining.length)] });
+    }
+    return picks;
+  }
+
+  function renderContinueReflecting() {
+    const wrap = document.getElementById('continue-reflecting');
+    const list = document.getElementById('continue-list');
+    const picks = pickContinueReflecting();
+    if (!picks.length) { wrap.hidden = true; return; }
+    wrap.hidden = false;
+    list.innerHTML = picks.map(p => `
+      <li>
+        <a href="#/entry/${p.entry.slug}">
+          <span class="continue-label">${escapeHtml(p.label)}</span>
+          <span class="continue-title">${escapeHtml(p.entry.title)}</span>
+        </a>
+      </li>
+    `).join('');
   }
 
   function route() {
@@ -225,24 +289,40 @@
       const entry = entries.find(e => e.slug === match[1]);
       if (entry) { showEntry(entry); return; }
     }
-    showList();
+    if (hash === '#/archive') { showArchive(); return; }
+    showToday();
   }
 
-  function showList() {
+  // Today: just today's reflection plus a small curated continuation — not
+  // the whole archive scrolling on underneath it (brief §18).
+  function showToday() {
     document.title = 'The Daily Mirror';
     entryView.hidden = true;
     dayNav.hidden = true;
-    listView.hidden = false;
-    renderList(); // recompute featured visibility now that entryView is hidden again
-    if (entries.length && !searchInput.value.trim() && !activeTheme) {
-      trackView(`/entry/${entries[0].slug}`, entries[0].title); // featured entry is what's actually shown here
+    archiveView.hidden = true;
+    featured.hidden = false;
+    renderContinueReflecting();
+    if (entries.length) {
+      trackView(`/entry/${entries[0].slug}`, entries[0].title);
     }
+    window.scrollTo(0, 0);
+  }
+
+  // Archive: search, theme filters, and the complete list — its own page,
+  // not something you scroll past Today to reach.
+  function showArchive() {
+    document.title = 'Archive — The Daily Mirror';
+    entryView.hidden = true;
+    dayNav.hidden = true;
+    featured.hidden = true;
+    archiveView.hidden = false;
+    renderList();
     window.scrollTo(0, 0);
   }
 
   function showEntry(e) {
     document.title = `${e.title} — The Daily Mirror`;
-    listView.hidden = true;
+    archiveView.hidden = true;
     entryView.hidden = false;
     featured.hidden = true;
 

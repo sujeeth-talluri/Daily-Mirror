@@ -283,14 +283,6 @@ html[data-theme="dark"] body {
   margin: 0 auto 18px;
 }
 
-.meta-row {
-  font-family: var(--mono);
-  font-size: 12px;
-  letter-spacing: 0.02em;
-  color: var(--ink-soft);
-  text-transform: uppercase;
-}
-
 .dot { margin: 0 8px; opacity: 0.5; }
 
 .author {
@@ -299,38 +291,70 @@ html[data-theme="dark"] body {
   border-bottom: 1px solid var(--line);
 }
 
-/* ===== About toggle ===== */
-.about-toggle {
-  margin-top: 18px;
-  text-align: left;
-  max-width: 480px;
-  margin-left: auto;
-  margin-right: auto;
+/* ===== Title-page nav (brief §8/§31) ===== */
+.mark-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
 }
 
-.about-toggle summary {
+.mark-link:hover .wordmark { color: var(--gold); }
+
+.primary-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-5);
+  margin-top: var(--space-2);
+}
+
+.nav-link {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 12px;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--gold);
-  cursor: pointer;
-  text-align: center;
-  list-style: none;
+  color: var(--ink-soft);
+  text-decoration: none;
+  transition: color 0.15s ease;
 }
 
-.about-toggle summary::-webkit-details-marker { display: none; }
+.nav-link:hover { color: var(--gold); }
 
-.about-toggle p {
+.nav-link-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+/* Subscribe is the one action on the page worth a nudge — a quiet pill
+   instead of plain text, so it reads as an invitation, not a fifth menu item. */
+.nav-link.subscribe-link {
+  color: var(--gold);
+  border: 1px solid var(--gold);
+  border-radius: 100px;
+  padding: 5px 14px;
+}
+
+.nav-link.subscribe-link:hover { background: var(--gold); color: var(--paper); }
+
+.about-panel {
+  margin: var(--space-5) auto 0;
+  max-width: 480px;
+  text-align: left;
   font-size: 15px;
   color: var(--ink-soft);
   line-height: 1.7;
-  margin-top: 12px;
-  padding: 16px 18px;
+  padding: var(--space-4) var(--space-5);
   background: var(--paper);
   border: 1px solid var(--line);
   border-radius: 10px;
 }
+
+.about-panel[hidden] { display: none; }
+.about-panel p { margin: 0; }
+.about-panel em { color: var(--ink); font-style: italic; }
 
 /* ===== Featured (latest) entry ===== */
 #featured {
@@ -377,6 +401,67 @@ html[data-theme="dark"] body {
 .featured-entry .entry-chips {
   margin-bottom: 28px;
 }
+
+/* ===== Continue reflecting (Today view only) ===== */
+.continue-reflecting {
+  margin-top: var(--space-8);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--line);
+}
+
+.continue-reflecting[hidden] { display: none; }
+
+#continue-list {
+  list-style: none;
+  margin: 0 0 var(--space-5);
+  padding: 0;
+  border-top: 1px solid var(--line);
+}
+
+#continue-list li {
+  border-bottom: 1px solid var(--line);
+}
+
+#continue-list a {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-4);
+  padding: var(--space-4) 0;
+  text-decoration: none;
+  color: inherit;
+}
+
+.continue-label {
+  flex: 0 0 auto;
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--ink-soft);
+}
+
+.continue-title {
+  flex: 1;
+  text-align: right;
+  font-family: var(--display);
+  font-size: 16px;
+  color: var(--ink);
+  transition: color 0.15s ease;
+}
+
+#continue-list a:hover .continue-title { color: var(--gold); }
+
+.view-all-link {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  color: var(--gold);
+  text-decoration: none;
+}
+
+.view-all-link:hover { color: var(--clay); }
 
 .list-label {
   font-family: var(--mono);
@@ -438,79 +523,82 @@ html[data-theme="dark"] body {
   color: var(--paper);
 }
 
-/* ===== Entries list ===== */
+/* ===== Entries list =====
+   Editorial index, not card soup (brief §10): rows separated by hairlines,
+   no boxes, no shadows, no rounded surfaces competing with the reflections
+   themselves — the same restraint the featured entry already got in §7. */
 .entries {
   list-style: none;
   margin: 0;
   padding: 0;
+  border-top: 1px solid var(--line);
 }
 
-.entry-card {
-  display: block;
-  background: var(--paper);
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  padding: 22px 24px;
-  margin-bottom: 14px;
-  cursor: pointer;
-  box-shadow: var(--shadow);
+.entries li {
+  border-bottom: 1px solid var(--line);
+}
+
+.entry-row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-5);
+  padding: var(--space-5) 0;
   text-decoration: none;
   color: inherit;
-  transition: transform 0.15s ease, border-color 0.15s ease;
 }
 
-.entry-card:hover {
-  transform: translateY(-1px);
-  border-color: var(--gold);
-}
-
-.entry-card .card-image {
-  display: block;
-  width: calc(100% + 48px);
-  margin: -22px -24px 16px;
-  max-height: 180px;
+.entry-row .row-image {
+  flex: 0 0 84px;
+  width: 84px;
+  height: 84px;
   object-fit: cover;
-  border-radius: 10px 10px 0 0;
+  border-radius: 6px;
 }
 
-.entry-card .card-meta {
+.entry-row-content { flex: 1; min-width: 0; }
+
+.entry-row .row-meta {
   font-family: var(--mono);
   font-size: 11px;
   color: var(--ink-soft);
   text-transform: uppercase;
   letter-spacing: 0.02em;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
-.entry-card h2 {
+.entry-row h2 {
   font-family: var(--display);
   font-weight: 500;
-  font-size: 22px;
-  margin: 0 0 8px;
+  font-size: 20px;
+  line-height: 1.25;
+  margin: 0 0 6px;
   color: var(--ink);
+  transition: color 0.15s ease;
 }
 
-.entry-card .card-question {
+.entry-row:hover h2 { color: var(--gold); }
+
+.entry-row .row-question {
   font-style: italic;
   color: var(--ink-soft);
   font-size: 14.5px;
-  margin: 0 0 10px;
+  margin: 0 0 8px;
 }
 
-.entry-card .card-chips {
+.entry-row .row-chips {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
 }
 
-.entry-card .tag {
+.entry-row .tag {
   font-family: var(--mono);
   font-size: 10px;
   color: var(--clay);
   text-transform: lowercase;
 }
 
-.entry-card .tag::before { content: '#'; }
+.entry-row .tag::before { content: '#'; }
 
 .empty-state {
   text-align: center;
@@ -786,6 +874,44 @@ html[data-theme="dark"] body {
   letter-spacing: 0.02em;
 }
 
+.site-footer .footer-tagline {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 15px;
+  color: var(--ink-soft);
+  letter-spacing: normal;
+  text-transform: none;
+  margin: 0 0 var(--space-2);
+}
+
+.site-footer .footer-brand {
+  margin: 0 0 var(--space-4);
+}
+
+.site-footer .footer-brand strong {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.site-footer .footer-links {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  color: var(--ink-soft);
+}
+
+.footer-link, .footer-link-btn {
+  color: var(--ink-soft);
+  text-decoration: none;
+  background: none;
+  border: none;
+  font: inherit;
+  padding: 0;
+  cursor: pointer;
+}
+
+.footer-link:hover, .footer-link-btn:hover { color: var(--gold); }
+
 .subscribe-cta {
   max-width: 420px;
   margin: 0 auto 40px;
@@ -826,7 +952,7 @@ html[data-theme="dark"] body {
 /* ===== Motion & accessibility ===== */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .entry-card { transition: none; }
+  .entry-row h2 { transition: none; }
 }
 
 :focus-visible {
@@ -844,14 +970,28 @@ html[data-theme="dark"] body {
      longer applies now that the card is gone (§7) — this is just the page
      gutter now, brief's 16-20px target. */
   .wrap { padding: 0 18px; }
+
+  .primary-nav { gap: var(--space-4); }
+
+  #continue-list a {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    padding: var(--space-3) 0;
+  }
+  .continue-title { text-align: left; }
+
+  .entry-row { gap: var(--space-3); }
+  .entry-row .row-image { flex-basis: 64px; width: 64px; height: 64px; }
 }
 
 /* ===== Print (for the annual PDF backup) ===== */
 @media print {
   body { background: #fff; }
-  .dawn-line, .site-header .meta-row, .about-toggle, .controls,
+  .dawn-line, .primary-nav, .about-panel, .controls,
   .back-link, .entry-actions, .day-nav, .related, .site-footer,
-  .theme-toggle, #list-view, .tip-banner, .install-instructions { display: none !important; }
+  .theme-toggle, #archive-view, .continue-reflecting, .tip-banner,
+  .install-instructions { display: none !important; }
   .entry-body { font-size: 13pt; color: #000; }
   .closing-question { color: #000; border-top-color: #000; }
 }

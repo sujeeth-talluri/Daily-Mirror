@@ -60,31 +60,32 @@
 
 <header class="site-header">
   <div class="wrap">
-    <div class="mark">🪞</div>
-    <h1 class="wordmark">The Daily Mirror</h1>
+    <a href="#/" class="mark-link">
+      <div class="mark">🪞</div>
+      <h1 class="wordmark">The Daily Mirror</h1>
+    </a>
     <p class="ethos">Truth reveals who God is. This helps me discover who I am.</p>
-    <div class="meta-row">
-      <span id="entry-count">—</span>
-      <span class="dot">·</span>
-      <a href="feed.xml" class="author">RSS</a>
-      <span class="dot" id="subscribe-dot">·</span>
-      <a href="#" class="author subscribe-link" id="header-subscribe-link" target="_blank" rel="noopener">Subscribe</a>
-      <span class="dot" id="header-install-dot" hidden>·</span>
-      <button type="button" class="author install-link" id="header-install-btn" hidden>Install app</button>
-    </div>
-    <div class="install-instructions" id="install-instructions" hidden>
-      <p>To install: tap the <strong>Share</strong> icon in your browser's toolbar, then choose <strong>“Add to Home Screen.”</strong></p>
-      <button type="button" class="install-instructions-close" id="install-instructions-close" aria-label="Close instructions">Got it</button>
-    </div>
-    <details class="about-toggle">
-      <summary>About this series</summary>
+    <!-- Title-page nav (brief §8/§31): four items, nothing else competing for
+         attention here. RSS and Install live in the footer as utility links
+         instead, per §24. -->
+    <nav class="primary-nav" aria-label="Primary">
+      <a href="#/" class="nav-link">Today</a>
+      <a href="#/archive" class="nav-link">Archive</a>
+      <button type="button" class="nav-link nav-link-btn" id="nav-about-btn">About</button>
+      <a href="#" class="nav-link subscribe-link" id="header-subscribe-link" target="_blank" rel="noopener">Subscribe</a>
+    </nav>
+    <div class="about-panel" id="about-panel" hidden>
       <p>
         I'm Sujeeth. Every morning I spend time in quiet reflection, then write one honest
         piece — not a lesson, not advice, just an observation about ordinary life that I hope
         makes you pause and ask the same question I had to ask myself: <em>what does this reveal about me?</em>
         This archive exists so these reflections outlast any single app, platform, or year.
       </p>
-    </details>
+    </div>
+    <div class="install-instructions" id="install-instructions" hidden>
+      <p>To install: tap the <strong>Share</strong> icon in your browser's toolbar, then choose <strong>“Add to Home Screen.”</strong></p>
+      <button type="button" class="install-instructions-close" id="install-instructions-close" aria-label="Close instructions">Got it</button>
+    </div>
   </div>
 </header>
 
@@ -103,9 +104,15 @@
         <a class="action-btn" id="featured-reply-btn" href="#">Reply to me</a>
       </div>
     </article>
+
+    <div class="continue-reflecting" id="continue-reflecting" hidden>
+      <div class="list-label">Continue Reflecting</div>
+      <ul id="continue-list"></ul>
+      <a href="#/archive" class="view-all-link">View all reflections →</a>
+    </div>
   </section>
 
-  <section id="list-view">
+  <section id="archive-view" hidden>
     <div class="list-label" id="list-label">Past Reflections</div>
     <div class="controls">
       <input type="search" id="search" placeholder="Search entries, themes, questions…" aria-label="Search entries">
@@ -114,7 +121,7 @@
 
     <ol class="entries" id="entries-list"></ol>
 
-    <p class="empty-state" id="empty-state" hidden>No entries match yet. Try a different word or theme.</p>
+    <p class="empty-state" id="empty-state" hidden>No reflections match yet. Try a different word or theme.</p>
   </section>
 
   <article id="entry-view" hidden>
@@ -152,11 +159,21 @@
 <footer class="site-footer">
   <div class="wrap">
     <div class="subscribe-cta" id="footer-subscribe-cta">
-      <p class="subscribe-cta-title">Get tomorrow's reflection by email</p>
-      <p class="subscribe-cta-sub">One email, whenever a new entry is published. No spam, unsubscribe anytime.</p>
-      <a href="#" class="action-btn subscribe-link" id="footer-subscribe-link" target="_blank" rel="noopener">Subscribe by email</a>
+      <p class="subscribe-cta-title">One quiet question for tomorrow.</p>
+      <p class="subscribe-cta-sub">Get each new Daily Mirror reflection in your inbox — no spam, unsubscribe anytime.</p>
+      <a href="#" class="action-btn subscribe-link" id="footer-subscribe-link" target="_blank" rel="noopener">Get the next reflection →</a>
     </div>
-    <p>Written each morning, one reading at a time. Est. 2026.</p>
+    <p class="footer-tagline"><em>Written each morning, one reflection at a time.</em></p>
+    <p class="footer-brand"><strong>The Daily Mirror</strong> · Est. 2026</p>
+    <div class="footer-links">
+      <button type="button" class="footer-link-btn" id="footer-about-btn">About</button>
+      <span class="dot">·</span>
+      <a href="#/archive" class="footer-link">Archive</a>
+      <span class="dot">·</span>
+      <a href="feed.xml" class="footer-link">RSS</a>
+      <span class="dot" id="header-install-dot" hidden>·</span>
+      <button type="button" class="footer-link-btn" id="header-install-btn" hidden>Install app</button>
+    </div>
   </div>
 </footer>
 
