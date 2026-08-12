@@ -103,10 +103,33 @@
       .catch(() => { /* counter not enabled yet, or blocked by an ad-blocker */ });
   }
 
+  // Optional per-entry header image (entries/*.md `image:` field). Most entries
+  // won't have one — created/shown only when present, hidden otherwise, so the
+  // layout doesn't leave a gap for entries without an image.
+  function setHeaderImage(e, metaLineId, imageId) {
+    const metaLine = document.getElementById(metaLineId);
+    let img = document.getElementById(imageId);
+    if (e.image) {
+      if (!img) {
+        img = document.createElement('img');
+        img.id = imageId;
+        img.className = 'entry-header-image';
+        img.alt = '';
+        img.loading = 'eager';
+        metaLine.parentNode.insertBefore(img, metaLine);
+      }
+      img.src = e.image;
+      img.hidden = false;
+    } else if (img) {
+      img.hidden = true;
+    }
+  }
+
   function renderFeatured() {
     if (!entries.length) { featured.hidden = true; return; }
     const e = entries[0];
     const meta = metaLine([`Day ${e.day}`, e.date ? formatDate(e.date) : '', e.passage || '']);
+    setHeaderImage(e, 'featured-meta-line', 'featured-header-image');
     document.getElementById('featured-meta-line').textContent = meta;
     document.getElementById('featured-title').textContent = e.title;
     document.getElementById('featured-themes').innerHTML =
@@ -206,6 +229,7 @@
     featured.hidden = true;
 
     const meta = metaLine([`Day ${e.day}`, e.date ? formatDate(e.date) : '', e.passage || '']);
+    setHeaderImage(e, 'entry-meta-line', 'entry-header-image');
     document.getElementById('entry-meta-line').textContent = meta;
     document.getElementById('entry-title').textContent = e.title;
     document.getElementById('entry-themes').innerHTML =

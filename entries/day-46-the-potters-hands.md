@@ -5,6 +5,7 @@ title: "The Potter's Hands"
 passage: ""
 themes: ["self-examination", "refusal-to-change"]
 closing_question: "or a heart that no longer wants to be shaped?"
+image: "images/day-46-the-potters-hands.jpg"
 ---
 
 A few months ago, our office had a family event.

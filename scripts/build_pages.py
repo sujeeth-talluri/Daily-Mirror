@@ -98,6 +98,12 @@ def render_page(entry, older, newer, gc_code):
     meta = meta_line([f"Day {entry['day']}", format_date(entry.get("date")), entry.get("passage") or ""])
     themes_html = "".join(f'<span class="tag">{escape_html(t)}</span>' for t in entry.get("themes") or [])
     body_html = render_body(entry.get("body", ""), entry.get("closing_question", ""))
+    # Optional per-entry header image (entries/*.md `image:` field). Most entries
+    # won't have one — this is opt-in, not required.
+    header_image_html = (
+        f'<img class="entry-header-image" src="../../{entry["image"]}" alt="" loading="eager">'
+        if entry.get("image") else ""
+    )
     # Falls back to the shared image if generate_og_images.py (optional, needs
     # Pillow) hasn't been run for this entry yet.
     has_custom_image = (OG_IMAGES_DIR / f"{slug}.png").exists()
@@ -177,6 +183,7 @@ def render_page(entry, older, newer, gc_code):
 <main class="wrap">
   <article id="entry-view">
     <a class="back-link" href="../../index.html">← All entries</a>
+    {header_image_html}
     <div class="entry-meta" id="page-meta">{escape_html(meta)}</div>
     <h2 id="entry-title">{escape_html(title)}</h2>
     <div class="entry-chips">{themes_html}</div>

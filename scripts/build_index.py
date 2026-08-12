@@ -49,6 +49,7 @@ def main():
             "passage": fm.get("passage", ""),
             "themes": fm.get("themes", []),
             "closing_question": fm.get("closing_question", ""),
+            "image": fm.get("image", ""),
             "body": body,
             "slug": path.stem,
         })
