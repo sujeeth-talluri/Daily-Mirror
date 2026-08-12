@@ -709,6 +709,43 @@ html[data-theme="dark"] body {
   letter-spacing: 0.02em;
 }
 
+.subscribe-cta {
+  max-width: 420px;
+  margin: 0 auto 40px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid var(--line);
+}
+
+.subscribe-cta .subscribe-cta-title {
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: 20px;
+  color: var(--ink);
+  letter-spacing: normal;
+  text-transform: none;
+  margin: 0 0 8px;
+}
+
+.subscribe-cta .subscribe-cta-sub {
+  font-family: var(--body);
+  font-size: 14px;
+  color: var(--ink-soft);
+  text-transform: none;
+  letter-spacing: normal;
+  margin: 0 0 20px;
+}
+
+.subscribe-cta .subscribe-link {
+  display: inline-block;
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+.subscribe-cta .subscribe-link:hover {
+  background: var(--gold);
+  color: var(--paper);
+}
+
 /* ===== Motion & accessibility ===== */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

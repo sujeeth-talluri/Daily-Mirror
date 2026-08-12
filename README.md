@@ -49,10 +49,11 @@ That's it. A GitHub Action (`.github/workflows/build.yml`) runs `build_index.py`
 4. Your site will be live at `https://<your-username>.github.io/daily-mirror/`
 5. (Optional) Add a custom domain later under Settings → Pages
 
-## Before you go live — two things only you can fill in
+## Before you go live — things only you can fill in
 
 1. **Your email**, in `script.js` — find `REPLY_EMAIL` near the top and replace it. This powers the "Reply to me" button (no public comments, by design — see below).
 2. **Your GitHub Pages URL**, in `scripts/build_feed.py` and `scripts/build_pages.py` — both have a `SITE_URL` constant near the top; set it to your actual URL once you know it, then push (the GitHub Action will pick it up on the next build).
+3. **Your email-subscribe link** (optional), in `script.js` — find `SUBSCRIBE_URL` near the top and set it. Until it's set, the "Subscribe" link and the footer's "Get tomorrow's reflection by email" box stay hidden automatically. To get a link: since this is a static site with no server to send mail from, sign up at [follow.it](https://follow.it) (free), point it at this site's `feed.xml`, and it'll email subscribers whenever a new entry is published — no code on this end beyond pasting the link it gives you. Any similar RSS-to-email service (Buttondown, Mailchimp, etc.) works the same way; just drop its subscribe URL in.
 
 ## What's new in this version
 
@@ -63,6 +64,9 @@ That's it. A GitHub Action (`.github/workflows/build.yml`) runs `build_index.py`
 - **Subtle background texture** — soft CSS-only gradient, no photo file, so no licensing risk on something meant to last decades.
 - **About section** — a short expandable blurb under the header so a cold visitor knows what they're looking at. Edit the text in `site/index.html` (search for "About this series") to sound like you.
 - **Favicon, share-preview image (og-image.png), RSS feed, print-friendly styling** — the last one matters for your own annual PDF backup idea; printing any entry now drops the nav/controls and just prints the reading text.
+- **First-visit tip banner** (`pwa-install.js`) — a dismissible bar pointing new visitors to the dark-mode toggle and the "install as an app" option, since both were easy to miss. Remembers the dismissal in `localStorage` so returning readers don't see it again.
+- **"Install app" link** — in the header, next to RSS. Triggers the browser's native install prompt where supported, and shows manual "Add to Home Screen" steps on iOS Safari, which doesn't support that prompt.
+- **Email subscribe UI** — a "Subscribe" link in the header and a CTA box in the footer, both wired to the `SUBSCRIBE_URL` constant described above.
 
 
 

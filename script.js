@@ -1,6 +1,11 @@
 (() => {
   const REPLY_EMAIL = 'suji056@gmail.com';
 
+  // Where the "Subscribe" links point — a follow.it (or similar) page that
+  // emails people when feed.xml gets a new entry. Set this once you've
+  // created that page; every element with class="subscribe-link" picks it up.
+  const SUBSCRIBE_URL = '';
+
   let entries = [];
   let activeTheme = null;
 
@@ -18,6 +23,16 @@
   const dayNav = document.getElementById('day-nav');
   const shareBtn = document.getElementById('share-btn');
   const replyBtn = document.getElementById('reply-btn');
+
+  // Point every subscribe link at SUBSCRIBE_URL, or hide them (and their
+  // surrounding UI) if it hasn't been set yet — a dead link is worse than no link.
+  if (SUBSCRIBE_URL) {
+    document.querySelectorAll('.subscribe-link').forEach((el) => { el.href = SUBSCRIBE_URL; });
+  } else {
+    document.getElementById('subscribe-dot').hidden = true;
+    document.getElementById('header-subscribe-link').hidden = true;
+    document.getElementById('footer-subscribe-cta').hidden = true;
+  }
 
   fetch('entries.json')
     .then(r => r.json())
