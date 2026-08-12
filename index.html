@@ -49,6 +49,14 @@
 
 <div class="dawn-line" aria-hidden="true"></div>
 
+<div class="tip-banner" id="tip-banner" hidden>
+  <div class="wrap tip-banner-inner">
+    <p class="tip-item"><span class="tip-icon" aria-hidden="true">🌙</span> Prefer reading at night? Tap the moon icon (top right) to switch to dark mode.</p>
+    <p class="tip-item" id="tip-install-item" hidden><span class="tip-icon" aria-hidden="true">📲</span> You can add this site to your phone's home screen, like an app. <button type="button" class="tip-install-btn" id="tip-install-btn">Install now</button></p>
+    <button type="button" class="tip-close" id="tip-close" aria-label="Dismiss tips">×</button>
+  </div>
+</div>
+
 <header class="site-header">
   <div class="wrap">
     <div class="mark">🪞</div>
@@ -60,6 +68,12 @@
       <span id="latest-day">—</span>
       <span class="dot">·</span>
       <a href="feed.xml" class="author">RSS</a>
+      <span class="dot" id="header-install-dot" hidden>·</span>
+      <button type="button" class="author install-link" id="header-install-btn" hidden>Install app</button>
+    </div>
+    <div class="install-instructions" id="install-instructions" hidden>
+      <p>To install: tap the <strong>Share</strong> icon in your browser's toolbar, then choose <strong>“Add to Home Screen.”</strong></p>
+      <button type="button" class="install-instructions-close" id="install-instructions-close" aria-label="Close instructions">Got it</button>
     </div>
     <details class="about-toggle">
       <summary>About this series</summary>
@@ -142,6 +156,7 @@
 
 <script src="script.js"></script>
 <script src="theme-toggle.js"></script>
+<script src="pwa-install.js"></script>
 
 <!-- no_onload: true — we track each entry manually below (a single-page site needs custom paths, not the default automatic pageview) -->
 <script data-goatcounter="https://dailymirror.goatcounter.com/count" data-goatcounter-settings='{"no_onload": true}' async src="//gc.zgo.at/count.js"></script>

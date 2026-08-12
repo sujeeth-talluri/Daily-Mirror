@@ -110,6 +110,112 @@ html[data-theme="dark"] body {
   padding: 0 24px;
 }
 
+/* ===== First-visit tip banner (dark mode + install) ===== */
+.tip-banner {
+  background: var(--paper);
+  border-bottom: 1px solid var(--line);
+}
+
+.tip-banner-inner {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 28px;
+  /* Right padding clears the fixed dark-mode toggle (top:20/right:20/42px wide),
+     which sits in this same top-right band on any viewport <=700px, where this
+     row's edge reaches the screen edge. */
+  padding: 14px 110px 14px 24px;
+}
+
+.tip-item {
+  margin: 0;
+  flex: 1 1 240px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+}
+
+.tip-icon { font-size: 16px; }
+
+.tip-install-btn {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  padding: 4px 12px;
+  border-radius: 100px;
+  border: 1px solid var(--gold);
+  background: transparent;
+  color: var(--gold);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.tip-install-btn:hover { background: var(--gold); color: var(--paper); }
+
+.tip-close {
+  position: absolute;
+  top: 12px;
+  right: 72px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: var(--ink-soft);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.tip-close:hover { color: var(--ink); }
+
+/* ===== Install app link (header) ===== */
+.install-link {
+  font: inherit;
+  text-transform: inherit;
+  letter-spacing: inherit;
+  color: var(--ink-soft);
+  text-decoration: none;
+  border: none;
+  border-bottom: 1px solid var(--line);
+  background: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.install-link:hover { color: var(--gold); border-bottom-color: var(--gold); }
+
+.install-instructions {
+  margin: 14px auto 0;
+  max-width: 420px;
+  text-align: left;
+  font-size: 14px;
+  color: var(--ink-soft);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+
+.install-instructions p { margin: 0 0 10px; }
+
+.install-instructions-close {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  padding: 6px 14px;
+  border-radius: 100px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.install-instructions-close:hover { border-color: var(--gold); color: var(--gold); }
+
 /* ===== Signature: the dawn line ===== */
 .dawn-line {
   height: 4px;
@@ -626,7 +732,7 @@ html[data-theme="dark"] body {
   body { background: #fff; }
   .dawn-line, .site-header .meta-row, .about-toggle, .controls,
   .back-link, .entry-actions, .day-nav, .related, .site-footer,
-  .theme-toggle, #list-view { display: none !important; }
+  .theme-toggle, #list-view, .tip-banner, .install-instructions { display: none !important; }
   .entry-body { font-size: 13pt; color: #000; }
   .closing-question { color: #000; border-top-color: #000; }
 }
