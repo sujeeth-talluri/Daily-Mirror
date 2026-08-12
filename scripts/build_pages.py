@@ -189,7 +189,6 @@ def render_page(entry, older, newer, gc_code):
     <div class="entry-chips">{themes_html}</div>
     <div class="entry-body">{body_html}</div>
     <p class="closing-question">{escape_html(entry.get("closing_question", ""))}</p>
-    <p class="share-nudge">If this spoke to you, someone else might need it today.</p>
 
     <div class="entry-actions">
       <a class="action-btn" href="../../index.html#/entry/{slug}">Open in full site</a>

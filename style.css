@@ -595,13 +595,6 @@ html[data-theme="dark"] body {
   border-top: 2px solid var(--gold);
 }
 
-.share-nudge {
-  font-style: italic;
-  font-size: 14.5px;
-  color: var(--ink-soft);
-  margin: 20px 0 0;
-}
-
 /* ===== Entry actions: share + reply ===== */
 .entry-actions {
   display: flex;
@@ -628,6 +621,23 @@ html[data-theme="dark"] body {
 .action-btn:hover {
   border-color: var(--gold);
   color: var(--gold);
+}
+
+/* Share is the primary action — filled, so it's the one your eye lands on
+   first, not visually equal to the quieter "Reply to me" utility action. */
+.action-btn.primary {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: var(--paper);
+  font-weight: 500;
+}
+
+.action-btn.primary:hover {
+  background: var(--clay);
+  border-color: var(--clay);
+  color: var(--paper);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow);
 }
 
 /* ===== Day navigation ===== */
