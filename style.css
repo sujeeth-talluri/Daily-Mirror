@@ -263,7 +263,7 @@ html[data-theme="dark"] body {
   text-transform: uppercase;
 }
 
-.meta-row .dot { margin: 0 8px; opacity: 0.5; }
+.dot { margin: 0 8px; opacity: 0.5; }
 
 .author {
   color: var(--ink-soft);
@@ -436,6 +436,15 @@ html[data-theme="dark"] body {
   border-color: var(--gold);
 }
 
+.entry-card .card-image {
+  display: block;
+  width: calc(100% + 48px);
+  margin: -22px -24px 16px;
+  max-height: 180px;
+  object-fit: cover;
+  border-radius: 10px 10px 0 0;
+}
+
 .entry-card .card-meta {
   font-family: var(--mono);
   font-size: 11px;
@@ -584,6 +593,13 @@ html[data-theme="dark"] body {
   margin: 48px 0 0;
   padding: 28px 0 0;
   border-top: 2px solid var(--gold);
+}
+
+.share-nudge {
+  font-style: italic;
+  font-size: 14.5px;
+  color: var(--ink-soft);
+  margin: 20px 0 0;
 }
 
 /* ===== Entry actions: share + reply ===== */

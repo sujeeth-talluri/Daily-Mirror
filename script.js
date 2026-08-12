@@ -203,8 +203,10 @@
     filtered.forEach(e => {
       const li = document.createElement('li');
       const meta = metaLine([`Day ${e.day}`, e.date ? formatDate(e.date) : '', e.passage || '']);
+      const thumbnail = e.image ? `<img class="card-image" src="${e.image}" alt="" loading="lazy">` : '';
       li.innerHTML = `
         <a class="entry-card" href="#/entry/${e.slug}">
+          ${thumbnail}
           <div class="card-meta">${meta}</div>
           <h2>${escapeHtml(e.title)}</h2>
           <p class="card-question">${escapeHtml(e.closing_question || '')}</p>
