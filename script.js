@@ -18,7 +18,6 @@
   const searchInput = document.getElementById('search');
   const chipsWrap = document.getElementById('theme-chips');
   const entryCount = document.getElementById('entry-count');
-  const latestDay = document.getElementById('latest-day');
   const backBtn = document.getElementById('back-btn');
   const dayNav = document.getElementById('day-nav');
   const shareBtn = document.getElementById('share-btn');
@@ -46,7 +45,6 @@
 
   function init() {
     entryCount.textContent = `${entries.length} ${entries.length === 1 ? 'entry' : 'entries'}`;
-    if (entries.length) latestDay.textContent = `Day ${entries[0].day}`;
 
     renderFeatured();
     renderThemeChips();
