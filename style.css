@@ -1,13 +1,34 @@
-/* ===== Tokens ===== */
+/* ===== Tokens =====
+   Palette refined per the 2026-08-13 design brief: dropped the cool
+   indigo cast from ink/background in favor of a neutral warm charcoal —
+   more literary and timeless, less "tech blog." Gold retargeted from the
+   brief's #A27B35 (3.81:1 on paper, fails WCAG AA) to #8C6B2E (4.85:1) —
+   same intent, same family, just dark enough to stay legible at 11-12px.
+   Typefaces (Fraunces / Source Serif 4 / IBM Plex Mono) are unchanged on
+   purpose: the brief's suggested alternatives (Cormorant Garamond, Libre
+   Baskerville, Lora) are, if anything, more of an "editorial blog default"
+   at this point than what's already here. Keeping them is the "preserve
+   what already satisfies the direction" call the brief itself asks for. */
 :root {
-  --sky:        #EDEEF3;   /* pre-dawn background */
-  --paper:      #FBF8F0;   /* warm page for reading */
-  --ink:        #232A3D;   /* deep indigo ink, not black */
-  --ink-soft:   #5B6478;   /* muted secondary text */
-  --gold:       #876522;   /* first light — primary accent. Darkened from #B4872E for WCAG AA at small sizes (5.05:1 on paper) */
-  --clay:       #8D5B4D;   /* muted dawn clay — secondary accent. Darkened from #A66C5B for WCAG AA at small sizes (5.30:1 on paper) */
-  --line:       #DCDBE4;   /* hairline dividers */
-  --shadow:     0 1px 2px rgba(35,42,61,0.04), 0 8px 24px rgba(35,42,61,0.05);
+  --sky:        #F7F5F0;   /* page background */
+  --paper:      #FFFDF8;   /* warm page for reading */
+  --ink:        #24242B;   /* neutral warm charcoal, not indigo, not pure black */
+  --ink-soft:   #69665F;   /* muted warm secondary text */
+  --gold:       #8C6B2E;   /* antique gold accent — 4.85:1 on paper, clears WCAG AA at 12px */
+  --clay:       #8D5B4D;   /* secondary accent — already harmonizes with the new neutrals (5.53:1 on paper), unchanged */
+  --line:       #E8E2D6;   /* hairline dividers */
+  --shadow:     0 1px 2px rgba(36,36,43,0.04), 0 8px 24px rgba(36,36,43,0.05);
+
+  /* Spacing scale (brief §33) — apply this instead of arbitrary margins */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
 
   --display: 'Fraunces', serif;
   --body:    'Source Serif 4', serif;
@@ -22,9 +43,9 @@ body {
   margin: 0;
   background: var(--sky);
   background-image:
-    radial-gradient(circle at 15% 8%, rgba(180,135,46,0.07), transparent 42%),
-    radial-gradient(circle at 85% 92%, rgba(166,108,91,0.06), transparent 45%),
-    linear-gradient(180deg, #EFEFF4 0%, var(--sky) 40%);
+    radial-gradient(circle at 15% 8%, rgba(140,107,46,0.06), transparent 42%),
+    radial-gradient(circle at 85% 92%, rgba(141,91,77,0.05), transparent 45%),
+    linear-gradient(180deg, #F1EFE8 0%, var(--sky) 40%);
   background-attachment: fixed;
   color: var(--ink);
   font-family: var(--body);
@@ -41,40 +62,40 @@ body {
    so later-in-file is what lets them override at all. ===== */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --sky:      #1B1F2E;
-    --paper:    #242A3D;
-    --ink:      #EDEEF0;
-    --ink-soft: #A8AFC4;
-    --gold:     #D9A94E;
-    --clay:     #D69A85;
-    --line:     #3A4058;
+    --sky:      #1A1815;
+    --paper:    #242119;
+    --ink:      #EDE8DE;
+    --ink-soft: #A69B8C;
+    --gold:     #D6A85E;
+    --clay:     #D6957F;
+    --line:     #38332B;
     --shadow:   0 1px 2px rgba(0,0,0,0.35), 0 8px 24px rgba(0,0,0,0.4);
   }
 
   html:not([data-theme="light"]) body {
     background-image:
-      radial-gradient(circle at 15% 8%, rgba(217,169,78,0.10), transparent 42%),
-      radial-gradient(circle at 85% 92%, rgba(214,154,133,0.08), transparent 45%),
-      linear-gradient(180deg, #20263A 0%, #1B1F2E 40%);
+      radial-gradient(circle at 15% 8%, rgba(214,168,94,0.09), transparent 42%),
+      radial-gradient(circle at 85% 92%, rgba(214,149,127,0.07), transparent 45%),
+      linear-gradient(180deg, #211E17 0%, #1A1815 40%);
   }
 }
 
 :root[data-theme="dark"] {
-  --sky:      #1B1F2E;
-  --paper:    #242A3D;
-  --ink:      #EDEEF0;
-  --ink-soft: #A8AFC4;
-  --gold:     #D9A94E;
-  --clay:     #D69A85;
-  --line:     #3A4058;
+  --sky:      #1A1815;
+  --paper:    #242119;
+  --ink:      #EDE8DE;
+  --ink-soft: #A69B8C;
+  --gold:     #D6A85E;
+  --clay:     #D6957F;
+  --line:     #38332B;
   --shadow:   0 1px 2px rgba(0,0,0,0.35), 0 8px 24px rgba(0,0,0,0.4);
 }
 
 html[data-theme="dark"] body {
   background-image:
-    radial-gradient(circle at 15% 8%, rgba(217,169,78,0.10), transparent 42%),
-    radial-gradient(circle at 85% 92%, rgba(214,154,133,0.08), transparent 45%),
-    linear-gradient(180deg, #20263A 0%, #1B1F2E 40%);
+    radial-gradient(circle at 15% 8%, rgba(214,168,94,0.09), transparent 42%),
+    radial-gradient(circle at 85% 92%, rgba(214,149,127,0.07), transparent 45%),
+    linear-gradient(180deg, #211E17 0%, #1A1815 40%);
 }
 
 /* ===== Theme toggle button ===== */
@@ -220,7 +241,7 @@ html[data-theme="dark"] body {
 .dawn-line {
   height: 4px;
   width: 100%;
-  background: linear-gradient(90deg, #6B7394 0%, var(--gold) 55%, var(--clay) 100%);
+  background: linear-gradient(90deg, #4A4438 0%, var(--gold) 55%, var(--clay) 100%);
 }
 
 /* ===== Header ===== */
@@ -341,7 +362,7 @@ html[data-theme="dark"] body {
 .featured-entry #featured-title {
   font-family: var(--display);
   font-weight: 500;
-  font-size: clamp(26px, 5vw, 34px);
+  font-size: clamp(30px, 6vw, 36px);
   line-height: 1.15;
   margin: 0 0 16px;
 }
@@ -542,7 +563,7 @@ html[data-theme="dark"] body {
 #entry-title {
   font-family: var(--display);
   font-weight: 500;
-  font-size: clamp(28px, 5vw, 38px);
+  font-size: clamp(30px, 6vw, 36px);
   line-height: 1.15;
   margin: 0 0 18px;
 }
@@ -564,7 +585,7 @@ html[data-theme="dark"] body {
 
 .entry-body {
   font-size: 19px;
-  line-height: 1.85;
+  line-height: 1.78;
   color: var(--ink);
 }
 
@@ -590,17 +611,17 @@ html[data-theme="dark"] body {
   font-size: 26px;
   line-height: 1.4;
   color: var(--ink);
-  margin: 48px 0 0;
-  padding: 28px 0 0;
+  margin: var(--space-7) 0 0;
+  padding: var(--space-5) 0 0;
   border-top: 2px solid var(--gold);
 }
 
 /* ===== Entry actions: share + reply ===== */
 .entry-actions {
   display: flex;
-  gap: 10px;
-  margin-top: 32px;
-  padding-top: 24px;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+  padding-top: var(--space-5);
   border-top: 1px solid var(--line);
 }
 
@@ -788,6 +809,13 @@ html[data-theme="dark"] body {
   .site-header { padding: 40px 0 32px; }
   .entry-body { font-size: 17.5px; }
   .closing-question { font-size: 22px; }
+
+  /* Page gutter + card padding used to stack to 52px dead space on each
+     side (24px wrap + 28px card) on a 360px phone — over a quarter of the
+     screen width lost before any text starts. Tighten both so the reading
+     column actually uses the width it has. */
+  .wrap { padding: 0 18px; }
+  .featured-entry { padding: 24px 20px; }
 }
 
 /* ===== Print (for the annual PDF backup) ===== */
