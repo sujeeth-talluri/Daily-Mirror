@@ -99,8 +99,15 @@ html[data-theme="dark"] body {
 }
 
 /* ===== Theme toggle button ===== */
+/* Anchored to the page (not the viewport) on purpose — a persistent fixed
+   floating button sat on top of reading text at every scroll position,
+   confirmed in QA (it was covering words in the body copy on a 360px
+   screen). Absolute positioning means it scrolls away with the header
+   instead of following the reader down the page, which fits the brief's
+   "interface should almost disappear" principle better than a toggle
+   that's technically reachable everywhere but visually in the way. */
 .theme-toggle {
-  position: fixed;
+  position: absolute;
   top: 20px;
   right: 20px;
   width: 42px;
@@ -351,12 +358,12 @@ html[data-theme="dark"] body {
   display: inline-block;
 }
 
+/* No card here on purpose (brief §7) — the current reflection should feel
+   like the page itself, the way the single-entry view already does.
+   Archive items keep their card treatment below; this is the one thing on
+   the page that isn't a "surface." */
 .featured-entry {
-  background: var(--paper);
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  padding: 32px 28px;
-  box-shadow: var(--shadow);
+  padding: 0;
 }
 
 .featured-entry #featured-title {
@@ -544,7 +551,6 @@ html[data-theme="dark"] body {
 
 .featured-entry .entry-header-image {
   max-height: 320px;
-  margin-top: 0;
 }
 
 @media (max-width: 600px) {
@@ -593,26 +599,47 @@ html[data-theme="dark"] body {
   margin: 0 0 22px;
 }
 
+/* The Mirror is the signature transition of the whole publication — the
+   moment "what happened" turns into "what does this reveal about me?"
+   Two hairlines sandwich a centered label, breaking the left-aligned prose
+   rhythm on purpose: the reader should feel the pause, not just read past
+   it. No color panels, no boxes — the interruption itself is the device. */
 .entry-body .mirror-marker {
-  font-family: var(--display);
-  font-style: italic;
+  margin: var(--space-8) 0 var(--space-6);
+  padding: var(--space-5) 0;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 12px;
   font-weight: 500;
-  font-size: 22px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
   color: var(--gold);
-  margin: 40px 0 22px;
-  padding-top: 24px;
   border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+/* Think-about-it sits inside the Mirror section rather than opening a new
+   one, so it stays quiet and left-aligned with the prose — a soft internal
+   marker, not another gate. */
+.entry-body .think-marker {
+  margin: var(--space-7) 0 var(--space-4);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
 }
 
 .closing-question {
   font-family: var(--display);
   font-style: italic;
   font-weight: 500;
-  font-size: 26px;
+  font-size: 27px;
   line-height: 1.4;
   color: var(--ink);
-  margin: var(--space-7) 0 0;
-  padding: var(--space-5) 0 0;
+  margin: var(--space-8) 0 0;
+  padding: var(--space-6) 0 0;
   border-top: 2px solid var(--gold);
 }
 
@@ -620,7 +647,10 @@ html[data-theme="dark"] body {
 .entry-actions {
   display: flex;
   gap: var(--space-3);
-  margin-top: var(--space-6);
+  /* Let the closing question sit alone for a moment before controls arrive —
+     the reader shouldn't be handed a button in the same breath as the
+     question meant to stop them. */
+  margin-top: var(--space-8);
   padding-top: var(--space-5);
   border-top: 1px solid var(--line);
 }
@@ -810,12 +840,10 @@ html[data-theme="dark"] body {
   .entry-body { font-size: 17.5px; }
   .closing-question { font-size: 22px; }
 
-  /* Page gutter + card padding used to stack to 52px dead space on each
-     side (24px wrap + 28px card) on a 360px phone — over a quarter of the
-     screen width lost before any text starts. Tighten both so the reading
-     column actually uses the width it has. */
+  /* The 52px-dead-space issue from the featured card's own padding no
+     longer applies now that the card is gone (§7) — this is just the page
+     gutter now, brief's 16-20px target. */
   .wrap { padding: 0 18px; }
-  .featured-entry { padding: 24px 20px; }
 }
 
 /* ===== Print (for the annual PDF backup) ===== */

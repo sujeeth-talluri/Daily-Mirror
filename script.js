@@ -118,9 +118,12 @@
 
   // Optional per-entry header image (entries/*.md `image:` field). Most entries
   // won't have one — created/shown only when present, hidden otherwise, so the
-  // layout doesn't leave a gap for entries without an image.
-  function setHeaderImage(e, metaLineId, imageId) {
-    const metaLine = document.getElementById(metaLineId);
+  // layout doesn't leave a gap for entries without an image. Inserted right
+  // before the body (after meta/title/tags), so a reader understands what
+  // today's reflection is *about* before processing the visual — image
+  // second, not first.
+  function setHeaderImage(e, insertBeforeId, imageId) {
+    const insertBefore = document.getElementById(insertBeforeId);
     let img = document.getElementById(imageId);
     if (e.image) {
       if (!img) {
@@ -129,7 +132,7 @@
         img.className = 'entry-header-image';
         img.alt = '';
         img.loading = 'eager';
-        metaLine.parentNode.insertBefore(img, metaLine);
+        insertBefore.parentNode.insertBefore(img, insertBefore);
       }
       img.src = e.image;
       img.hidden = false;
@@ -142,7 +145,7 @@
     if (!entries.length) { featured.hidden = true; return; }
     const e = entries[0];
     const meta = metaLine([`Day ${e.day}`, e.date ? formatDate(e.date) : '', e.passage || '']);
-    setHeaderImage(e, 'featured-meta-line', 'featured-header-image');
+    setHeaderImage(e, 'featured-body', 'featured-header-image');
     document.getElementById('featured-meta-line').textContent = meta;
     document.getElementById('featured-title').textContent = e.title;
     document.getElementById('featured-themes').innerHTML =
@@ -244,7 +247,7 @@
     featured.hidden = true;
 
     const meta = metaLine([`Day ${e.day}`, e.date ? formatDate(e.date) : '', e.passage || '']);
-    setHeaderImage(e, 'entry-meta-line', 'entry-header-image');
+    setHeaderImage(e, 'entry-body', 'entry-header-image');
     document.getElementById('entry-meta-line').textContent = meta;
     document.getElementById('entry-title').textContent = e.title;
     document.getElementById('entry-themes').innerHTML =
@@ -323,6 +326,14 @@
     link.href = `mailto:${REPLY_EMAIL}?subject=${subject}&body=${body}`;
   }
 
+  // A paragraph stays on its own line rather than merging with its neighbors
+  // when it's dialogue (quoted), trails off with an ellipsis, or is three
+  // words or fewer on its own ("Think." "Change." "It looked easy.") — all
+  // deliberate pacing choices in the writing, not just short sentences.
+  function isIsolatedBeat(p) {
+    return p.startsWith('"') || p.endsWith('"') || p.endsWith('...') || p.endsWith('…') || p.split(/\s+/).length <= 3;
+  }
+
   function renderBody(body, closingQuestion) {
     const paragraphs = body.split(/\n\s*\n/).map(p => p.trim()).filter(Boolean);
     // Drop the trailing paragraph if it duplicates the closing question —
@@ -331,11 +342,30 @@
       const last = paragraphs[paragraphs.length - 1].trim();
       if (last === closingQuestion.trim()) paragraphs.pop();
     }
-    return paragraphs.map(p => {
-      if (/^🪞/.test(p)) {
-        return `<div class="mirror-marker">${escapeHtml(p)}</div>`;
-      }
-      return `<p>${escapeHtml(p)}</p>`;
+
+    // The writing is authored one sentence per line throughout, which reads
+    // as constant dramatic pausing once rendered as one paragraph per line —
+    // every sentence gets the same weight as an actual dramatic beat. Group
+    // consecutive plain-narrative lines into one paragraph so normal story
+    // reads as normal prose; keep dialogue/ellipsis lines and the Mirror /
+    // Think-about-it markers isolated, since those pauses are intentional.
+    const blocks = [];
+    let buffer = [];
+    const flush = () => {
+      if (buffer.length) { blocks.push({ type: 'p', text: buffer.join(' ') }); buffer = []; }
+    };
+    paragraphs.forEach(p => {
+      if (/^🪞/.test(p)) { flush(); blocks.push({ type: 'mirror', text: p }); }
+      else if (/^💭/.test(p)) { flush(); blocks.push({ type: 'think', text: p }); }
+      else if (isIsolatedBeat(p)) { flush(); blocks.push({ type: 'p', text: p }); }
+      else { buffer.push(p); }
+    });
+    flush();
+
+    return blocks.map(b => {
+      if (b.type === 'mirror') return `<div class="mirror-marker">${escapeHtml(b.text)}</div>`;
+      if (b.type === 'think') return `<div class="think-marker">${escapeHtml(b.text)}</div>`;
+      return `<p>${escapeHtml(b.text)}</p>`;
     }).join('');
   }
 

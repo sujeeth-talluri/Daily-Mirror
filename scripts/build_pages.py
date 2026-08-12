@@ -70,16 +70,59 @@ def format_date(iso):
     return f"{dt.strftime('%B')} {dt.day}, {dt.year}"
 
 
+def is_isolated_beat(p):
+    """A paragraph stays on its own line rather than merging with its
+    neighbors when it's dialogue (quoted), trails off with an ellipsis, or
+    is three words or fewer on its own ("Think." "Change." "It looked
+    easy.") — all deliberate pacing choices in the writing, not just short
+    sentences. Mirrors script.js's isIsolatedBeat() exactly."""
+    return (
+        p.startswith('"') or p.endswith('"') or p.endswith("...") or p.endswith("…")
+        or len(p.split()) <= 3
+    )
+
+
 def render_body(body, closing_question):
     paragraphs = [p.strip() for p in re.split(r"\n\s*\n", body) if p.strip()]
     if closing_question and paragraphs and paragraphs[-1].strip() == closing_question.strip():
         paragraphs.pop()
-    parts = []
+
+    # The writing is authored one sentence per line throughout, which reads
+    # as constant dramatic pausing once rendered as one paragraph per line.
+    # Group consecutive plain-narrative lines into one paragraph so normal
+    # story reads as normal prose; keep dialogue/ellipsis lines and the
+    # Mirror / Think-about-it markers isolated, since those pauses are
+    # intentional. Mirrors script.js's renderBody() grouping exactly.
+    blocks = []
+    buffer = []
+
+    def flush():
+        if buffer:
+            blocks.append(("p", " ".join(buffer)))
+            buffer.clear()
+
     for p in paragraphs:
         if p.startswith("🪞"):
-            parts.append(f'<div class="mirror-marker">{escape_html(p)}</div>')
+            flush()
+            blocks.append(("mirror", p))
+        elif p.startswith("💭"):
+            flush()
+            blocks.append(("think", p))
+        elif is_isolated_beat(p):
+            flush()
+            blocks.append(("p", p))
         else:
-            parts.append(f"<p>{escape_html(p)}</p>")
+            buffer.append(p)
+    flush()
+
+    parts = []
+    for kind, text in blocks:
+        if kind == "mirror":
+            parts.append(f'<div class="mirror-marker">{escape_html(text)}</div>')
+        elif kind == "think":
+            parts.append(f'<div class="think-marker">{escape_html(text)}</div>')
+        else:
+            parts.append(f"<p>{escape_html(text)}</p>")
     return "".join(parts)
 
 
@@ -183,10 +226,10 @@ def render_page(entry, older, newer, gc_code):
 <main class="wrap">
   <article id="entry-view">
     <a class="back-link" href="../../index.html">← All entries</a>
-    {header_image_html}
     <div class="entry-meta" id="page-meta">{escape_html(meta)}</div>
     <h2 id="entry-title">{escape_html(title)}</h2>
     <div class="entry-chips">{themes_html}</div>
+    {header_image_html}
     <div class="entry-body">{body_html}</div>
     <p class="closing-question">{escape_html(entry.get("closing_question", ""))}</p>
 
