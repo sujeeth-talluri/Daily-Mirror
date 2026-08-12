@@ -9,6 +9,7 @@ A permanent, public archive of Sujeeth Talluri's daily Bible reading reflections
 ```
 daily-mirror/                    ← repo root, served directly by GitHub Pages
 ├── entries/                     ← source of truth. One markdown file per day.
+├── images/                      ← optional per-entry header images (entries/*.md `image:` field)
 ├── entry/                       ← auto-generated. One static, crawlable, shareable page per entry.
 ├── index.html, style.css, script.js   ← the interactive site (search/filter/related)
 ├── entries.json                 ← auto-generated index, powers search/themes
@@ -18,6 +19,7 @@ daily-mirror/                    ← repo root, served directly by GitHub Pages
 │   ├── build_index.py           ← regenerates entries.json from entries/*.md
 │   ├── build_feed.py            ← regenerates feed.xml from entries.json
 │   ├── build_pages.py           ← regenerates entry/*, sitemap.xml, robots.txt from entries.json
+│   ├── add_image.py             ← optional, needs Pillow — processes a header image for one entry
 │   ├── generate_og_images.py    ← optional, needs Pillow — see below
 │   └── generate_icons.py        ← one-off, needs Pillow — see below
 ├── .github/workflows/build.yml  ← runs build_index/build_feed/build_pages automatically on push
@@ -30,7 +32,8 @@ daily-mirror/                    ← repo root, served directly by GitHub Pages
 1. Complete Bible reading + write today's mirror (with GPT, using your Project).
 2. Copy `TEMPLATE.md` → `entries/day-NN-short-slug.md` (or `YYYY-MM-DD-slug.md` once you're tracking dates consistently).
 3. Fill in the frontmatter (day number, date if known, themes, closing question) and paste the final mirror text below it.
-4. `git add entries/day-NN-*.md && git commit -m "Day N: <title>" && git push`
+4. *(Optional)* If the entry has a header image: give Claude the image file directly (paste it into chat, or a local file path) rather than a cloud share link — a share link needs browser automation to resolve and download, which is the slow way. Then run `python3 scripts/add_image.py day-NN-slug path/to/source.png` — it compresses the image, saves it to `images/day-NN-slug.jpg`, and adds the `image:` field to the entry's frontmatter automatically (see `TEMPLATE.md` for the field format if doing this by hand).
+5. `git add entries/day-NN-*.md images/day-NN-*.jpg && git commit -m "Day N: <title>" && git push` — **don't run `build_index.py`/`build_feed.py`/`build_pages.py` locally for a routine daily publish.** Only commit source files (the entry + its image). Letting the GitHub Action be the only thing that ever regenerates `entries.json`/`feed.xml`/`entry/*` avoids local and CI copies diverging and needing a manual rebase to reconcile — reserve running those scripts locally for when you're actually testing a change to the scripts themselves.
 
 That's it. A GitHub Action (`.github/workflows/build.yml`) runs `build_index.py`, `build_feed.py`, and `build_pages.py` automatically on every push to `main`, and pushes a follow-up commit with the regenerated `entries.json`, `feed.xml`, `entry/*`, and `sitemap.xml` if anything changed. GitHub Pages then redeploys from that. Check the **Actions** tab on GitHub if a day's entry doesn't show up — that's where a failed build would surface.
 
