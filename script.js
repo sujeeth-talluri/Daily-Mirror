@@ -50,6 +50,9 @@
   function toggleAbout() {
     const panel = document.getElementById('about-panel');
     panel.hidden = !panel.hidden;
+    const expanded = String(!panel.hidden);
+    document.getElementById('nav-about-btn').setAttribute('aria-expanded', expanded);
+    document.getElementById('footer-about-btn').setAttribute('aria-expanded', expanded);
     if (!panel.hidden) panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
   document.getElementById('nav-about-btn').addEventListener('click', toggleAbout);
