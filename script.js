@@ -4,7 +4,7 @@
   // Where the "Subscribe" links point — a follow.it (or similar) page that
   // emails people when feed.xml gets a new entry. Set this once you've
   // created that page; every element with class="subscribe-link" picks it up.
-  const SUBSCRIBE_URL = '';
+  const SUBSCRIBE_URL = 'https://follow.it/the-daily-mirror?leanpub';
 
   let entries = [];
   let activeTheme = null;
