@@ -4,8 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Applies a saved theme choice before first paint, so a manual dark-mode
-     pick doesn't flash light before theme-toggle.js finishes loading. -->
-<script>(function(){var t=localStorage.getItem('daily-mirror-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);})();</script>
+     pick doesn't flash light before theme-toggle.js finishes loading. Also
+     sets the browser-chrome theme-color to match, so Android's status/nav
+     bar doesn't briefly show the wrong (or default) color on load. -->
+<script>(function(){
+  var saved = localStorage.getItem('daily-mirror-theme');
+  var dark = saved === 'dark' || (saved !== 'light' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  if (saved === 'light' || saved === 'dark') document.documentElement.setAttribute('data-theme', saved);
+  var meta = document.getElementById('theme-color-meta');
+  if (meta) meta.setAttribute('content', dark ? '#1A1815' : '#F7F5F0');
+})();</script>
 <title>The Daily Mirror</title>
 <meta name="description" content="A daily reflection series — timeless truth translated into the ordinary moments of everyday life.">
 <link rel="canonical" href="https://sujeeth-talluri.github.io/Daily-Mirror/">
@@ -16,7 +24,14 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%AA%9E%3C/text%3E%3C/svg%3E">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#876522">
+<!-- Matches the actual page background per theme (--sky), not a strong
+     accent color — a bold gold here was tinting the whole Android browser
+     chrome mustard-brown (QA item 28). One unmedia'd tag (rather than two
+     media-scoped ones) because it has to follow the reader's manual
+     light/dark override too, not just the OS preference — the pre-paint
+     script below sets it correctly before first paint, and theme-toggle.js
+     keeps it in sync on every toggle. -->
+<meta name="theme-color" content="#F7F5F0" id="theme-color-meta">
 
 <!-- Open Graph / share preview -->
 <meta property="og:title" content="The Daily Mirror">
@@ -100,8 +115,8 @@
       <div class="entry-body" id="featured-body"></div>
       <p class="closing-question" id="featured-question"></p>
       <div class="entry-actions">
-        <button class="action-btn primary" id="featured-share-btn">Share ↗</button>
-        <a class="action-btn" id="featured-reply-btn" href="#">Reply to me</a>
+        <a class="action-btn primary" id="featured-reply-btn" href="#">Reply to me</a>
+        <button class="action-btn" id="featured-share-btn">Share reflection</button>
       </div>
     </article>
 
@@ -133,12 +148,12 @@
     <p class="closing-question" id="entry-question"></p>
 
     <div class="entry-actions">
-      <button class="action-btn primary" id="share-btn">Share ↗</button>
-      <a class="action-btn" id="reply-btn" href="#">Reply to me</a>
+      <a class="action-btn primary" id="reply-btn" href="#">Reply to me</a>
+      <button class="action-btn" id="share-btn">Share reflection</button>
     </div>
 
     <div class="related" id="related-wrap" hidden>
-      <h3>From the same reflection</h3>
+      <h3>On a similar theme</h3>
       <ul id="related-list"></ul>
     </div>
   </article>

@@ -13,6 +13,12 @@
     } else {
       document.documentElement.removeAttribute('data-theme');
     }
+    // Keeps the Android browser-chrome color matched to whatever theme is
+    // actually showing, including a manual override that disagrees with
+    // the OS preference (see the pre-paint script in <head> for the
+    // pre-JS case).
+    const meta = document.getElementById('theme-color-meta');
+    if (meta) meta.setAttribute('content', effectiveTheme() === 'dark' ? '#1A1815' : '#F7F5F0');
   }
 
   function createToggle() {

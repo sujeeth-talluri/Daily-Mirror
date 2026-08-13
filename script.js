@@ -135,8 +135,11 @@
       .then(r => r.ok ? r.json() : Promise.reject())
       .then(data => {
         const count = data.count_unique || data.count;
+        // Subordinate to Day/date, not equal billing (QA item 29) — this is
+        // a reflection archive, not an engagement dashboard.
         if (count) {
-          el.innerHTML += `<span class="dot">·</span>${count} ${count === 1 ? 'reader' : 'readers'}`;
+          el.insertAdjacentHTML('beforeend',
+            `<span class="dot">·</span><span class="view-count">${count} ${count === 1 ? 'reader' : 'readers'}</span>`);
         }
       })
       .catch(() => { /* counter not enabled yet, or blocked by an ad-blocker */ });
@@ -174,8 +177,7 @@
     setHeaderImage(e, 'featured-body', 'featured-header-image');
     document.getElementById('featured-meta-line').textContent = meta;
     document.getElementById('featured-title').textContent = e.title;
-    document.getElementById('featured-themes').innerHTML =
-      (e.themes || []).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('');
+    document.getElementById('featured-themes').textContent = formatThemes(e.themes);
     document.getElementById('featured-body').innerHTML = renderBody(e.body, e.closing_question);
     document.getElementById('featured-question').textContent = e.closing_question || '';
     wireShare(e, document.getElementById('featured-share-btn'));
@@ -201,6 +203,13 @@
 
   function metaLine(parts) {
     return parts.filter(Boolean).join(' · ');
+  }
+
+  // Understated "SELF-EXAMINATION · REFUSAL TO CHANGE" presentation instead
+  // of hashtags (QA item 9) — the underlying slugs (used for search/filter
+  // matching) are untouched, this only changes how they're displayed.
+  function formatThemes(themes) {
+    return (themes || []).map(t => t.replace(/-/g, ' ').toUpperCase()).join(' · ');
   }
 
   function renderList() {
@@ -239,7 +248,7 @@
             <div class="row-meta">${meta}</div>
             <h2>${escapeHtml(e.title)}</h2>
             <p class="row-question">${escapeHtml(e.closing_question || '')}</p>
-            <div class="row-chips">${(e.themes || []).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('')}</div>
+            <div class="row-chips">${escapeHtml(formatThemes(e.themes))}</div>
           </div>
         </a>
       `;
@@ -260,7 +269,7 @@
     if (yesterday) { picks.push({ label: 'Yesterday', entry: yesterday }); used.add(yesterday.slug); }
 
     const related = entries.find(e => !used.has(e.slug) && (e.themes || []).some(t => (today.themes || []).includes(t)));
-    if (related) { picks.push({ label: 'From the same reflection', entry: related }); used.add(related.slug); }
+    if (related) { picks.push({ label: 'On a similar theme', entry: related }); used.add(related.slug); }
 
     const remaining = entries.filter(e => !used.has(e.slug));
     if (remaining.length) {
@@ -333,8 +342,7 @@
     setHeaderImage(e, 'entry-body', 'entry-header-image');
     document.getElementById('entry-meta-line').textContent = meta;
     document.getElementById('entry-title').textContent = e.title;
-    document.getElementById('entry-themes').innerHTML =
-      (e.themes || []).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('');
+    document.getElementById('entry-themes').textContent = formatThemes(e.themes);
     document.getElementById('entry-body').innerHTML = renderBody(e.body, e.closing_question);
     document.getElementById('entry-question').textContent = e.closing_question || '';
 
@@ -417,6 +425,15 @@
     return p.startsWith('"') || p.endsWith('"') || p.endsWith('...') || p.endsWith('…') || p.split(/\s+/).length <= 3;
   }
 
+  // Of the isolated lines above, only an ellipsis trail-off is an
+  // unambiguous "give this extra room" signal — a short plain sentence
+  // ("It was fascinating.") stays isolated on its own line but reads with
+  // normal paragraph spacing, not the same dramatic pause as "But as the
+  // wheel kept spinning…" (QA item 2: two rhythms, not one).
+  function isDramaticBeat(p) {
+    return p.endsWith('...') || p.endsWith('…');
+  }
+
   function renderBody(body, closingQuestion) {
     const paragraphs = body.split(/\n\s*\n/).map(p => p.trim()).filter(Boolean);
     // Drop the trailing paragraph if it duplicates the closing question —
@@ -440,7 +457,7 @@
     paragraphs.forEach(p => {
       if (/^🪞/.test(p)) { flush(); blocks.push({ type: 'mirror', text: p }); }
       else if (/^💭/.test(p)) { flush(); blocks.push({ type: 'think', text: p }); }
-      else if (isIsolatedBeat(p)) { flush(); blocks.push({ type: 'p', text: p }); }
+      else if (isIsolatedBeat(p)) { flush(); blocks.push({ type: isDramaticBeat(p) ? 'beat' : 'p', text: p }); }
       else { buffer.push(p); }
     });
     flush();
@@ -448,6 +465,7 @@
     return blocks.map(b => {
       if (b.type === 'mirror') return `<div class="mirror-marker">${escapeHtml(b.text)}</div>`;
       if (b.type === 'think') return `<div class="think-marker">${escapeHtml(b.text)}</div>`;
+      if (b.type === 'beat') return `<p class="beat">${escapeHtml(b.text)}</p>`;
       return `<p>${escapeHtml(b.text)}</p>`;
     }).join('');
   }
