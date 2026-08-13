@@ -421,21 +421,33 @@
     return p.startsWith('"') || p.endsWith('"') || p.endsWith('...') || p.endsWith('…') || p.split(/\s+/).length <= 3;
   }
 
-  // Of the isolated lines above, only an ellipsis trail-off or quoted
-  // dialogue is an unambiguous "this deserves its own pause" signal — a
-  // short plain sentence standing alone ("It was fascinating.") reads with
-  // normal paragraph spacing, not the weight of "No." or "But as the wheel
-  // kept spinning…" (QA 2026-08-13 round 2, item 2 and round-1 item 2).
+  // Only an ellipsis trail-off is an unambiguous "this deserves a real
+  // pause" signal (QA 2026-08-13 round 3, item 1) — a matter-of-fact quote
+  // ("Ignorance is not bliss.") groups with its intro line but reads at
+  // normal weight, while "But as the wheel kept spinning…" gets the pause.
   function isDramaticBeat(p) {
-    return p.endsWith('...') || p.endsWith('…') || p.startsWith('"') || p.endsWith('"');
+    return p.endsWith('...') || p.endsWith('…');
   }
 
-  // Three rhythms, not two (QA round-2 item 1-3/13): normal prose, an
-  // intentional pause (one isolated dramatic line, or a short RUN of them
-  // treated as a single grouped beat so the browser doesn't multiply the
-  // pause per line — "reshaped it…" / "corrected it…" / "and started
-  // again." reads as one sequence, not three 40-60px gaps), and major
-  // transitions (Mirror / Think markers, handled separately below).
+  // A line ending in "…" explicitly signals "more is coming." If the very
+  // next line completes that as a question, it belongs in the same group
+  // even though it's too long to be "isolated" on its own — e.g. "and
+  // truly changed because of it?" completing "...a correction...", or
+  // "yet still haven't started living?" completing "...for months...".
+  // A declarative continuation ("the clay would sometimes lose its
+  // shape.") is deliberately NOT pulled in — that's the next sentence of
+  // ordinary prose, not part of the question.
+  function continuesEllipsisQuestion(prevLine, line) {
+    return !!prevLine && isDramaticBeat(prevLine) && line.trim().endsWith('?');
+  }
+
+  // Three rhythms (QA round-3 item 1-2): normal prose, an intentional
+  // pause, and major transitions (Mirror/Think markers, below) — and
+  // "grouped" is orthogonal to that: a run of isolated lines renders as
+  // one tight block (soft line breaks, no per-line margin) whether the
+  // group itself reads at normal or pause weight. A completed question
+  // (ends in "?") always closes its group, so "Think about it" renders as
+  // separate question-groups rather than one long run.
   function renderBody(body, closingQuestion) {
     const paragraphs = body.split(/\n\s*\n/).map(p => p.trim()).filter(Boolean);
     // Drop the trailing paragraph if it duplicates the closing question —
@@ -448,35 +460,41 @@
     const blocks = [];
     let proseBuffer = [];
     let beatBuffer = [];
+    let lastBeatLine = null;
     const flushProse = () => {
-      if (proseBuffer.length) { blocks.push({ type: 'p', lines: [proseBuffer.join(' ')] }); proseBuffer = []; }
+      if (proseBuffer.length) { blocks.push({ kind: 'text', pause: false, grouped: false, lines: [proseBuffer.join(' ')] }); proseBuffer = []; }
     };
     const flushBeats = () => {
-      if (!beatBuffer.length) return;
-      if (beatBuffer.length === 1) {
-        blocks.push({ type: isDramaticBeat(beatBuffer[0]) ? 'pause' : 'p', lines: beatBuffer });
-      } else {
-        // A run of 2+ isolated lines in a row is a deliberate sequence —
-        // one grouped block, tight internal rhythm, a single pause after it.
-        blocks.push({ type: 'sequence', lines: beatBuffer });
+      if (beatBuffer.length) {
+        const pause = beatBuffer.some(isDramaticBeat);
+        blocks.push({ kind: 'text', pause, grouped: beatBuffer.length > 1, lines: beatBuffer });
       }
       beatBuffer = [];
+      lastBeatLine = null;
     };
     paragraphs.forEach(p => {
-      if (/^🪞/.test(p)) { flushProse(); flushBeats(); blocks.push({ type: 'mirror', lines: [p] }); }
-      else if (/^💭/.test(p)) { flushProse(); flushBeats(); blocks.push({ type: 'think', lines: [p] }); }
-      else if (isIsolatedBeat(p)) { flushProse(); beatBuffer.push(p); }
-      else { flushBeats(); proseBuffer.push(p); }
+      if (/^🪞/.test(p)) { flushProse(); flushBeats(); blocks.push({ kind: 'mirror', lines: [p] }); return; }
+      if (/^💭/.test(p)) { flushProse(); flushBeats(); blocks.push({ kind: 'think', lines: [p] }); return; }
+      if (isIsolatedBeat(p) || continuesEllipsisQuestion(lastBeatLine, p)) {
+        flushProse();
+        beatBuffer.push(p);
+        lastBeatLine = p;
+        if (p.trim().endsWith('?')) flushBeats(); // a completed question always ends its group
+      } else {
+        flushBeats();
+        proseBuffer.push(p);
+      }
     });
     flushProse();
     flushBeats();
 
     return blocks.map(b => {
-      if (b.type === 'mirror') return `<div class="mirror-marker">${escapeHtml(b.lines[0])}</div>`;
-      if (b.type === 'think') return `<div class="think-marker">${escapeHtml(b.lines[0])}</div>`;
-      if (b.type === 'pause') return `<p class="pause">${escapeHtml(b.lines[0])}</p>`;
-      if (b.type === 'sequence') return `<p class="pause sequence">${b.lines.map(l => escapeHtml(l)).join('<br>')}</p>`;
-      return `<p>${escapeHtml(b.lines[0])}</p>`;
+      if (b.kind === 'mirror') return `<div class="mirror-marker">${escapeHtml(b.lines[0])}</div>`;
+      if (b.kind === 'think') return `<div class="think-marker">${escapeHtml(b.lines[0])}</div>`;
+      const classes = [b.pause && 'pause', b.grouped && 'sequence'].filter(Boolean);
+      const classAttr = classes.length ? ` class="${classes.join(' ')}"` : '';
+      const html = b.grouped ? b.lines.map(l => escapeHtml(l)).join('<br>') : escapeHtml(b.lines[0]);
+      return `<p${classAttr}>${html}</p>`;
     }).join('');
   }
 

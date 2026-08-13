@@ -106,18 +106,19 @@ html[data-theme="dark"] body {
    instead of following the reader down the page, which fits the brief's
    "interface should almost disappear" principle better than a toggle
    that's technically reachable everywhere but visually in the way. */
-/* Sized down from 42px (QA item 27) so it reads as a utility control, not
-   a second logo competing with the wordmark — 36px still clears the 24px
-   WCAG 2.5.8 minimum target size with room to spare. */
+/* Visually still the quiet, small utility control from round 2 (a 36px
+   circle, not a second logo competing with the wordmark) — but the
+   clickable box itself is 44px, satisfying round-3's accessibility target
+   size ask without the control looking any bigger. The visible circle is
+   a ::before sized down within that box; the button itself is invisible. */
 .theme-toggle {
   position: absolute;
-  top: 20px;
-  right: 20px;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  border: 1px solid var(--line);
-  background: var(--paper);
+  top: 16px;
+  right: 16px;
+  width: 44px;
+  height: 44px;
+  border: none;
+  background: transparent;
   color: var(--ink);
   font-size: 15px;
   line-height: 1;
@@ -125,14 +126,31 @@ html[data-theme="dark"] body {
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 1px 3px rgba(36,36,43,0.10);
   z-index: 100;
-  transition: border-color 0.15s ease, transform 0.15s ease;
+  transition: transform 0.15s ease;
+}
+
+.theme-toggle::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  /* Without this, the absolutely-positioned circle paints in a later
+     stacking layer than the button's own in-flow icon text and covers it
+     completely — confirmed in screenshot QA, the icon was invisible. */
+  z-index: -1;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  box-shadow: 0 1px 3px rgba(36,36,43,0.10);
+  transition: border-color 0.15s ease;
 }
 
 .theme-toggle:hover {
-  border-color: var(--gold);
   transform: translateY(-1px);
+}
+
+.theme-toggle:hover::before {
+  border-color: var(--gold);
 }
 
 .wrap {
@@ -477,13 +495,17 @@ html[data-theme="dark"] body {
 
 .view-all-link:hover { color: var(--clay); }
 
+/* Now real <h2>/<h3> elements for a correct heading outline (QA round-3
+   accessibility pass), so reset the browser's default heading margins —
+   this label keeps exactly the spacing it had as a div. */
 .list-label {
   font-family: var(--mono);
   font-size: 11px;
+  font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--ink-soft);
-  margin-bottom: 16px;
+  margin: 0 0 16px;
 }
 
 /* ===== Controls ===== */
@@ -682,34 +704,40 @@ html[data-theme="dark"] body {
 }
 
 /* Reading size: clamp so desktop can stay generous (the reading column
-   supports it, capped at 19px since it doesn't grow past the 700px .wrap
-   anyway) while mobile settles at a book-like 17px rather than the 19px
-   that reads oversized on a phone (QA brief 2026-08-13, item 1). Scales
-   from 17px at a 360px viewport to 19px at 700px. */
+   supports it, capped at 18px since it doesn't grow past the 700px .wrap
+   anyway) while mobile settles a step smaller still (QA round-3 item 3 —
+   one more small trim after round-1's 19px→17px pass). Scales from 16px
+   at a 360px viewport to 18px at 700px. */
 .entry-body {
-  font-size: clamp(17px, 14.9px + 0.59vw, 19px);
+  font-size: clamp(16px, 13.9px + 0.59vw, 18px);
   line-height: 1.72;
   color: var(--ink);
 }
 
-/* Three rhythms (QA round-2 item 1-3/13), not one flat pause everywhere:
-   normal prose reads tight; a genuine pause — one isolated dramatic line,
-   or a short RUN of them grouped into a single sequence — gets a clearly
-   bigger gap, once, instead of every short line multiplying it. Major
-   transitions (Mirror/Think markers below) are a third, larger tier. */
+/* Three rhythms, not one flat pause everywhere: normal prose reads tight;
+   a genuine pause — one isolated dramatic line, or a group of them that
+   contains one — gets a clearly bigger gap, once, instead of every short
+   line multiplying it. Major transitions (Mirror/Think markers below) are
+   a third, larger tier. Normal-tier margin trimmed further (QA round-3
+   item 1, ~18% down from round-2's 1.1em). */
 .entry-body p {
-  margin: 0 0 1.1em;
+  margin: 0 0 0.9em;
 }
 
 .entry-body p.pause {
-  margin: 0 0 1.7em;
+  margin: 0 0 1.6em;
 }
 
-/* A grouped run ("reshaped it… / corrected it… / and started again.")
-   is one block with soft line breaks — the writing's own line-by-line
-   rhythm provides the pacing, not a large CSS gap multiplied per line. */
+/* A grouped run — a multi-line reflection question ("What truth do I
+   already know… / but keep postponing?") or a quote-intro pair ("It
+   simply said, / 'Ignorance is not bliss.'") — is one block with soft
+   line breaks. Line-height tightened well below body copy (QA round-3
+   item 2: "tight line spacing within one question") so it reads as one
+   grouped thought, not another paragraph gap between each fragment. The
+   group's own margin-after is still set by .pause above — dramatic
+   groups get the bigger gap, plain groups read at normal weight. */
 .entry-body p.sequence {
-  line-height: 2;
+  line-height: 1.4;
 }
 
 /* The Mirror is the signature transition of the whole publication — the
@@ -807,6 +835,16 @@ html[data-theme="dark"] body {
   border-color: var(--gold);
   color: var(--paper);
   font-weight: 500;
+}
+
+/* Reply/Share specifically (QA round-3 item 4) — a touch less pill, more
+   editorial, while every other pill (chips, nav, day-nav, subscribe) stays
+   as designed. Vertical padding nudged up at the same time so the tap
+   target clears 44px (round-3 item 5's accessibility pass), same colors
+   and hierarchy, just slightly taller. */
+.entry-actions .action-btn {
+  border-radius: 16px;
+  padding: 15px var(--space-5);
 }
 
 .action-btn.primary:hover {
@@ -995,10 +1033,13 @@ html[data-theme="dark"] body {
   color: var(--paper);
 }
 
-/* ===== Motion & accessibility ===== */
+/* ===== Motion & accessibility =====
+   Covers every transition on the page (QA round-3 item 5), not just one —
+   color/border/transform hovers on links, buttons, chips, the toggle, etc.
+   all still change state instantly, just without the animated tween. */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .entry-row h2 { transition: none; }
+  *, *::before, *::after { transition: none !important; }
 }
 
 :focus-visible {

@@ -3,17 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- Applies a saved theme choice before first paint, so a manual dark-mode
-     pick doesn't flash light before theme-toggle.js finishes loading. Also
-     sets the browser-chrome theme-color to match, so Android's status/nav
-     bar doesn't briefly show the wrong (or default) color on load. -->
-<script>(function(){
-  var saved = localStorage.getItem('daily-mirror-theme');
-  var dark = saved === 'dark' || (saved !== 'light' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
-  if (saved === 'light' || saved === 'dark') document.documentElement.setAttribute('data-theme', saved);
-  var meta = document.getElementById('theme-color-meta');
-  if (meta) meta.setAttribute('content', dark ? '#1A1815' : '#F7F5F0');
-})();</script>
 <title>The Daily Mirror</title>
 <meta name="description" content="A daily reflection series — timeless truth translated into the ordinary moments of everyday life.">
 <link rel="canonical" href="https://sujeeth-talluri.github.io/Daily-Mirror/">
@@ -32,6 +21,22 @@
      script below sets it correctly before first paint, and theme-toggle.js
      keeps it in sync on every toggle. -->
 <meta name="theme-color" content="#F7F5F0" id="theme-color-meta">
+
+<!-- Applies a saved theme choice before first paint, so a manual dark-mode
+     pick doesn't flash light before theme-toggle.js finishes loading, and
+     syncs the theme-color meta tag above to match. Placed after that meta
+     tag deliberately — document.getElementById needs the element to
+     already exist in the DOM, and inline scripts run synchronously as the
+     parser reaches them, so this silently did nothing when it sat above
+     the tag it was trying to update (caught in round-3 screenshot QA:
+     theme-color stayed on the light value after reloading in dark mode). -->
+<script>(function(){
+  var saved = localStorage.getItem('daily-mirror-theme');
+  var dark = saved === 'dark' || (saved !== 'light' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  if (saved === 'light' || saved === 'dark') document.documentElement.setAttribute('data-theme', saved);
+  var meta = document.getElementById('theme-color-meta');
+  if (meta) meta.setAttribute('content', dark ? '#1A1815' : '#F7F5F0');
+})();</script>
 
 <!-- Open Graph / share preview -->
 <meta property="og:title" content="The Daily Mirror">
@@ -121,14 +126,14 @@
     </article>
 
     <div class="continue-reflecting" id="continue-reflecting" hidden>
-      <div class="list-label">Continue Reflecting</div>
+      <h3 class="list-label">Continue Reflecting</h3>
       <ul id="continue-list"></ul>
       <a href="#/archive" class="view-all-link">View all reflections →</a>
     </div>
   </section>
 
   <section id="archive-view" hidden>
-    <div class="list-label" id="list-label">Past Reflections</div>
+    <h2 class="list-label" id="list-label">Past Reflections</h2>
     <div class="controls">
       <input type="search" id="search" placeholder="Search entries, themes, questions…" aria-label="Search entries">
       <div class="chips" id="theme-chips" aria-label="Filter by theme"></div>
