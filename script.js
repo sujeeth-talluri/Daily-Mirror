@@ -81,15 +81,6 @@
     route();
   }
 
-  // Reads the GoatCounter site code straight from the tracking script tag,
-  // so there's only one place (that script tag) to configure it.
-  function getGoatCounterCode() {
-    const gcScript = document.querySelector('script[data-goatcounter]');
-    if (!gcScript) return null;
-    const match = gcScript.getAttribute('data-goatcounter').match(/https:\/\/([^.]+)\.goatcounter\.com/);
-    return match ? match[1] : null;
-  }
-
   // Records a view for a specific entry (or the homepage) as its own tracked path —
   // needed because this is a single HTML page; without this, GoatCounter would lump
   // every entry together as one pageview instead of counting each day separately.
@@ -124,26 +115,12 @@
     setTimeout(flushPendingTracks, 300);
   });
 
-  // Fetches and displays the public view count for one specific path,
-  // into the given element id. Fails silently if GoatCounter isn't set up yet.
-  function showViewCount(path, elementId) {
-    const code = getGoatCounterCode();
-    const el = document.getElementById(elementId);
-    if (!code || !el) return;
-
-    fetch(`https://${code}.goatcounter.com/counter/${encodeURIComponent(path)}.json`)
-      .then(r => r.ok ? r.json() : Promise.reject())
-      .then(data => {
-        const count = data.count_unique || data.count;
-        // Subordinate to Day/date, not equal billing (QA item 29) — this is
-        // a reflection archive, not an engagement dashboard.
-        if (count) {
-          el.insertAdjacentHTML('beforeend',
-            `<span class="dot">·</span><span class="view-count">${count} ${count === 1 ? 'reader' : 'readers'}</span>`);
-        }
-      })
-      .catch(() => { /* counter not enabled yet, or blocked by an ad-blocker */ });
-  }
+  // Reader counts are recorded (trackView, above) but no longer shown on the
+  // page (QA round-2 item 7) — this is a reflection archive, not a
+  // popularity metric. The count still exists for you alone: check it in
+  // the GoatCounter dashboard (https://dailymirror.goatcounter.com), which
+  // only you can log into — that's the "visible only to me" version of this
+  // feature, with no separate admin view to build or maintain on the site.
 
   // Optional per-entry header image (entries/*.md `image:` field). Most entries
   // won't have one — created/shown only when present, hidden otherwise, so the
@@ -182,7 +159,6 @@
     document.getElementById('featured-question').textContent = e.closing_question || '';
     wireShare(e, document.getElementById('featured-share-btn'));
     wireReply(e, document.getElementById('featured-reply-btn'));
-    showViewCount(`/entry/${e.slug}`, 'featured-meta-line');
   }
 
   function renderThemeChips() {
@@ -208,8 +184,15 @@
   // Understated "SELF-EXAMINATION · REFUSAL TO CHANGE" presentation instead
   // of hashtags (QA item 9) — the underlying slugs (used for search/filter
   // matching) are untouched, this only changes how they're displayed.
+  // "self-*" slugs (self-examination, self-reliance) are genuine hyphenated
+  // compound nouns and keep their hyphen (QA round-2 item 6); every other
+  // hyphen is just a slug word-separator ("refusal-to-change") and becomes
+  // a space instead.
   function formatThemes(themes) {
-    return (themes || []).map(t => t.replace(/-/g, ' ').toUpperCase()).join(' · ');
+    return (themes || []).map(t => {
+      const upper = t.toUpperCase();
+      return upper.startsWith('SELF-') ? 'SELF-' + upper.slice(5).replace(/-/g, ' ') : upper.replace(/-/g, ' ');
+    }).join(' · ');
   }
 
   function renderList() {
@@ -259,6 +242,12 @@
   // Yesterday, one entry that shares a theme with today's, and one more for
   // variety — never a fabricated "most read" pick (brief §18: no reliable
   // analytics for that, so don't pretend to have one).
+  //
+  // The "similar theme" pick is deterministic: whichever remaining entry
+  // shares the MOST tags with today's, not just the first one in array
+  // order that happens to share any single tag (QA round-2 item 19). If
+  // nothing genuinely overlaps, the slot is filled from the archive with an
+  // honest label instead of implying a relationship that isn't there.
   function pickContinueReflecting() {
     if (entries.length < 2) return [];
     const today = entries[0];
@@ -268,12 +257,20 @@
     const yesterday = entries[1];
     if (yesterday) { picks.push({ label: 'Yesterday', entry: yesterday }); used.add(yesterday.slug); }
 
-    const related = entries.find(e => !used.has(e.slug) && (e.themes || []).some(t => (today.themes || []).includes(t)));
-    if (related) { picks.push({ label: 'On a similar theme', entry: related }); used.add(related.slug); }
+    const todayThemes = today.themes || [];
+    let bestMatch = null;
+    let bestOverlap = 0;
+    entries.forEach(e => {
+      if (used.has(e.slug)) return;
+      const overlap = (e.themes || []).filter(t => todayThemes.includes(t)).length;
+      if (overlap > bestOverlap) { bestOverlap = overlap; bestMatch = e; }
+    });
+    if (bestMatch) { picks.push({ label: 'On a similar theme', entry: bestMatch }); used.add(bestMatch.slug); }
 
     const remaining = entries.filter(e => !used.has(e.slug));
     if (remaining.length) {
-      picks.push({ label: 'Another reflection', entry: remaining[Math.floor(Math.random() * remaining.length)] });
+      const pick = remaining[Math.floor(Math.random() * remaining.length)];
+      picks.push({ label: bestMatch ? 'Another reflection' : 'From the archive', entry: pick });
     }
     return picks;
   }
@@ -351,7 +348,6 @@
     wireShare(e, shareBtn);
     wireReply(e, replyBtn);
     trackView(`/entry/${e.slug}`, e.title);
-    showViewCount(`/entry/${e.slug}`, 'entry-meta-line');
     window.scrollTo(0, 0);
   }
 
@@ -425,15 +421,21 @@
     return p.startsWith('"') || p.endsWith('"') || p.endsWith('...') || p.endsWith('…') || p.split(/\s+/).length <= 3;
   }
 
-  // Of the isolated lines above, only an ellipsis trail-off is an
-  // unambiguous "give this extra room" signal — a short plain sentence
-  // ("It was fascinating.") stays isolated on its own line but reads with
-  // normal paragraph spacing, not the same dramatic pause as "But as the
-  // wheel kept spinning…" (QA item 2: two rhythms, not one).
+  // Of the isolated lines above, only an ellipsis trail-off or quoted
+  // dialogue is an unambiguous "this deserves its own pause" signal — a
+  // short plain sentence standing alone ("It was fascinating.") reads with
+  // normal paragraph spacing, not the weight of "No." or "But as the wheel
+  // kept spinning…" (QA 2026-08-13 round 2, item 2 and round-1 item 2).
   function isDramaticBeat(p) {
-    return p.endsWith('...') || p.endsWith('…');
+    return p.endsWith('...') || p.endsWith('…') || p.startsWith('"') || p.endsWith('"');
   }
 
+  // Three rhythms, not two (QA round-2 item 1-3/13): normal prose, an
+  // intentional pause (one isolated dramatic line, or a short RUN of them
+  // treated as a single grouped beat so the browser doesn't multiply the
+  // pause per line — "reshaped it…" / "corrected it…" / "and started
+  // again." reads as one sequence, not three 40-60px gaps), and major
+  // transitions (Mirror / Think markers, handled separately below).
   function renderBody(body, closingQuestion) {
     const paragraphs = body.split(/\n\s*\n/).map(p => p.trim()).filter(Boolean);
     // Drop the trailing paragraph if it duplicates the closing question —
@@ -443,40 +445,55 @@
       if (last === closingQuestion.trim()) paragraphs.pop();
     }
 
-    // The writing is authored one sentence per line throughout, which reads
-    // as constant dramatic pausing once rendered as one paragraph per line —
-    // every sentence gets the same weight as an actual dramatic beat. Group
-    // consecutive plain-narrative lines into one paragraph so normal story
-    // reads as normal prose; keep dialogue/ellipsis lines and the Mirror /
-    // Think-about-it markers isolated, since those pauses are intentional.
     const blocks = [];
-    let buffer = [];
-    const flush = () => {
-      if (buffer.length) { blocks.push({ type: 'p', text: buffer.join(' ') }); buffer = []; }
+    let proseBuffer = [];
+    let beatBuffer = [];
+    const flushProse = () => {
+      if (proseBuffer.length) { blocks.push({ type: 'p', lines: [proseBuffer.join(' ')] }); proseBuffer = []; }
+    };
+    const flushBeats = () => {
+      if (!beatBuffer.length) return;
+      if (beatBuffer.length === 1) {
+        blocks.push({ type: isDramaticBeat(beatBuffer[0]) ? 'pause' : 'p', lines: beatBuffer });
+      } else {
+        // A run of 2+ isolated lines in a row is a deliberate sequence —
+        // one grouped block, tight internal rhythm, a single pause after it.
+        blocks.push({ type: 'sequence', lines: beatBuffer });
+      }
+      beatBuffer = [];
     };
     paragraphs.forEach(p => {
-      if (/^🪞/.test(p)) { flush(); blocks.push({ type: 'mirror', text: p }); }
-      else if (/^💭/.test(p)) { flush(); blocks.push({ type: 'think', text: p }); }
-      else if (isIsolatedBeat(p)) { flush(); blocks.push({ type: isDramaticBeat(p) ? 'beat' : 'p', text: p }); }
-      else { buffer.push(p); }
+      if (/^🪞/.test(p)) { flushProse(); flushBeats(); blocks.push({ type: 'mirror', lines: [p] }); }
+      else if (/^💭/.test(p)) { flushProse(); flushBeats(); blocks.push({ type: 'think', lines: [p] }); }
+      else if (isIsolatedBeat(p)) { flushProse(); beatBuffer.push(p); }
+      else { flushBeats(); proseBuffer.push(p); }
     });
-    flush();
+    flushProse();
+    flushBeats();
 
     return blocks.map(b => {
-      if (b.type === 'mirror') return `<div class="mirror-marker">${escapeHtml(b.text)}</div>`;
-      if (b.type === 'think') return `<div class="think-marker">${escapeHtml(b.text)}</div>`;
-      if (b.type === 'beat') return `<p class="beat">${escapeHtml(b.text)}</p>`;
-      return `<p>${escapeHtml(b.text)}</p>`;
+      if (b.type === 'mirror') return `<div class="mirror-marker">${escapeHtml(b.lines[0])}</div>`;
+      if (b.type === 'think') return `<div class="think-marker">${escapeHtml(b.lines[0])}</div>`;
+      if (b.type === 'pause') return `<p class="pause">${escapeHtml(b.lines[0])}</p>`;
+      if (b.type === 'sequence') return `<p class="pause sequence">${b.lines.map(l => escapeHtml(l)).join('<br>')}</p>`;
+      return `<p>${escapeHtml(b.lines[0])}</p>`;
     }).join('');
   }
 
+  // Ranked by strongest tag overlap first, not array order (QA round-2
+  // item 19), so "On a similar theme" leads with the most genuinely
+  // related entries, not just whichever happen to share one tag and come
+  // first chronologically.
   function renderRelated(current) {
     const wrap = document.getElementById('related-wrap');
     const list = document.getElementById('related-list');
     const themes = current.themes || [];
     const related = entries
-      .filter(e => e.slug !== current.slug && (e.themes || []).some(t => themes.includes(t)))
-      .slice(0, 5);
+      .map(e => ({ entry: e, overlap: (e.themes || []).filter(t => themes.includes(t)).length }))
+      .filter(({ entry, overlap }) => entry.slug !== current.slug && overlap > 0)
+      .sort((a, b) => b.overlap - a.overlap)
+      .slice(0, 5)
+      .map(({ entry }) => entry);
 
     if (!related.length) { wrap.hidden = true; return; }
 

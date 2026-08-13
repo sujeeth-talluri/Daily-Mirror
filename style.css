@@ -659,10 +659,6 @@ html[data-theme="dark"] body {
   margin-bottom: 10px;
 }
 
-/* Day/date are editorial facts; a reader count isn't (QA item 29) — kept,
-   but visually receded rather than given equal weight. */
-.entry-meta .view-count { opacity: 0.6; }
-
 #entry-title {
   font-family: var(--display);
   font-weight: 500;
@@ -696,17 +692,24 @@ html[data-theme="dark"] body {
   color: var(--ink);
 }
 
-/* Two rhythms, not one (QA item 2): ordinary narrative paragraphs (grouped
-   in renderBody()) get a controlled gap; isolated dramatic beats — short
-   fragments, dialogue, ellipsis trail-offs — get extra room via .beat so
-   the pause reads as intentional instead of every paragraph performing
-   the same pause. */
+/* Three rhythms (QA round-2 item 1-3/13), not one flat pause everywhere:
+   normal prose reads tight; a genuine pause — one isolated dramatic line,
+   or a short RUN of them grouped into a single sequence — gets a clearly
+   bigger gap, once, instead of every short line multiplying it. Major
+   transitions (Mirror/Think markers below) are a third, larger tier. */
 .entry-body p {
-  margin: 0 0 1.3em;
+  margin: 0 0 1.1em;
 }
 
-.entry-body p.beat {
+.entry-body p.pause {
   margin: 0 0 1.7em;
+}
+
+/* A grouped run ("reshaped it… / corrected it… / and started again.")
+   is one block with soft line breaks — the writing's own line-by-line
+   rhythm provides the pacing, not a large CSS gap multiplied per line. */
+.entry-body p.sequence {
+  line-height: 2;
 }
 
 /* The Mirror is the signature transition of the whole publication — the
@@ -714,12 +717,13 @@ html[data-theme="dark"] body {
    Two hairlines sandwich a centered label, breaking the left-aligned prose
    rhythm on purpose: the reader should feel the pause, not just read past
    it. No color panels, no boxes — the interruption itself is the device. */
-/* Spacing reduced ~15% from the original space-8/space-6/space-5 stack
-   (QA item 13) — the transition concept (centered label between hairlines)
-   is unchanged, only the pause around it is shorter. */
+/* Spacing reduced further still (QA round-2 item 12) now that ordinary
+   paragraph margins are tighter too — the transition concept (centered
+   label between hairlines) is unchanged, only the pause around it is
+   shorter. */
 .entry-body .mirror-marker {
-  margin: 40px 0 26px;
-  padding: 18px 0;
+  margin: 34px 0 22px;
+  padding: 15px 0;
   text-align: center;
   font-family: var(--mono);
   font-size: 12px;
@@ -735,9 +739,11 @@ html[data-theme="dark"] body {
    one, so it stays quiet and left-aligned with the prose — a soft internal
    marker, not another gate. Spacing trimmed substantially (QA item 15):
    the emotional weight should come from the question itself, not the gap
-   around it. */
+   around it. Tightened again (QA round-2 item 14) since the questions
+   underneath it are now also grouped into fewer, more deliberate blocks
+   via the pause/sequence rework above, rather than one block per line. */
 .entry-body .think-marker {
-  margin: 22px 0 10px;
+  margin: 18px 0 8px;
   font-family: var(--mono);
   font-size: 11px;
   font-weight: 500;
