@@ -223,7 +223,13 @@
     filtered.forEach(e => {
       const li = document.createElement('li');
       const meta = metaLine([`Day ${e.day}`, e.date ? formatDate(e.date) : '', e.passage || '']);
-      const thumbnail = e.image ? `<img class="row-image" src="${e.image}" alt="" loading="lazy">` : '';
+      // Entries before the Day-46 header-image policy have no thumbnail —
+      // an empty same-size spacer (not just omitting the element) keeps
+      // every row's title/text starting at the same left edge instead of
+      // the list visibly jumping left wherever a thumbnail is missing.
+      const thumbnail = e.image
+        ? `<img class="row-image" src="${e.image}" alt="" loading="lazy">`
+        : '<span class="row-image" aria-hidden="true"></span>';
       li.innerHTML = `
         <a class="entry-row" href="#/entry/${e.slug}">
           ${thumbnail}

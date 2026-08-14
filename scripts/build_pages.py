@@ -48,12 +48,6 @@ def get_goatcounter_code():
 
 FAVICON = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%AA%9E%3C/text%3E%3C/svg%3E"
 
-FONTS_LINK = (
-    'https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;'
-    '0,8..60,500;0,8..60,600;1,8..60,400;1,8..60,500&family=Fraunces:ital,opsz,wght@0,9..144,400;'
-    '0,9..144,500;0,9..144,600;1,9..144,400&family=IBM+Plex+Mono:wght@400;500&display=swap'
-)
-
 
 def escape_html(text):
     return _escape(text or "", quote=False)
@@ -317,8 +311,6 @@ def render_page(entry, older, newer, gc_code):
 
 <script type="application/ld+json">{json.dumps(json_ld, ensure_ascii=False)}</script>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="{FONTS_LINK}" rel="stylesheet">
 <link rel="stylesheet" href="../../style.css">
 </head>
 <body>

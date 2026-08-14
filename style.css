@@ -1,3 +1,57 @@
+/* ===== Self-hosted webfonts =====
+   Same three families as before (Fraunces / Source Serif 4 / IBM Plex
+   Mono), now served from webfonts/ instead of fonts.googleapis.com at
+   runtime. The exact files already existed in fonts/ for the OG-image
+   generator (see fonts/README.md) — this reuses them rather than
+   maintaining a second, separately-sourced copy, converted to .woff2
+   here for real-world file size. Variable fonts, so one file per
+   family+style covers every weight the CSS below actually uses (no
+   per-weight file splitting, unlike Google's own delivery) — weight
+   ranges match each file's own fvar axis limits. Removes a third-party,
+   render-blocking DNS+TLS dependency for assets already in the repo. */
+@font-face {
+  font-family: 'Fraunces';
+  src: url('webfonts/Fraunces-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Fraunces';
+  src: url('webfonts/Fraunces-Italic-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Source Serif 4';
+  src: url('webfonts/SourceSerif4-Variable.woff2') format('woff2-variations');
+  font-weight: 200 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Source Serif 4';
+  src: url('webfonts/SourceSerif4-Italic-Variable.woff2') format('woff2-variations');
+  font-weight: 200 900;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  src: url('webfonts/IBMPlexMono-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  src: url('webfonts/IBMPlexMono-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* ===== Tokens =====
    Palette refined per the 2026-08-13 design brief: dropped the cool
    indigo cast from ink/background in favor of a neutral warm charcoal —
@@ -158,84 +212,6 @@ html[data-theme="dark"] body {
   margin: 0 auto;
   padding: 0 24px;
 }
-
-/* ===== First-visit tip banner (dark mode + install) ===== */
-.tip-banner {
-  background: var(--paper);
-  border-bottom: 1px solid var(--line);
-}
-
-.tip-banner-inner {
-  position: relative;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 10px 28px;
-  /* Right padding clears the fixed dark-mode toggle (top:20/right:20/42px wide),
-     which sits in this same top-right band on any viewport <=700px, where this
-     row's edge reaches the screen edge. */
-  padding: 14px 110px 14px 24px;
-}
-
-.tip-item {
-  margin: 0;
-  flex: 1 1 240px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 13.5px;
-  color: var(--ink-soft);
-}
-
-.tip-icon { font-size: 16px; }
-
-.tip-install-btn {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.02em;
-  padding: var(--space-2) var(--space-3);
-  border-radius: 100px;
-  border: 1px solid var(--gold);
-  background: transparent;
-  color: var(--gold);
-  cursor: pointer;
-  white-space: nowrap;
-}
-
-.tip-install-btn:hover { background: var(--gold); color: var(--paper); }
-
-.tip-close {
-  position: absolute;
-  top: 12px;
-  right: 72px;
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  border: none;
-  background: transparent;
-  color: var(--ink-soft);
-  font-size: 18px;
-  line-height: 1;
-  cursor: pointer;
-}
-
-.tip-close:hover { color: var(--ink); }
-
-/* ===== Install app link (header) ===== */
-.install-link {
-  font: inherit;
-  text-transform: inherit;
-  letter-spacing: inherit;
-  color: var(--ink-soft);
-  text-decoration: none;
-  border: none;
-  border-bottom: 1px solid var(--line);
-  background: none;
-  padding: 0;
-  cursor: pointer;
-}
-
-.install-link:hover { color: var(--gold); border-bottom-color: var(--gold); }
 
 .install-instructions {
   margin: 14px auto 0;
@@ -1264,7 +1240,7 @@ html[data-theme="dark"] body {
   body { background: #fff; }
   .dawn-line, .primary-nav, .about-panel, .controls,
   .back-link, .entry-actions, .day-nav, .related, .site-footer,
-  .theme-toggle, #archive-view, .continue-reflecting, .tip-banner,
+  .theme-toggle, #archive-view, .continue-reflecting,
   .install-instructions, .share-backdrop { display: none !important; }
   .entry-body { font-size: 13pt; color: #000; }
   .closing-question { color: #000; border-top-color: #000; }

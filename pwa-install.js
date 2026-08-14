@@ -1,10 +1,4 @@
 (() => {
-  const DISMISS_KEY = 'daily-mirror-tips-dismissed';
-
-  const banner = document.getElementById('tip-banner');
-  const bannerClose = document.getElementById('tip-close');
-  const tipInstallItem = document.getElementById('tip-install-item');
-  const tipInstallBtn = document.getElementById('tip-install-btn');
   const headerInstallBtn = document.getElementById('header-install-btn');
   const headerInstallDot = document.getElementById('header-install-dot');
   const instructions = document.getElementById('install-instructions');
@@ -18,13 +12,11 @@
 
   function showInstallAffordances() {
     if (isStandalone) return;
-    tipInstallItem.hidden = false;
     headerInstallBtn.hidden = false;
     headerInstallDot.hidden = false;
   }
 
   function hideInstallAffordances() {
-    tipInstallItem.hidden = true;
     headerInstallBtn.hidden = true;
     headerInstallDot.hidden = true;
   }
@@ -51,16 +43,6 @@
     showInstallAffordances();
   }
 
-  tipInstallBtn.addEventListener('click', runInstall);
   headerInstallBtn.addEventListener('click', runInstall);
   instructionsClose.addEventListener('click', () => { instructions.hidden = true; });
-
-  if (!isStandalone && localStorage.getItem(DISMISS_KEY) !== '1') {
-    banner.hidden = false;
-  }
-
-  bannerClose.addEventListener('click', () => {
-    localStorage.setItem(DISMISS_KEY, '1');
-    banner.hidden = true;
-  });
 })();
