@@ -81,6 +81,13 @@ def draw_mirror_mark(draw, x, y, size, color=GOLD):
     return w
 
 
+def _normalize(text):
+    """Lowercase, trailing-punctuation-insensitive comparison key — so
+    "Rest." (a hook) and "Rest" (a title) are correctly recognized as the
+    same content instead of one redundantly repeating the other."""
+    return (text or "").strip().rstrip(".…!?\"'").strip().lower()
+
+
 def tracked(text):
     """Fake letter-spacing for uppercase mono labels (Pillow has no tracking).
     Same trick the script this replaces used."""
@@ -162,41 +169,53 @@ def render_og_image(entry):
     margin = 84
     x = margin
 
-    # Brand row: mark + wordmark, small and quiet — identity, not the headline.
+    # Brand row + day: a fixed identity anchor, not part of the centered
+    # block below — the mark should land in the same place on every card,
+    # scanning a feed of shared links.
     mark_w = draw_mirror_mark(draw, x, 44, 32)
-    brand_font = mono(18)
-    draw.text((x + mark_w + 18, 56), tracked("THE DAILY MIRROR"), font=brand_font, fill=INK_SOFT)
-
-    # Day number, gold, its own line — an editorial dateline.
-    day_font = mono(20, semibold=True)
+    draw.text((x + mark_w + 18, 56), tracked("THE DAILY MIRROR"), font=mono(18), fill=INK_SOFT)
     day = entry.get("day")
     if day:
-        draw.text((x, 108), tracked(f"DAY {day}"), font=day_font, fill=GOLD)
+        draw.text((x, 108), tracked(f"DAY {day}"), font=mono(20, semibold=True), fill=GOLD)
 
-    # Title — the largest element on the card by design.
+    # Title — the largest element, sized for legibility at small link-preview
+    # sizes. Hook is dropped if it's the same content as the title (e.g. a
+    # one-word entry where hook falls back to the title itself).
     title_font, title_lines = fit_text(
         draw, entry.get("title", ""), OG_W - margin * 2, 2,
-        fraunces, start_size=80, min_size=48, weight=580,
+        fraunces, start_size=88, min_size=52, weight=580,
     )
-    y = 168
+    hook = (entry.get("hook") or "").strip()
+    show_hook = bool(hook) and _normalize(hook) != _normalize(entry.get("title", ""))
+    hook_font, hook_lines = (None, [])
+    if show_hook:
+        hook_font, hook_lines = fit_text(
+            draw, hook, OG_W - margin * 2, 3,
+            source_serif, start_size=34, min_size=26, italic=True, weight=420,
+        )
+
+    # Measure the title+hook block, then center it in the space below the
+    # identity row (QA round-4 item 3: this was hugging the top-left with
+    # the bottom half of the canvas empty). Rounded, deterministic — no
+    # iterative layout, just sum of the same line-heights used to draw it.
+    RULE_GAP_ABOVE, RULE_GAP_BELOW = 20, 30
+    block_h = sum(title_font.size + 12 for _ in title_lines)
+    if show_hook:
+        block_h += RULE_GAP_ABOVE + 3 + RULE_GAP_BELOW + sum(hook_font.size + 14 for _ in hook_lines)
+    zone_top, zone_bottom = 168, OG_H - 56
+    y = zone_top + max(0, (zone_bottom - zone_top - block_h) // 2)
+
     for line in title_lines:
         draw.text((x, y), line, font=title_font, fill=INK)
-        y += title_font.size + 10
+        y += title_font.size + 12
 
-    # Short gold rule, then the hook — supporting, not competing with the title.
-    y += 18
-    draw.line([(x, y), (x + 84, y)], fill=GOLD, width=3)
-    y += 26
-
-    hook = (entry.get("hook") or "").strip()
-    if hook:
-        hook_font, hook_lines = fit_text(
-            draw, hook, OG_W - margin * 2, 2,
-            source_serif, start_size=32, min_size=24, italic=True, weight=420,
-        )
+    if show_hook:
+        y += RULE_GAP_ABOVE
+        draw.line([(x, y), (x + 88, y)], fill=GOLD, width=3)
+        y += RULE_GAP_BELOW
         for line in hook_lines:
             draw.text((x, y), line, font=hook_font, fill=INK_SOFT)
-            y += hook_font.size + 12
+            y += hook_font.size + 14
 
     return img
 
@@ -211,8 +230,11 @@ def render_og_image(entry):
 
 STORY_W, STORY_H = 1080, 1920
 STORY_MARGIN = 84
-STORY_SAFE_TOP = 210     # below Instagram's own avatar/username row
-STORY_SAFE_BOTTOM = 1920 - 420  # above Instagram's reply bar + link-sticker room
+STORY_SAFE_TOP = 210      # below Instagram's own avatar/username row
+STORY_FOOTER_Y = 1590     # fixed regardless of content length — the gap above
+                          # it (variable, since hook length varies) is the
+                          # intentional quiet zone for the native Link sticker,
+                          # and it stays clear of Instagram's own reply bar.
 
 
 def render_story_image(entry):
@@ -223,44 +245,59 @@ def render_story_image(entry):
     x = STORY_MARGIN
     y = STORY_SAFE_TOP
 
-    # Brand + day, one quiet line.
+    # Brand + day, one quiet line — the publication eyebrow.
     mark_w = draw_mirror_mark(draw, x, y - 2, 28)
     label = tracked(f"THE DAILY MIRROR · DAY {entry.get('day', '')}")
     draw.text((x + mark_w + 16, y + 4), label, font=mono(20), fill=INK_SOFT)
-    y += 74
+    y += 88
 
-    # The hook — the largest, most prominent text on the card.
+    # The hook — the dominant element on the card, sized and given room to
+    # actually use the canvas (QA round-4 item 1: this was reading as empty
+    # rather than intentionally minimal). Still capped and truncated rather
+    # than shrunk to illegibility on a long day (item 2).
     hook = (entry.get("hook") or entry.get("title") or "").strip()
     hook_font, hook_lines = fit_text(
-        draw, hook, STORY_W - STORY_MARGIN * 2, 6,
-        fraunces, start_size=76, min_size=46, weight=560,
+        draw, hook, STORY_W - STORY_MARGIN * 2, 7,
+        fraunces, start_size=94, min_size=54, weight=560,
     )
     for line in hook_lines:
         draw.text((x, y), line, font=hook_font, fill=INK)
-        y += hook_font.size + 14
+        y += hook_font.size + 16
 
-    y += 30
-    draw.line([(x, y), (x + 100, y)], fill=GOLD, width=4)
-    y += 40
+    y += 36
+    draw.line([(x, y), (x + 110, y)], fill=GOLD, width=4)
+    y += 44
 
     # Title — secondary, smaller, supporting context for the hook above it.
     title = entry.get("title", "")
-    if title and title.strip().lower() != hook.strip().lower():
+    if title and _normalize(title) != _normalize(hook):
         title_font, title_lines = fit_text(
             draw, title, STORY_W - STORY_MARGIN * 2, 3,
-            source_serif, start_size=40, min_size=28, italic=True, weight=420,
+            source_serif, start_size=42, min_size=30, italic=True, weight=420,
         )
         for line in title_lines:
             draw.text((x, y), line, font=title_font, fill=INK_SOFT)
-            y += title_font.size + 10
+            y += title_font.size + 12
 
-    # CTA, placed well clear of the reserved lower safe area.
-    cta_y = min(y + 60, STORY_SAFE_BOTTOM - 60)
-    draw.text((x, cta_y), "READ TODAY'S REFLECTION →", font=mono(22, semibold=True), fill=GOLD)
+    # A quiet label, not a call to action — the image itself isn't tappable,
+    # only the Link sticker the reader adds in Instagram will be (item 1's
+    # CTA reconsideration: "TODAY'S REFLECTION" reads as a caption for what
+    # comes next, not a promise that the graphic itself is clickable).
+    content_end_y = y + 44
+    draw.text((x, content_end_y), tracked("TODAY'S REFLECTION"), font=mono(20, semibold=True), fill=GOLD)
 
-    # Deliberately nothing below this point — quiet space reserved for
-    # Instagram's own native Link sticker (brief: no raw URL on the graphic
-    # itself; the sticker is how the link actually travels on a Story).
+    # Deliberately quiet from here to the footer — intentional whitespace
+    # (not empty whitespace) left for Instagram's own native Link sticker,
+    # which the reader places by hand; nothing here pretends to be it.
+    draw.text((x, STORY_FOOTER_Y), tracked("THE DAILY MIRROR"), font=mono(18, semibold=True), fill=INK_SOFT)
+    tagline_font, tagline_lines = fit_text(
+        draw, "Truth reveals who God is. This helps me discover who I am.",
+        STORY_W - STORY_MARGIN * 2, 2, source_serif, start_size=22, min_size=18, italic=True, weight=400,
+    )
+    ty = STORY_FOOTER_Y + 34
+    for line in tagline_lines:
+        draw.text((x, ty), line, font=tagline_font, fill=INK_SOFT)
+        ty += tagline_font.size + 8
 
     return img
 

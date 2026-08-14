@@ -1142,28 +1142,76 @@ html[data-theme="dark"] body {
   padding-right: var(--space-6);
 }
 
+/* Compact list rows, not four identical bordered boxes (QA round-4 item 4:
+   the previous version read as a settings menu). A hairline between rows
+   does the separating; each row is just a hover/focus state, no border. */
 .share-platform-list {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
+  border-top: 1px solid var(--line);
   margin-bottom: var(--space-4);
 }
 
-.share-platform-btn {
+.share-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
   width: 100%;
+  min-height: 44px;
+  padding: var(--space-3) var(--space-2);
+  border: none;
+  border-bottom: 1px solid var(--line);
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.15s ease;
+}
+
+.share-row:hover, .share-row:focus-visible { background: var(--sky); }
+
+.share-row-icon {
+  flex: 0 0 auto;
+  display: flex;
+  color: var(--ink-soft);
+}
+
+.share-row-icon svg { width: 22px; height: 22px; }
+
+.share-row-text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.share-row-label {
   font-family: var(--mono);
   font-size: 14px;
   letter-spacing: 0.02em;
-  padding: 15px var(--space-5);
-  border-radius: 12px;
-  border: 1px solid var(--line);
-  background: var(--paper);
   color: var(--ink);
-  cursor: pointer;
-  transition: border-color 0.15s ease, color 0.15s ease;
 }
 
-.share-platform-btn:hover { border-color: var(--gold); color: var(--gold); }
+.share-row-desc {
+  font-family: var(--body);
+  font-style: italic;
+  font-size: 12.5px;
+  color: var(--ink-soft);
+}
+
+.share-row-chevron {
+  flex: 0 0 auto;
+  color: var(--line);
+  font-size: 18px;
+}
+
+.share-row:hover .share-row-chevron, .share-row:focus-visible .share-row-chevron { color: var(--gold); }
+
+/* The two Instagram sub-actions reuse .share-row's compact layout without
+   an icon or description — same list language, not a second component. */
+.share-row-plain .share-row-text { flex-direction: row; }
+.share-row-plain:last-of-type { border-bottom: none; }
 
 .share-more-link {
   display: block;
@@ -1207,7 +1255,8 @@ html[data-theme="dark"] body {
 .share-instagram-actions {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
+  border-top: 1px solid var(--line);
+  margin-bottom: var(--space-2);
 }
 
 /* ===== Print (for the annual PDF backup) ===== */

@@ -48,10 +48,16 @@
     }
   }
 
+  // Rows have nested icon/label/desc/chevron spans now, not plain text — swap
+  // the .share-row-label (or .share-row-desc, if present) text specifically
+  // rather than clobbering the whole button with btn.textContent. Plain
+  // buttons ("More sharing options", "Copy Caption") still have no children,
+  // so the fallback below covers those unchanged.
   function flashLabel(btn, message, revertMs = 1800) {
-    const original = btn.textContent;
-    btn.textContent = message;
-    setTimeout(() => { btn.textContent = original; }, revertMs);
+    const target = btn.querySelector('.share-row-desc') || btn.querySelector('.share-row-label') || btn;
+    const original = target.textContent;
+    target.textContent = message;
+    setTimeout(() => { target.textContent = original; }, revertMs);
   }
 
   // ---------- DOM ----------
@@ -60,16 +66,41 @@
     backdrop.className = 'share-backdrop';
     backdrop.hidden = true;
 
+    const ICON_STROKE = 'fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"';
+    // Simple, single-color geometric marks — not brand logos in brand colors
+    // (QA round-4 item 4: "no platform brand-color explosion"). Each is
+    // paired with its text label, which does the real identification work.
+    const ICONS = {
+      whatsapp: `<svg viewBox="0 0 24 24" ${ICON_STROKE}><path d="M12 3.5c-4.7 0-8.5 3.6-8.5 8 0 1.5.4 2.9 1.2 4.1L3.5 20l4.6-1.2c1.2.6 2.5 1 3.9 1 4.7 0 8.5-3.6 8.5-8s-3.8-8-8.5-8z"/></svg>`,
+      instagram: `<svg viewBox="0 0 24 24" ${ICON_STROKE}><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="0.75" fill="currentColor" stroke="none"/></svg>`,
+      facebook: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M14.5 21v-7.5h2.5l.4-3h-2.9V8.5c0-.9.2-1.5 1.5-1.5h1.6V4.3C17.3 4.2 16.3 4 15.2 4c-2.4 0-4 1.5-4 4.1V10.5H8.7v3H11.2V21h3.3z"/></svg>`,
+      x: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 4l7 8.5L4.4 20h2.1l5.8-6.6 4.4 6.6H21l-7.3-8.9L20 4h-2.1l-5.3 6-4-6H4z"/></svg>`,
+    };
+
+    const PLATFORMS = [
+      { id: 'whatsapp', label: 'WhatsApp', desc: 'Share teaser' },
+      { id: 'instagram', label: 'Instagram', desc: 'Share Story card' },
+      { id: 'facebook', label: 'Facebook', desc: 'Share reflection' },
+      { id: 'x', label: 'X', desc: 'Post reflection' },
+    ];
+
+    const rowHtml = ({ id, label, desc }) => `
+      <button type="button" class="share-row" data-platform="${id}" aria-label="Share via ${label} — ${desc}">
+        <span class="share-row-icon" aria-hidden="true">${ICONS[id]}</span>
+        <span class="share-row-text">
+          <span class="share-row-label">${label}</span>
+          <span class="share-row-desc">${desc}</span>
+        </span>
+        <span class="share-row-chevron" aria-hidden="true">›</span>
+      </button>`;
+
     backdrop.innerHTML = `
       <div class="share-sheet" role="dialog" aria-modal="true" aria-labelledby="share-sheet-title">
         <button type="button" class="share-close" aria-label="Close">×</button>
         <div class="share-main">
           <p class="share-title" id="share-sheet-title">Share this reflection</p>
           <div class="share-platform-list">
-            <button type="button" class="share-platform-btn" data-platform="whatsapp">WhatsApp</button>
-            <button type="button" class="share-platform-btn" data-platform="instagram">Instagram</button>
-            <button type="button" class="share-platform-btn" data-platform="facebook">Facebook</button>
-            <button type="button" class="share-platform-btn" data-platform="x">X</button>
+            ${PLATFORMS.map(rowHtml).join('')}
           </div>
           <button type="button" class="share-more-link" data-platform="more">More sharing options</button>
         </div>
@@ -78,8 +109,14 @@
           <p class="share-title">Share Story Card</p>
           <p class="share-instagram-hint">Add the link sticker once you're in Instagram.</p>
           <div class="share-instagram-actions">
-            <button type="button" class="share-platform-btn" data-ig-action="share-card">Share Story Card</button>
-            <button type="button" class="share-platform-btn" data-ig-action="copy-link">Copy Link</button>
+            <button type="button" class="share-row share-row-plain" data-ig-action="share-card" aria-label="Share Story card">
+              <span class="share-row-text"><span class="share-row-label">Share Story card</span></span>
+              <span class="share-row-chevron" aria-hidden="true">›</span>
+            </button>
+            <button type="button" class="share-row share-row-plain" data-ig-action="copy-link" aria-label="Copy link">
+              <span class="share-row-text"><span class="share-row-label">Copy Link</span></span>
+              <span class="share-row-chevron" aria-hidden="true">›</span>
+            </button>
             <button type="button" class="share-more-link" data-ig-action="copy-caption">Copy Caption</button>
           </div>
         </div>
@@ -94,7 +131,7 @@
       main: backdrop.querySelector('.share-main'),
       instagram: backdrop.querySelector('.share-instagram'),
       backBtn: backdrop.querySelector('.share-back'),
-      platformBtns: backdrop.querySelectorAll('.share-platform-btn[data-platform]'),
+      platformBtns: backdrop.querySelectorAll('.share-row[data-platform]'),
       moreBtn: backdrop.querySelector('.share-more-link[data-platform="more"]'),
       igShareCard: backdrop.querySelector('[data-ig-action="share-card"]'),
       igCopyLink: backdrop.querySelector('[data-ig-action="copy-link"]'),
