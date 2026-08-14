@@ -74,7 +74,11 @@
       whatsapp: `<svg viewBox="0 0 24 24" ${ICON_STROKE}><path d="M12 3.5c-4.7 0-8.5 3.6-8.5 8 0 1.5.4 2.9 1.2 4.1L3.5 20l4.6-1.2c1.2.6 2.5 1 3.9 1 4.7 0 8.5-3.6 8.5-8s-3.8-8-8.5-8z"/></svg>`,
       instagram: `<svg viewBox="0 0 24 24" ${ICON_STROKE}><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="0.75" fill="currentColor" stroke="none"/></svg>`,
       facebook: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M14.5 21v-7.5h2.5l.4-3h-2.9V8.5c0-.9.2-1.5 1.5-1.5h1.6V4.3C17.3 4.2 16.3 4 15.2 4c-2.4 0-4 1.5-4 4.1V10.5H8.7v3H11.2V21h3.3z"/></svg>`,
-      x: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 4l7 8.5L4.4 20h2.1l5.8-6.6 4.4 6.6H21l-7.3-8.9L20 4h-2.1l-5.3 6-4-6H4z"/></svg>`,
+      // A thin crossing-lines mark, not the bold solid wordmark shape — at the
+      // same stroke weight as WhatsApp/Instagram so all four rows read at the
+      // same visual hierarchy (QA round-5: the solid-fill version read heavier
+      // than its neighbors despite sharing the same 22px box).
+      x: `<svg viewBox="0 0 24 24" ${ICON_STROKE}><path d="M5.5 5.5l13 13M18.5 5.5l-13 13"/></svg>`,
     };
 
     const PLATFORMS = [
@@ -146,6 +150,7 @@
     els.platformBtns.forEach((btn) => {
       btn.addEventListener('click', () => handlePlatform(btn.dataset.platform, btn));
     });
+    els.moreBtn.addEventListener('click', () => handlePlatform('more', els.moreBtn));
     els.igShareCard.addEventListener('click', () => shareStoryCard(els.igShareCard));
     els.igCopyLink.addEventListener('click', () => copyLink(els.igCopyLink));
     els.igCopyCaption.addEventListener('click', () => copyCaption(els.igCopyCaption));

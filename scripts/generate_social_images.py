@@ -231,10 +231,14 @@ def render_og_image(entry):
 STORY_W, STORY_H = 1080, 1920
 STORY_MARGIN = 84
 STORY_SAFE_TOP = 210      # below Instagram's own avatar/username row
-STORY_FOOTER_Y = 1590     # fixed regardless of content length — the gap above
+STORY_FOOTER_Y = 1654     # fixed regardless of content length — the gap above
                           # it (variable, since hook length varies) is the
-                          # intentional quiet zone for the native Link sticker,
-                          # and it stays clear of Instagram's own reply bar.
+                          # intentional quiet zone for the native Link sticker.
+                          # Pushed lower than the hook block (QA round-5: keep
+                          # it clearly subordinate, reading as a signature, not
+                          # competing content) while staying clear of both the
+                          # Link sticker's usual placement and Instagram's own
+                          # reply bar at the very bottom.
 
 
 def render_story_image(entry):
