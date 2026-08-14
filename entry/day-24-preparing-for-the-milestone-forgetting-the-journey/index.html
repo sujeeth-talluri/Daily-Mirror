@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script>(function(){var t=localStorage.getItem('daily-mirror-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);})();</script>
 <title>Preparing for the Milestone, Forgetting the Journey — The Daily Mirror</title>
 <meta name="description" content="What milestone am I preparing for so carefully... while quietly neglecting the journey that begins the very next day?">
 <link rel="canonical" href="https://sujeeth-talluri.github.io/Daily-Mirror/entry/day-24-preparing-for-the-milestone-forgetting-the-journey/">
@@ -11,7 +10,17 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%AA%9E%3C/text%3E%3C/svg%3E">
 <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
 <link rel="manifest" href="../../manifest.json">
-<meta name="theme-color" content="#876522">
+<meta name="theme-color" content="#F7F5F0" id="theme-color-meta">
+<!-- Applies a saved theme choice before first paint and syncs theme-color to
+     match — same pattern and same ordering requirement as index.html (the
+     meta tag above must exist in the DOM before this script runs). -->
+<script>(function(){
+  var saved = localStorage.getItem('daily-mirror-theme');
+  var dark = saved === 'dark' || (saved !== 'light' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  if (saved === 'light' || saved === 'dark') document.documentElement.setAttribute('data-theme', saved);
+  var meta = document.getElementById('theme-color-meta');
+  if (meta) meta.setAttribute('content', dark ? '#1A1815' : '#F7F5F0');
+})();</script>
 
 <meta property="og:title" content="Preparing for the Milestone, Forgetting the Journey">
 <meta property="og:description" content="What milestone am I preparing for so carefully... while quietly neglecting the journey that begins the very next day?">
@@ -47,14 +56,16 @@
     <a class="back-link" href="../../index.html">← All entries</a>
     <div class="entry-meta" id="page-meta">Day 24 · August 9, 2026</div>
     <h2 id="entry-title">Preparing for the Milestone, Forgetting the Journey</h2>
-    <div class="entry-chips"><span class="tag">comparison</span><span class="tag">love-of-approval</span><span class="tag">false-security</span><span class="tag">false-peace</span></div>
+    <div class="entry-chips">COMPARISON · LOVE OF APPROVAL · FALSE SECURITY · FALSE PEACE</div>
     
-    <div class="entry-body"><p>One thing I've observed in life is this. We prepare exceptionally well for milestones. But we often assume that preparing for the milestone is enough for the journey that follows. A young couple gets engaged. Their wedding date is fixed, just two months away. Weekends disappear into shopping, invitations, decorations, clothes, photography, food, music and countless tiny details. Every conversation revolves around making that one day perfect. Finally, the day arrives. Everything goes exactly as planned. The celebration lasted a day. The journey that followed would last a lifetime. A young man dreams of getting a job. He spends months preparing for interviews. He studies every possible question, practises every answer and learns how to impress the interview panel. Finally, he receives the offer letter. The interview lasted an hour. The journey of building a career, growing in character and earning people's trust had only just begun. A couple eagerly waits for their first child. They plan a beautiful baby shower. They decorate the room, buy tiny clothes, capture every precious moment and prepare to welcome their baby home. The celebration lasts a day. The journey of raising that child lasts a lifetime. A family saves for years to buy their dream house. The registration is completed. The keys are handed over. Friends and relatives gather for the housewarming. The ceremony lasts a day. Turning that house into a place filled with love, forgiveness, laughter and peace... that journey takes years.</p><p>Funny, isn't it?</p><p>When we look at someone else's life, the difference is obvious. Yet in our own lives, we often confuse the milestone with the journey. We prepare for getting married, but not always for the marriage that begins the next morning. We prepare for getting a job, but not always for becoming the kind of person who succeeds in it. We prepare for welcoming a child, but not always for the lifelong responsibility of raising one. We prepare for buying a house, but not always for building a home. Perhaps that's why some of life's greatest struggles begin immediately after some of life's greatest celebrations.</p><p>Not because we prepared poorly...</p><p>But because we prepared only for the milestone. The journey was waiting on the other side all along.</p><p>Think about it.</p></div>
+    <div class="entry-body"><p>One thing I've observed in life is this. We prepare exceptionally well for milestones. But we often assume that preparing for the milestone is enough for the journey that follows. A young couple gets engaged. Their wedding date is fixed, just two months away. Weekends disappear into shopping, invitations, decorations, clothes, photography, food, music and countless tiny details. Every conversation revolves around making that one day perfect. Finally, the day arrives. Everything goes exactly as planned. The celebration lasted a day. The journey that followed would last a lifetime. A young man dreams of getting a job. He spends months preparing for interviews. He studies every possible question, practises every answer and learns how to impress the interview panel. Finally, he receives the offer letter. The interview lasted an hour. The journey of building a career, growing in character and earning people's trust had only just begun. A couple eagerly waits for their first child. They plan a beautiful baby shower. They decorate the room, buy tiny clothes, capture every precious moment and prepare to welcome their baby home. The celebration lasts a day. The journey of raising that child lasts a lifetime. A family saves for years to buy their dream house. The registration is completed. The keys are handed over. Friends and relatives gather for the housewarming. The ceremony lasts a day. Turning that house into a place filled with love, forgiveness, laughter and peace... that journey takes years.</p><p>Funny, isn't it?</p><p>When we look at someone else's life, the difference is obvious. Yet in our own lives, we often confuse the milestone with the journey. We prepare for getting married, but not always for the marriage that begins the next morning. We prepare for getting a job, but not always for becoming the kind of person who succeeds in it. We prepare for welcoming a child, but not always for the lifelong responsibility of raising one. We prepare for buying a house, but not always for building a home. Perhaps that's why some of life's greatest struggles begin immediately after some of life's greatest celebrations.</p><p class="pause">Not because we prepared poorly...</p><p>But because we prepared only for the milestone. The journey was waiting on the other side all along.</p><p>Think about it.</p></div>
     <p class="closing-question">What milestone am I preparing for so carefully... while quietly neglecting the journey that begins the very next day?</p>
 
     <div class="entry-actions">
-      <a class="action-btn" href="../../index.html#/entry/day-24-preparing-for-the-milestone-forgetting-the-journey">Open in full site</a>
+      <a class="action-btn primary" href="mailto:suji056@gmail.com?subject=Re%3A%20%22Preparing%20for%20the%20Milestone%2C%20Forgetting%20the%20Journey%22%20%E2%80%94%20The%20Daily%20Mirror&body=I%20read%20Day%2024%2C%20%22Preparing%20for%20the%20Milestone%2C%20Forgetting%20the%20Journey%22%2C%20and%20wanted%20to%20share%20a%20thought%3A%0A%0A">Reply to me</a>
+      <button type="button" class="action-btn" id="share-btn">Share reflection</button>
     </div>
+    <p style="margin-top: var(--space-4);"><a class="view-all-link" href="../../index.html#/entry/day-24-preparing-for-the-milestone-forgetting-the-journey">Open in the full site (search, related entries) →</a></p>
   </article>
 </main>
 
@@ -68,7 +79,10 @@
 
 <!-- no_onload: true, matching index.html — tracked manually below under the same
      virtual path the SPA uses, so this page's views (arrived at via share links,
-     RSS, or search) count toward the same total instead of going unrecorded. -->
+     RSS, or search) count toward the same total instead of going unrecorded.
+     Recorded but not displayed — same policy as the SPA (reader counts are
+     tracked for the site owner via the GoatCounter dashboard, not shown
+     publicly; see script.js's history for why). -->
 <script data-goatcounter="https://dailymirror.goatcounter.com/count" data-goatcounter-settings='{"no_onload": true}' async src="//gc.zgo.at/count.js"></script>
 <script>
 (function() {
@@ -81,20 +95,15 @@
     }
   }
   window.addEventListener('load', function() { setTimeout(track, 300); });
-
-  fetch('https://dailymirror.goatcounter.com/counter/' + encodeURIComponent(path) + '.json')
-    .then(function(r) { return r.ok ? r.json() : Promise.reject(); })
-    .then(function(data) {
-      var count = data.count_unique || data.count;
-      var el = document.getElementById('page-meta');
-      if (count && el) {
-        el.innerHTML += '<span class="dot">·</span>' + count + ' ' + (count == 1 ? 'reader' : 'readers');
-      }
-    })
-    .catch(function() { /* counter not enabled yet, or blocked by an ad-blocker */ });
 })();
 </script>
 <script src="../../theme-toggle.js"></script>
+<script src="../../share.js"></script>
+<script>
+document.getElementById('share-btn').addEventListener('click', function() {
+  window.DailyMirrorShare.open({"title": "Preparing for the Milestone, Forgetting the Journey", "day": "24", "date": "2026-08-09", "hook": "What milestone am I preparing for so carefully... while quietly neglecting the journey that begins the very next day?", "url": "https://sujeeth-talluri.github.io/Daily-Mirror/entry/day-24-preparing-for-the-milestone-forgetting-the-journey/", "storyImageUrl": "https://sujeeth-talluri.github.io/Daily-Mirror/stories/day-24-preparing-for-the-milestone-forgetting-the-journey.png"});
+});
+</script>
 
 </body>
 </html>

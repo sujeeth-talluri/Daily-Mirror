@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script>(function(){var t=localStorage.getItem('daily-mirror-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);})();</script>
 <title>The Train Everyone Boarded — The Daily Mirror</title>
 <meta name="description" content="Today, what am I chasing simply because everyone else is running toward it... and have I paused long enough to ask if it's taking me where I truly want to go?">
 <link rel="canonical" href="https://sujeeth-talluri.github.io/Daily-Mirror/entry/day-03-the-train-everyone-boarded/">
@@ -11,7 +10,17 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%AA%9E%3C/text%3E%3C/svg%3E">
 <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
 <link rel="manifest" href="../../manifest.json">
-<meta name="theme-color" content="#876522">
+<meta name="theme-color" content="#F7F5F0" id="theme-color-meta">
+<!-- Applies a saved theme choice before first paint and syncs theme-color to
+     match — same pattern and same ordering requirement as index.html (the
+     meta tag above must exist in the DOM before this script runs). -->
+<script>(function(){
+  var saved = localStorage.getItem('daily-mirror-theme');
+  var dark = saved === 'dark' || (saved !== 'light' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  if (saved === 'light' || saved === 'dark') document.documentElement.setAttribute('data-theme', saved);
+  var meta = document.getElementById('theme-color-meta');
+  if (meta) meta.setAttribute('content', dark ? '#1A1815' : '#F7F5F0');
+})();</script>
 
 <meta property="og:title" content="The Train Everyone Boarded">
 <meta property="og:description" content="Today, what am I chasing simply because everyone else is running toward it... and have I paused long enough to ask if it's taking me where I truly want to go?">
@@ -47,14 +56,16 @@
     <a class="back-link" href="../../index.html">← All entries</a>
     <div class="entry-meta" id="page-meta">Day 3 · August 9, 2026</div>
     <h2 id="entry-title">The Train Everyone Boarded</h2>
-    <div class="entry-chips"><span class="tag">pride</span><span class="tag">comparison</span><span class="tag">false-peace</span></div>
+    <div class="entry-chips">PRIDE · COMPARISON · FALSE PEACE</div>
     
-    <div class="entry-body"><p>A man rushed into a crowded railway station. He glanced at the departure board, saw people running towards Platform 4, and instinctively ran with them. He squeezed through the crowd, jumped onto the train just as the doors were closing, and finally sat down, exhausted but relieved. An elderly passenger sitting beside him smiled and said,</p><p>"You almost missed your train."</p><p>"I did!" the young man replied proudly. "I had to run all the way."</p><p>The old man nodded and asked one simple question.</p><p>"Where are you travelling?"</p><p>The young man mentioned his destination. The old man's smile faded.</p><p>"My friend... this train doesn't go there."</p><p>Silence filled the space between them.</p><p>The young man had done everything right...</p><p>He ran hard.</p><p>He stayed focused.</p><p>He didn't give up. He caught the train.</p><p>The only problem was...</p><p>He never stopped to check if it was the right one.</p><div class="mirror-marker">🪞 The Mirror</div><p>The world celebrates speed, ambition, and achievement.</p><p>But before asking, "How fast am I moving?", perhaps the more important question is, "Where am I heading?"</p><p>Because success on the wrong path is still a loss.</p><div class="think-marker">💭 Reflection</div></div>
+    <div class="entry-body"><p>A man rushed into a crowded railway station. He glanced at the departure board, saw people running towards Platform 4, and instinctively ran with them. He squeezed through the crowd, jumped onto the train just as the doors were closing, and finally sat down, exhausted but relieved. An elderly passenger sitting beside him smiled and said,</p><p class="sequence">"You almost missed your train."<br>"I did!" the young man replied proudly. "I had to run all the way."</p><p>The old man nodded and asked one simple question.</p><p>"Where are you travelling?"</p><p>The young man mentioned his destination. The old man's smile faded.</p><p>"My friend... this train doesn't go there."</p><p>Silence filled the space between them.</p><p class="pause sequence">The young man had done everything right...<br>He ran hard.<br>He stayed focused.</p><p>He didn't give up. He caught the train.</p><p class="pause">The only problem was...</p><p>He never stopped to check if it was the right one.</p><div class="mirror-marker">🪞 The Mirror</div><p>The world celebrates speed, ambition, and achievement.</p><p>But before asking, "How fast am I moving?", perhaps the more important question is, "Where am I heading?"</p><p>Because success on the wrong path is still a loss.</p><div class="think-marker">💭 Reflection</div></div>
     <p class="closing-question">Today, what am I chasing simply because everyone else is running toward it... and have I paused long enough to ask if it's taking me where I truly want to go?</p>
 
     <div class="entry-actions">
-      <a class="action-btn" href="../../index.html#/entry/day-03-the-train-everyone-boarded">Open in full site</a>
+      <a class="action-btn primary" href="mailto:suji056@gmail.com?subject=Re%3A%20%22The%20Train%20Everyone%20Boarded%22%20%E2%80%94%20The%20Daily%20Mirror&body=I%20read%20Day%203%2C%20%22The%20Train%20Everyone%20Boarded%22%2C%20and%20wanted%20to%20share%20a%20thought%3A%0A%0A">Reply to me</a>
+      <button type="button" class="action-btn" id="share-btn">Share reflection</button>
     </div>
+    <p style="margin-top: var(--space-4);"><a class="view-all-link" href="../../index.html#/entry/day-03-the-train-everyone-boarded">Open in the full site (search, related entries) →</a></p>
   </article>
 </main>
 
@@ -68,7 +79,10 @@
 
 <!-- no_onload: true, matching index.html — tracked manually below under the same
      virtual path the SPA uses, so this page's views (arrived at via share links,
-     RSS, or search) count toward the same total instead of going unrecorded. -->
+     RSS, or search) count toward the same total instead of going unrecorded.
+     Recorded but not displayed — same policy as the SPA (reader counts are
+     tracked for the site owner via the GoatCounter dashboard, not shown
+     publicly; see script.js's history for why). -->
 <script data-goatcounter="https://dailymirror.goatcounter.com/count" data-goatcounter-settings='{"no_onload": true}' async src="//gc.zgo.at/count.js"></script>
 <script>
 (function() {
@@ -81,20 +95,15 @@
     }
   }
   window.addEventListener('load', function() { setTimeout(track, 300); });
-
-  fetch('https://dailymirror.goatcounter.com/counter/' + encodeURIComponent(path) + '.json')
-    .then(function(r) { return r.ok ? r.json() : Promise.reject(); })
-    .then(function(data) {
-      var count = data.count_unique || data.count;
-      var el = document.getElementById('page-meta');
-      if (count && el) {
-        el.innerHTML += '<span class="dot">·</span>' + count + ' ' + (count == 1 ? 'reader' : 'readers');
-      }
-    })
-    .catch(function() { /* counter not enabled yet, or blocked by an ad-blocker */ });
 })();
 </script>
 <script src="../../theme-toggle.js"></script>
+<script src="../../share.js"></script>
+<script>
+document.getElementById('share-btn').addEventListener('click', function() {
+  window.DailyMirrorShare.open({"title": "The Train Everyone Boarded", "day": "3", "date": "2026-08-09", "hook": "Today, what am I chasing simply because everyone else is running toward it... and have I paused long enough to ask if it's taking me where I truly want to go?", "url": "https://sujeeth-talluri.github.io/Daily-Mirror/entry/day-03-the-train-everyone-boarded/", "storyImageUrl": "https://sujeeth-talluri.github.io/Daily-Mirror/stories/day-03-the-train-everyone-boarded.png"});
+});
+</script>
 
 </body>
 </html>

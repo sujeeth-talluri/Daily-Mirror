@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script>(function(){var t=localStorage.getItem('daily-mirror-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);})();</script>
 <title>The Walking Stick — The Daily Mirror</title>
 <meta name="description" content="Which habit, principle, or value has helped shape your life—and have you quietly begun to neglect it simply because things are going well?">
 <link rel="canonical" href="https://sujeeth-talluri.github.io/Daily-Mirror/entry/day-02-the-walking-stick/">
@@ -11,7 +10,17 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%AA%9E%3C/text%3E%3C/svg%3E">
 <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
 <link rel="manifest" href="../../manifest.json">
-<meta name="theme-color" content="#876522">
+<meta name="theme-color" content="#F7F5F0" id="theme-color-meta">
+<!-- Applies a saved theme choice before first paint and syncs theme-color to
+     match — same pattern and same ordering requirement as index.html (the
+     meta tag above must exist in the DOM before this script runs). -->
+<script>(function(){
+  var saved = localStorage.getItem('daily-mirror-theme');
+  var dark = saved === 'dark' || (saved !== 'light' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  if (saved === 'light' || saved === 'dark') document.documentElement.setAttribute('data-theme', saved);
+  var meta = document.getElementById('theme-color-meta');
+  if (meta) meta.setAttribute('content', dark ? '#1A1815' : '#F7F5F0');
+})();</script>
 
 <meta property="og:title" content="The Walking Stick">
 <meta property="og:description" content="Which habit, principle, or value has helped shape your life—and have you quietly begun to neglect it simply because things are going well?">
@@ -47,14 +56,16 @@
     <a class="back-link" href="../../index.html">← All entries</a>
     <div class="entry-meta" id="page-meta">Day 2 · August 9, 2026</div>
     <h2 id="entry-title">The Walking Stick</h2>
-    <div class="entry-chips"><span class="tag">postponement</span></div>
+    <div class="entry-chips">POSTPONEMENT</div>
     
     <div class="entry-body"><p>An elderly man had climbed mountains all his life. Wherever he went, he carried the same walking stick. A young hiker once smiled and asked,</p><p>"After all these years, do you still need that old stick?"</p><p>The old man replied,</p><p>"It isn't for the easy paths. It's for the places where I think I don't need it."</p><p>The young man laughed. Months later, they met again. This time the young man had slipped badly during a hike. The old man helped him up and said,</p><p>"Most people aren't defeated on the difficult trails. They become careless on the familiar ones."</p><p>Life is much the same. When we're uncertain, we seek advice. When we're struggling, we're careful. When we're successful, experienced, or comfortable, we slowly stop depending on the habits that brought us there. The greatest risk is not the steep climb. It's believing we've climbed enough to stop paying attention.</p><p>Reflection</p></div>
     <p class="closing-question">Which habit, principle, or value has helped shape your life—and have you quietly begun to neglect it simply because things are going well?</p>
 
     <div class="entry-actions">
-      <a class="action-btn" href="../../index.html#/entry/day-02-the-walking-stick">Open in full site</a>
+      <a class="action-btn primary" href="mailto:suji056@gmail.com?subject=Re%3A%20%22The%20Walking%20Stick%22%20%E2%80%94%20The%20Daily%20Mirror&body=I%20read%20Day%202%2C%20%22The%20Walking%20Stick%22%2C%20and%20wanted%20to%20share%20a%20thought%3A%0A%0A">Reply to me</a>
+      <button type="button" class="action-btn" id="share-btn">Share reflection</button>
     </div>
+    <p style="margin-top: var(--space-4);"><a class="view-all-link" href="../../index.html#/entry/day-02-the-walking-stick">Open in the full site (search, related entries) →</a></p>
   </article>
 </main>
 
@@ -68,7 +79,10 @@
 
 <!-- no_onload: true, matching index.html — tracked manually below under the same
      virtual path the SPA uses, so this page's views (arrived at via share links,
-     RSS, or search) count toward the same total instead of going unrecorded. -->
+     RSS, or search) count toward the same total instead of going unrecorded.
+     Recorded but not displayed — same policy as the SPA (reader counts are
+     tracked for the site owner via the GoatCounter dashboard, not shown
+     publicly; see script.js's history for why). -->
 <script data-goatcounter="https://dailymirror.goatcounter.com/count" data-goatcounter-settings='{"no_onload": true}' async src="//gc.zgo.at/count.js"></script>
 <script>
 (function() {
@@ -81,20 +95,15 @@
     }
   }
   window.addEventListener('load', function() { setTimeout(track, 300); });
-
-  fetch('https://dailymirror.goatcounter.com/counter/' + encodeURIComponent(path) + '.json')
-    .then(function(r) { return r.ok ? r.json() : Promise.reject(); })
-    .then(function(data) {
-      var count = data.count_unique || data.count;
-      var el = document.getElementById('page-meta');
-      if (count && el) {
-        el.innerHTML += '<span class="dot">·</span>' + count + ' ' + (count == 1 ? 'reader' : 'readers');
-      }
-    })
-    .catch(function() { /* counter not enabled yet, or blocked by an ad-blocker */ });
 })();
 </script>
 <script src="../../theme-toggle.js"></script>
+<script src="../../share.js"></script>
+<script>
+document.getElementById('share-btn').addEventListener('click', function() {
+  window.DailyMirrorShare.open({"title": "The Walking Stick", "day": "2", "date": "2026-08-09", "hook": "Which habit, principle, or value has helped shape your life—and have you quietly begun to neglect it simply because things are going well?", "url": "https://sujeeth-talluri.github.io/Daily-Mirror/entry/day-02-the-walking-stick/", "storyImageUrl": "https://sujeeth-talluri.github.io/Daily-Mirror/stories/day-02-the-walking-stick.png"});
+});
+</script>
 
 </body>
 </html>

@@ -34,6 +34,17 @@ def parse_frontmatter(text):
     return fm, body.strip()
 
 
+def derive_excerpt(body, max_len=155):
+    """Last-resort hook when an entry has neither social_hook nor
+    closing_question — same simple approach build_pages.py's meta_description()
+    already used for OG descriptions, so there's one fallback formula, not two."""
+    text = re.sub(r"\s+", " ", body or "").strip()
+    if len(text) <= max_len:
+        return text
+    truncated = text[:max_len].rsplit(" ", 1)[0]
+    return truncated + "…"
+
+
 def main():
     entries = []
     for path in sorted(ENTRIES_DIR.glob("*.md")):
@@ -42,6 +53,16 @@ def main():
         if fm is None:
             print(f"Skipping {path.name} — no frontmatter found")
             continue
+
+        # Resolved once, here, so every consumer (OG meta, OG image, Story
+        # image, and the Share sheet's platform templates) reads the exact
+        # same value instead of recomputing their own — one fallback chain,
+        # not several that could quietly drift apart.
+        # social_hook is OPTIONAL and never required to publish: if it's
+        # missing, closing_question (already required by convention) covers
+        # it; if even that's missing, a plain excerpt does.
+        hook = fm.get("social_hook") or fm.get("closing_question") or derive_excerpt(body)
+
         entries.append({
             "date": fm.get("date", ""),
             "day": fm.get("day", ""),
@@ -50,6 +71,7 @@ def main():
             "themes": fm.get("themes", []),
             "closing_question": fm.get("closing_question", ""),
             "image": fm.get("image", ""),
+            "hook": hook,
             "body": body,
             "slug": path.stem,
         })

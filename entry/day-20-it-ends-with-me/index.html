@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script>(function(){var t=localStorage.getItem('daily-mirror-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);})();</script>
 <title>It Ends With Me. — The Daily Mirror</title>
 <meta name="description" content="Maybe the greatest legacy I leave my children is this... they never have to make the promise I once made as a little girl.">
 <link rel="canonical" href="https://sujeeth-talluri.github.io/Daily-Mirror/entry/day-20-it-ends-with-me/">
@@ -11,7 +10,17 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%AA%9E%3C/text%3E%3C/svg%3E">
 <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
 <link rel="manifest" href="../../manifest.json">
-<meta name="theme-color" content="#876522">
+<meta name="theme-color" content="#F7F5F0" id="theme-color-meta">
+<!-- Applies a saved theme choice before first paint and syncs theme-color to
+     match — same pattern and same ordering requirement as index.html (the
+     meta tag above must exist in the DOM before this script runs). -->
+<script>(function(){
+  var saved = localStorage.getItem('daily-mirror-theme');
+  var dark = saved === 'dark' || (saved !== 'light' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  if (saved === 'light' || saved === 'dark') document.documentElement.setAttribute('data-theme', saved);
+  var meta = document.getElementById('theme-color-meta');
+  if (meta) meta.setAttribute('content', dark ? '#1A1815' : '#F7F5F0');
+})();</script>
 
 <meta property="og:title" content="It Ends With Me.">
 <meta property="og:description" content="Maybe the greatest legacy I leave my children is this... they never have to make the promise I once made as a little girl.">
@@ -47,14 +56,16 @@
     <a class="back-link" href="../../index.html">← All entries</a>
     <div class="entry-meta" id="page-meta">Day 20 · August 9, 2026</div>
     <h2 id="entry-title">It Ends With Me.</h2>
-    <div class="entry-chips"><span class="tag">self-examination</span></div>
+    <div class="entry-chips">SELF-EXAMINATION</div>
     
-    <div class="entry-body"><p>As a little girl, she would often ask herself,</p><p>"Why does a family have to be like this?"</p><p>She grew up watching ego win over relationships.</p><p>People smiled in front of each other...</p><p>and spoke differently once they walked away. Arguments quickly became abusive. Nobody wanted to listen. Everyone wanted to win. As a little girl, she quietly made herself a promise.</p><p>"One day, when I have my own family... this is not how my home will be."</p><p>Years passed.</p><p>She got married.</p><p>Started a family.</p><p>She loved them deeply. Without even realizing it, some of the very things she hated as a child slowly became normal.</p><p>A harsh word.</p><p>A wounded ego.</p><p>The need to have the last word. Winning an argument instead of protecting the relationship. Then one evening, a disagreement with her husband became ugly. She lost her temper. Said things she never imagined she would say. She walked away and sat alone in the room.</p><p>For a long time...</p><p>there was only silence. Then, one by one, memories from her childhood came rushing back.</p><p>The shouting.</p><p>The hurt.</p><p>The tears.</p><p>The promise she had made to herself as a little girl. And suddenly she saw it. She wasn't just remembering her childhood anymore. She was beginning to repeat it.</p><p>She stood up.</p><p>Walked towards the bedroom. Her hand rested on the door for a few seconds. This was no longer about winning an argument. This was about deciding what kind of family her children would grow up in.</p><div class="mirror-marker">🪞 The Mirror...</div><p>One thing I've observed in life is this.</p><p>We naturally repeat what we repeatedly live around...</p><p>unless we intentionally choose otherwise. Every family passes something to the next generation. Some patterns deserve to be carried forward. Others deserve to end.</p><p>The question isn't,</p><p>"What kind of family did I grow up in?"</p><p>The question is,</p><p>"What kind of family will grow up because of me?"</p><p>Not every inheritance deserves another generation.</p></div>
+    <div class="entry-body"><p>As a little girl, she would often ask herself,</p><p>"Why does a family have to be like this?"</p><p>She grew up watching ego win over relationships.</p><p class="pause">People smiled in front of each other...</p><p>and spoke differently once they walked away. Arguments quickly became abusive. Nobody wanted to listen. Everyone wanted to win. As a little girl, she quietly made herself a promise.</p><p class="sequence">"One day, when I have my own family... this is not how my home will be."<br>Years passed.<br>She got married.<br>Started a family.</p><p>She loved them deeply. Without even realizing it, some of the very things she hated as a child slowly became normal.</p><p class="sequence">A harsh word.<br>A wounded ego.</p><p>The need to have the last word. Winning an argument instead of protecting the relationship. Then one evening, a disagreement with her husband became ugly. She lost her temper. Said things she never imagined she would say. She walked away and sat alone in the room.</p><p class="pause">For a long time...</p><p>there was only silence. Then, one by one, memories from her childhood came rushing back.</p><p class="sequence">The shouting.<br>The hurt.<br>The tears.</p><p>The promise she had made to herself as a little girl. And suddenly she saw it. She wasn't just remembering her childhood anymore. She was beginning to repeat it.</p><p>She stood up.</p><p>Walked towards the bedroom. Her hand rested on the door for a few seconds. This was no longer about winning an argument. This was about deciding what kind of family her children would grow up in.</p><div class="mirror-marker">🪞 The Mirror...</div><p>One thing I've observed in life is this.</p><p class="pause">We naturally repeat what we repeatedly live around...</p><p>unless we intentionally choose otherwise. Every family passes something to the next generation. Some patterns deserve to be carried forward. Others deserve to end.</p><p class="sequence">The question isn't,<br>"What kind of family did I grow up in?"<br>The question is,<br>"What kind of family will grow up because of me?"</p><p>Not every inheritance deserves another generation.</p></div>
     <p class="closing-question">Maybe the greatest legacy I leave my children is this... they never have to make the promise I once made as a little girl.</p>
 
     <div class="entry-actions">
-      <a class="action-btn" href="../../index.html#/entry/day-20-it-ends-with-me">Open in full site</a>
+      <a class="action-btn primary" href="mailto:suji056@gmail.com?subject=Re%3A%20%22It%20Ends%20With%20Me.%22%20%E2%80%94%20The%20Daily%20Mirror&body=I%20read%20Day%2020%2C%20%22It%20Ends%20With%20Me.%22%2C%20and%20wanted%20to%20share%20a%20thought%3A%0A%0A">Reply to me</a>
+      <button type="button" class="action-btn" id="share-btn">Share reflection</button>
     </div>
+    <p style="margin-top: var(--space-4);"><a class="view-all-link" href="../../index.html#/entry/day-20-it-ends-with-me">Open in the full site (search, related entries) →</a></p>
   </article>
 </main>
 
@@ -68,7 +79,10 @@
 
 <!-- no_onload: true, matching index.html — tracked manually below under the same
      virtual path the SPA uses, so this page's views (arrived at via share links,
-     RSS, or search) count toward the same total instead of going unrecorded. -->
+     RSS, or search) count toward the same total instead of going unrecorded.
+     Recorded but not displayed — same policy as the SPA (reader counts are
+     tracked for the site owner via the GoatCounter dashboard, not shown
+     publicly; see script.js's history for why). -->
 <script data-goatcounter="https://dailymirror.goatcounter.com/count" data-goatcounter-settings='{"no_onload": true}' async src="//gc.zgo.at/count.js"></script>
 <script>
 (function() {
@@ -81,20 +95,15 @@
     }
   }
   window.addEventListener('load', function() { setTimeout(track, 300); });
-
-  fetch('https://dailymirror.goatcounter.com/counter/' + encodeURIComponent(path) + '.json')
-    .then(function(r) { return r.ok ? r.json() : Promise.reject(); })
-    .then(function(data) {
-      var count = data.count_unique || data.count;
-      var el = document.getElementById('page-meta');
-      if (count && el) {
-        el.innerHTML += '<span class="dot">·</span>' + count + ' ' + (count == 1 ? 'reader' : 'readers');
-      }
-    })
-    .catch(function() { /* counter not enabled yet, or blocked by an ad-blocker */ });
 })();
 </script>
 <script src="../../theme-toggle.js"></script>
+<script src="../../share.js"></script>
+<script>
+document.getElementById('share-btn').addEventListener('click', function() {
+  window.DailyMirrorShare.open({"title": "It Ends With Me.", "day": "20", "date": "2026-08-09", "hook": "Maybe the greatest legacy I leave my children is this... they never have to make the promise I once made as a little girl.", "url": "https://sujeeth-talluri.github.io/Daily-Mirror/entry/day-20-it-ends-with-me/", "storyImageUrl": "https://sujeeth-talluri.github.io/Daily-Mirror/stories/day-20-it-ends-with-me.png"});
+});
+</script>
 
 </body>
 </html>

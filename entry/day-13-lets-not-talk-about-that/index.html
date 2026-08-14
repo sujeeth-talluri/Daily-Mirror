@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script>(function(){var t=localStorage.getItem('daily-mirror-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);})();</script>
 <title>Let's Not Talk About That. — The Daily Mirror</title>
 <meta name="description" content="Who am I today?">
 <link rel="canonical" href="https://sujeeth-talluri.github.io/Daily-Mirror/entry/day-13-lets-not-talk-about-that/">
@@ -11,7 +10,17 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%AA%9E%3C/text%3E%3C/svg%3E">
 <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
 <link rel="manifest" href="../../manifest.json">
-<meta name="theme-color" content="#876522">
+<meta name="theme-color" content="#F7F5F0" id="theme-color-meta">
+<!-- Applies a saved theme choice before first paint and syncs theme-color to
+     match — same pattern and same ordering requirement as index.html (the
+     meta tag above must exist in the DOM before this script runs). -->
+<script>(function(){
+  var saved = localStorage.getItem('daily-mirror-theme');
+  var dark = saved === 'dark' || (saved !== 'light' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  if (saved === 'light' || saved === 'dark') document.documentElement.setAttribute('data-theme', saved);
+  var meta = document.getElementById('theme-color-meta');
+  if (meta) meta.setAttribute('content', dark ? '#1A1815' : '#F7F5F0');
+})();</script>
 
 <meta property="og:title" content="Let's Not Talk About That.">
 <meta property="og:description" content="Who am I today?">
@@ -47,14 +56,16 @@
     <a class="back-link" href="../../index.html">← All entries</a>
     <div class="entry-meta" id="page-meta">Day 13 · August 9, 2026</div>
     <h2 id="entry-title">Let's Not Talk About That.</h2>
-    <div class="entry-chips"><span class="tag">postponement</span></div>
+    <div class="entry-chips">POSTPONEMENT</div>
     
-    <div class="entry-body"><p>She was the kind of friend everyone admired. If she made a mistake, she'd always say,</p><p>"Tell me honestly... what could I have done better?"</p><p>She listened.</p><p>She learned.</p><p>She grew.</p><p>Years passed.</p><p>Life was going well. She was doing well at work.</p><p>Slowly, something changed.</p><p>She still enjoyed appreciation. But correction became harder to hear. One evening, her closest friend said,</p><p>"There's something I've been wanting to tell you. I'm worried about where you're heading."</p><p>She smiled.</p><p>"Please... let's not talk about that."</p><p>The conversation ended.</p><p>Months later, the very thing her friend wanted to warn her about had become a painful reality.</p><p>Looking back, she realized...</p><p>Her life didn't begin to change when things fell apart. It began the day she stopped welcoming the truth.</p><div class="mirror-marker">🪞 The Mirror...</div><p>Today, I could be either person. Maybe I'm the friend who has been avoiding a difficult conversation because I don't want to hurt someone I care about. Or maybe I'm the one who keeps saying,</p><p>"Let's not talk about that."</p><p>Real friendships need both. One person with the courage to lovingly speak the truth. Another with the humility to receive it.</p></div>
+    <div class="entry-body"><p>She was the kind of friend everyone admired. If she made a mistake, she'd always say,</p><p class="sequence">"Tell me honestly... what could I have done better?"<br>She listened.<br>She learned.<br>She grew.<br>Years passed.</p><p>Life was going well. She was doing well at work.</p><p>Slowly, something changed.</p><p>She still enjoyed appreciation. But correction became harder to hear. One evening, her closest friend said,</p><p class="sequence">"There's something I've been wanting to tell you. I'm worried about where you're heading."<br>She smiled.<br>"Please... let's not talk about that."<br>The conversation ended.</p><p>Months later, the very thing her friend wanted to warn her about had become a painful reality.</p><p class="pause">Looking back, she realized...</p><p>Her life didn't begin to change when things fell apart. It began the day she stopped welcoming the truth.</p><div class="mirror-marker">🪞 The Mirror...</div><p>Today, I could be either person. Maybe I'm the friend who has been avoiding a difficult conversation because I don't want to hurt someone I care about. Or maybe I'm the one who keeps saying,</p><p>"Let's not talk about that."</p><p>Real friendships need both. One person with the courage to lovingly speak the truth. Another with the humility to receive it.</p></div>
     <p class="closing-question">Who am I today?</p>
 
     <div class="entry-actions">
-      <a class="action-btn" href="../../index.html#/entry/day-13-lets-not-talk-about-that">Open in full site</a>
+      <a class="action-btn primary" href="mailto:suji056@gmail.com?subject=Re%3A%20%22Let%27s%20Not%20Talk%20About%20That.%22%20%E2%80%94%20The%20Daily%20Mirror&body=I%20read%20Day%2013%2C%20%22Let%27s%20Not%20Talk%20About%20That.%22%2C%20and%20wanted%20to%20share%20a%20thought%3A%0A%0A">Reply to me</a>
+      <button type="button" class="action-btn" id="share-btn">Share reflection</button>
     </div>
+    <p style="margin-top: var(--space-4);"><a class="view-all-link" href="../../index.html#/entry/day-13-lets-not-talk-about-that">Open in the full site (search, related entries) →</a></p>
   </article>
 </main>
 
@@ -68,7 +79,10 @@
 
 <!-- no_onload: true, matching index.html — tracked manually below under the same
      virtual path the SPA uses, so this page's views (arrived at via share links,
-     RSS, or search) count toward the same total instead of going unrecorded. -->
+     RSS, or search) count toward the same total instead of going unrecorded.
+     Recorded but not displayed — same policy as the SPA (reader counts are
+     tracked for the site owner via the GoatCounter dashboard, not shown
+     publicly; see script.js's history for why). -->
 <script data-goatcounter="https://dailymirror.goatcounter.com/count" data-goatcounter-settings='{"no_onload": true}' async src="//gc.zgo.at/count.js"></script>
 <script>
 (function() {
@@ -81,20 +95,15 @@
     }
   }
   window.addEventListener('load', function() { setTimeout(track, 300); });
-
-  fetch('https://dailymirror.goatcounter.com/counter/' + encodeURIComponent(path) + '.json')
-    .then(function(r) { return r.ok ? r.json() : Promise.reject(); })
-    .then(function(data) {
-      var count = data.count_unique || data.count;
-      var el = document.getElementById('page-meta');
-      if (count && el) {
-        el.innerHTML += '<span class="dot">·</span>' + count + ' ' + (count == 1 ? 'reader' : 'readers');
-      }
-    })
-    .catch(function() { /* counter not enabled yet, or blocked by an ad-blocker */ });
 })();
 </script>
 <script src="../../theme-toggle.js"></script>
+<script src="../../share.js"></script>
+<script>
+document.getElementById('share-btn').addEventListener('click', function() {
+  window.DailyMirrorShare.open({"title": "Let's Not Talk About That.", "day": "13", "date": "2026-08-09", "hook": "Who am I today?", "url": "https://sujeeth-talluri.github.io/Daily-Mirror/entry/day-13-lets-not-talk-about-that/", "storyImageUrl": "https://sujeeth-talluri.github.io/Daily-Mirror/stories/day-13-lets-not-talk-about-that.png"});
+});
+</script>
 
 </body>
 </html>

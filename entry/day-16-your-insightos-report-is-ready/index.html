@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script>(function(){var t=localStorage.getItem('daily-mirror-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);})();</script>
 <title>Your InsightOS Report Is Ready. — The Daily Mirror</title>
 <meta name="description" content="Or the one only I know?">
 <link rel="canonical" href="https://sujeeth-talluri.github.io/Daily-Mirror/entry/day-16-your-insightos-report-is-ready/">
@@ -11,7 +10,17 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%AA%9E%3C/text%3E%3C/svg%3E">
 <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
 <link rel="manifest" href="../../manifest.json">
-<meta name="theme-color" content="#876522">
+<meta name="theme-color" content="#F7F5F0" id="theme-color-meta">
+<!-- Applies a saved theme choice before first paint and syncs theme-color to
+     match — same pattern and same ordering requirement as index.html (the
+     meta tag above must exist in the DOM before this script runs). -->
+<script>(function(){
+  var saved = localStorage.getItem('daily-mirror-theme');
+  var dark = saved === 'dark' || (saved !== 'light' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  if (saved === 'light' || saved === 'dark') document.documentElement.setAttribute('data-theme', saved);
+  var meta = document.getElementById('theme-color-meta');
+  if (meta) meta.setAttribute('content', dark ? '#1A1815' : '#F7F5F0');
+})();</script>
 
 <meta property="og:title" content="Your InsightOS Report Is Ready.">
 <meta property="og:description" content="Or the one only I know?">
@@ -47,14 +56,16 @@
     <a class="back-link" href="../../index.html">← All entries</a>
     <div class="entry-meta" id="page-meta">Day 16 · August 9, 2026</div>
     <h2 id="entry-title">Your InsightOS Report Is Ready.</h2>
-    <div class="entry-chips"><span class="tag">comparison</span><span class="tag">hidden-intentions</span></div>
+    <div class="entry-chips">COMPARISON · HIDDEN INTENTIONS</div>
     
-    <div class="entry-body"><p>Technology is evolving faster than ever. For generations, we walked without knowing how many steps we had taken. Today, a watch tells us exactly how many. We slept every night, but never knew the quality of our sleep. Today, a smart ring gives us a detailed report. Our bodies always carried blood sugar, thyroid levels, vitamins and hundreds of other health markers. We never knew those numbers until diagnostic reports made the invisible visible. We searched thousands of things on the internet without leaving much thought behind. Today, our browser history quietly reveals what keeps capturing our attention. We always had our own way of speaking and writing. Today, AI can understand our style and even write like us.</p><p>It made me stop and think...</p><p>Technology keeps revealing things that were always there but hidden. What if one day it reached the human heart? Imagine a breakthrough called InsightOS. At the end of every day, it generates one report. Not just what you said. Not just what you did. But what you intended. Then it compares the two.</p><p>InsightOS Report</p><p>Alignment Score: 51%</p><p>49% of today's actions did not match your true intentions.</p><p>No explanation.</p><p>No opinion.</p><p>Just the report.</p><div class="mirror-marker">🪞 The Mirror...</div><p>I wonder what my InsightOS report would look like. Would my intentions tell the same story as my words and actions? Or have I become so good at managing my outward image that I've stopped paying attention to my inward life?</p><p>If my InsightOS report became visible today...</p><p>Would I still recognize myself?</p><p>And if there was a gap...</p><p>Which version needs to change?</p><p>The one the world sees...</p></div>
+    <div class="entry-body"><p>Technology is evolving faster than ever. For generations, we walked without knowing how many steps we had taken. Today, a watch tells us exactly how many. We slept every night, but never knew the quality of our sleep. Today, a smart ring gives us a detailed report. Our bodies always carried blood sugar, thyroid levels, vitamins and hundreds of other health markers. We never knew those numbers until diagnostic reports made the invisible visible. We searched thousands of things on the internet without leaving much thought behind. Today, our browser history quietly reveals what keeps capturing our attention. We always had our own way of speaking and writing. Today, AI can understand our style and even write like us.</p><p class="pause">It made me stop and think...</p><p>Technology keeps revealing things that were always there but hidden. What if one day it reached the human heart? Imagine a breakthrough called InsightOS. At the end of every day, it generates one report. Not just what you said. Not just what you did. But what you intended. Then it compares the two.</p><p class="sequence">InsightOS Report<br>Alignment Score: 51%</p><p>49% of today's actions did not match your true intentions.</p><p class="sequence">No explanation.<br>No opinion.<br>Just the report.</p><div class="mirror-marker">🪞 The Mirror...</div><p>I wonder what my InsightOS report would look like. Would my intentions tell the same story as my words and actions? Or have I become so good at managing my outward image that I've stopped paying attention to my inward life?</p><p class="pause sequence">If my InsightOS report became visible today...<br>Would I still recognize myself?</p><p class="pause sequence">And if there was a gap...<br>Which version needs to change?</p><p class="pause">The one the world sees...</p></div>
     <p class="closing-question">Or the one only I know?</p>
 
     <div class="entry-actions">
-      <a class="action-btn" href="../../index.html#/entry/day-16-your-insightos-report-is-ready">Open in full site</a>
+      <a class="action-btn primary" href="mailto:suji056@gmail.com?subject=Re%3A%20%22Your%20InsightOS%20Report%20Is%20Ready.%22%20%E2%80%94%20The%20Daily%20Mirror&body=I%20read%20Day%2016%2C%20%22Your%20InsightOS%20Report%20Is%20Ready.%22%2C%20and%20wanted%20to%20share%20a%20thought%3A%0A%0A">Reply to me</a>
+      <button type="button" class="action-btn" id="share-btn">Share reflection</button>
     </div>
+    <p style="margin-top: var(--space-4);"><a class="view-all-link" href="../../index.html#/entry/day-16-your-insightos-report-is-ready">Open in the full site (search, related entries) →</a></p>
   </article>
 </main>
 
@@ -68,7 +79,10 @@
 
 <!-- no_onload: true, matching index.html — tracked manually below under the same
      virtual path the SPA uses, so this page's views (arrived at via share links,
-     RSS, or search) count toward the same total instead of going unrecorded. -->
+     RSS, or search) count toward the same total instead of going unrecorded.
+     Recorded but not displayed — same policy as the SPA (reader counts are
+     tracked for the site owner via the GoatCounter dashboard, not shown
+     publicly; see script.js's history for why). -->
 <script data-goatcounter="https://dailymirror.goatcounter.com/count" data-goatcounter-settings='{"no_onload": true}' async src="//gc.zgo.at/count.js"></script>
 <script>
 (function() {
@@ -81,20 +95,15 @@
     }
   }
   window.addEventListener('load', function() { setTimeout(track, 300); });
-
-  fetch('https://dailymirror.goatcounter.com/counter/' + encodeURIComponent(path) + '.json')
-    .then(function(r) { return r.ok ? r.json() : Promise.reject(); })
-    .then(function(data) {
-      var count = data.count_unique || data.count;
-      var el = document.getElementById('page-meta');
-      if (count && el) {
-        el.innerHTML += '<span class="dot">·</span>' + count + ' ' + (count == 1 ? 'reader' : 'readers');
-      }
-    })
-    .catch(function() { /* counter not enabled yet, or blocked by an ad-blocker */ });
 })();
 </script>
 <script src="../../theme-toggle.js"></script>
+<script src="../../share.js"></script>
+<script>
+document.getElementById('share-btn').addEventListener('click', function() {
+  window.DailyMirrorShare.open({"title": "Your InsightOS Report Is Ready.", "day": "16", "date": "2026-08-09", "hook": "Or the one only I know?", "url": "https://sujeeth-talluri.github.io/Daily-Mirror/entry/day-16-your-insightos-report-is-ready/", "storyImageUrl": "https://sujeeth-talluri.github.io/Daily-Mirror/stories/day-16-your-insightos-report-is-ready.png"});
+});
+</script>
 
 </body>
 </html>

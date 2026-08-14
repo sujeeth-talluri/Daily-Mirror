@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script>(function(){var t=localStorage.getItem('daily-mirror-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);})();</script>
 <title>The Patient Who Forgot the Doctor — The Daily Mirror</title>
 <meta name="description" content="Do I remember the One who carried me through my difficult days... only until life becomes easy again?">
 <link rel="canonical" href="https://sujeeth-talluri.github.io/Daily-Mirror/entry/day-32-the-patient-who-forgot-the-doctor/">
@@ -11,7 +10,17 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%AA%9E%3C/text%3E%3C/svg%3E">
 <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
 <link rel="manifest" href="../../manifest.json">
-<meta name="theme-color" content="#876522">
+<meta name="theme-color" content="#F7F5F0" id="theme-color-meta">
+<!-- Applies a saved theme choice before first paint and syncs theme-color to
+     match — same pattern and same ordering requirement as index.html (the
+     meta tag above must exist in the DOM before this script runs). -->
+<script>(function(){
+  var saved = localStorage.getItem('daily-mirror-theme');
+  var dark = saved === 'dark' || (saved !== 'light' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  if (saved === 'light' || saved === 'dark') document.documentElement.setAttribute('data-theme', saved);
+  var meta = document.getElementById('theme-color-meta');
+  if (meta) meta.setAttribute('content', dark ? '#1A1815' : '#F7F5F0');
+})();</script>
 
 <meta property="og:title" content="The Patient Who Forgot the Doctor">
 <meta property="og:description" content="Do I remember the One who carried me through my difficult days... only until life becomes easy again?">
@@ -47,14 +56,16 @@
     <a class="back-link" href="../../index.html">← All entries</a>
     <div class="entry-meta" id="page-meta">Day 32 · August 9, 2026</div>
     <h2 id="entry-title">The Patient Who Forgot the Doctor</h2>
-    <div class="entry-chips"><span class="tag">self-examination</span></div>
+    <div class="entry-chips">SELF-EXAMINATION</div>
     
-    <div class="entry-body"><p>A young man met with a terrible accident. For weeks, he couldn't even sit up by himself. His family stayed beside him day and night. Every morning, his doctor came to see him. Not because he was paid extra. But because he genuinely cared.</p><p>He encouraged him.</p><p>Corrected him when he ignored instructions. And every time he left, he would smile and say,</p><p>"Don't give up. You'll walk again."</p><p>Slowly...</p><p>he did.</p><p>The day he finally walked out of the hospital, his family couldn't stop smiling. Life slowly returned to normal. He went back to work.</p><p>Met friends.</p><p>Started travelling again.</p><p>The difficult days became a memory.</p><p>Months passed.</p><p>One evening, his mother casually asked,</p><p>"Have you gone to meet the doctor recently?"</p><p>He looked surprised.</p><p>"No... but why?"</p><p>She smiled and quietly said,</p><p>"When you couldn't walk, you couldn't stop talking about him."</p><p>"Now that you can..."</p><p>"...you don't seem to have time for him."</p><div class="mirror-marker">🪞 Mirror</div><p>Makes me think.</p></div>
+    <div class="entry-body"><p>A young man met with a terrible accident. For weeks, he couldn't even sit up by himself. His family stayed beside him day and night. Every morning, his doctor came to see him. Not because he was paid extra. But because he genuinely cared.</p><p>He encouraged him.</p><p>Corrected him when he ignored instructions. And every time he left, he would smile and say,</p><p class="pause sequence">"Don't give up. You'll walk again."<br>Slowly...<br>he did.</p><p>The day he finally walked out of the hospital, his family couldn't stop smiling. Life slowly returned to normal. He went back to work.</p><p class="sequence">Met friends.<br>Started travelling again.</p><p>The difficult days became a memory.</p><p>Months passed.</p><p>One evening, his mother casually asked,</p><p class="sequence">"Have you gone to meet the doctor recently?"<br>He looked surprised.<br>"No... but why?"</p><p>She smiled and quietly said,</p><p class="sequence">"When you couldn't walk, you couldn't stop talking about him."<br>"Now that you can..."<br>"...you don't seem to have time for him."</p><div class="mirror-marker">🪞 Mirror</div><p>Makes me think.</p></div>
     <p class="closing-question">Do I remember the One who carried me through my difficult days... only until life becomes easy again?</p>
 
     <div class="entry-actions">
-      <a class="action-btn" href="../../index.html#/entry/day-32-the-patient-who-forgot-the-doctor">Open in full site</a>
+      <a class="action-btn primary" href="mailto:suji056@gmail.com?subject=Re%3A%20%22The%20Patient%20Who%20Forgot%20the%20Doctor%22%20%E2%80%94%20The%20Daily%20Mirror&body=I%20read%20Day%2032%2C%20%22The%20Patient%20Who%20Forgot%20the%20Doctor%22%2C%20and%20wanted%20to%20share%20a%20thought%3A%0A%0A">Reply to me</a>
+      <button type="button" class="action-btn" id="share-btn">Share reflection</button>
     </div>
+    <p style="margin-top: var(--space-4);"><a class="view-all-link" href="../../index.html#/entry/day-32-the-patient-who-forgot-the-doctor">Open in the full site (search, related entries) →</a></p>
   </article>
 </main>
 
@@ -68,7 +79,10 @@
 
 <!-- no_onload: true, matching index.html — tracked manually below under the same
      virtual path the SPA uses, so this page's views (arrived at via share links,
-     RSS, or search) count toward the same total instead of going unrecorded. -->
+     RSS, or search) count toward the same total instead of going unrecorded.
+     Recorded but not displayed — same policy as the SPA (reader counts are
+     tracked for the site owner via the GoatCounter dashboard, not shown
+     publicly; see script.js's history for why). -->
 <script data-goatcounter="https://dailymirror.goatcounter.com/count" data-goatcounter-settings='{"no_onload": true}' async src="//gc.zgo.at/count.js"></script>
 <script>
 (function() {
@@ -81,20 +95,15 @@
     }
   }
   window.addEventListener('load', function() { setTimeout(track, 300); });
-
-  fetch('https://dailymirror.goatcounter.com/counter/' + encodeURIComponent(path) + '.json')
-    .then(function(r) { return r.ok ? r.json() : Promise.reject(); })
-    .then(function(data) {
-      var count = data.count_unique || data.count;
-      var el = document.getElementById('page-meta');
-      if (count && el) {
-        el.innerHTML += '<span class="dot">·</span>' + count + ' ' + (count == 1 ? 'reader' : 'readers');
-      }
-    })
-    .catch(function() { /* counter not enabled yet, or blocked by an ad-blocker */ });
 })();
 </script>
 <script src="../../theme-toggle.js"></script>
+<script src="../../share.js"></script>
+<script>
+document.getElementById('share-btn').addEventListener('click', function() {
+  window.DailyMirrorShare.open({"title": "The Patient Who Forgot the Doctor", "day": "32", "date": "2026-08-09", "hook": "Do I remember the One who carried me through my difficult days... only until life becomes easy again?", "url": "https://sujeeth-talluri.github.io/Daily-Mirror/entry/day-32-the-patient-who-forgot-the-doctor/", "storyImageUrl": "https://sujeeth-talluri.github.io/Daily-Mirror/stories/day-32-the-patient-who-forgot-the-doctor.png"});
+});
+</script>
 
 </body>
 </html>

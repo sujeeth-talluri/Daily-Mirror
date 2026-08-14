@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script>(function(){var t=localStorage.getItem('daily-mirror-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);})();</script>
 <title>Three Friends at a Crossroads — The Daily Mirror</title>
 <meta name="description" content="Which voice have I given permission to guide me?">
 <link rel="canonical" href="https://sujeeth-talluri.github.io/Daily-Mirror/entry/day-01-three-friends-at-a-crossroads/">
@@ -11,7 +10,17 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%AA%9E%3C/text%3E%3C/svg%3E">
 <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
 <link rel="manifest" href="../../manifest.json">
-<meta name="theme-color" content="#876522">
+<meta name="theme-color" content="#F7F5F0" id="theme-color-meta">
+<!-- Applies a saved theme choice before first paint and syncs theme-color to
+     match — same pattern and same ordering requirement as index.html (the
+     meta tag above must exist in the DOM before this script runs). -->
+<script>(function(){
+  var saved = localStorage.getItem('daily-mirror-theme');
+  var dark = saved === 'dark' || (saved !== 'light' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  if (saved === 'light' || saved === 'dark') document.documentElement.setAttribute('data-theme', saved);
+  var meta = document.getElementById('theme-color-meta');
+  if (meta) meta.setAttribute('content', dark ? '#1A1815' : '#F7F5F0');
+})();</script>
 
 <meta property="og:title" content="Three Friends at a Crossroads">
 <meta property="og:description" content="Which voice have I given permission to guide me?">
@@ -47,14 +56,16 @@
     <a class="back-link" href="../../index.html">← All entries</a>
     <div class="entry-meta" id="page-meta">Day 1 · August 9, 2026</div>
     <h2 id="entry-title">Three Friends at a Crossroads</h2>
-    <div class="entry-chips"><span class="tag">fear</span><span class="tag">false-security</span><span class="tag">milestone-vs-journey</span><span class="tag">postponement</span></div>
+    <div class="entry-chips">FEAR · FALSE SECURITY · MILESTONE VS JOURNEY · POSTPONEMENT</div>
     
-    <div class="entry-body"><p>Three friends arrived at a fork in the road. The first looked around and saw a large crowd taking the left path.</p><p>"So many people can't be wrong," he thought.</p><p>Without much thought, he joined them. Years later, he realized that most of the crowd had simply been following one another. The second friend stood still. He asked one person for advice.</p><p>Then another.</p><p>Then another.</p><p>Every person gave a different answer. Afraid of making the wrong choice, he spent so much time listening that he never really moved forward. The third friend carried a map that had guided him well for years. Halfway through his journey, an older traveler stopped him.</p><p>"That map is old," he said. "I know a better route."</p><p>The advice sounded reasonable. The traveler seemed experienced. So he folded the map and followed him. The road was pleasant at first. But it slowly took him further and further away from where he wanted to go.</p><p>Now tell me.</p><p>Which friend made the biggest mistake? The one who followed the crowd? The one who listened to everyone? Or the one who abandoned the map? Perhaps all three made the same mistake. They trusted every voice except the one that should have guided them.</p><p>Reflection</p><p>Every day we stand at our own crossroads. Some voices appeal to popularity. Some appeal to fear. Some appeal to comfort. Some simply tell us what we want to hear. The direction of our life is often determined by a simple question:</p></div>
+    <div class="entry-body"><p>Three friends arrived at a fork in the road. The first looked around and saw a large crowd taking the left path.</p><p>"So many people can't be wrong," he thought.</p><p>Without much thought, he joined them. Years later, he realized that most of the crowd had simply been following one another. The second friend stood still. He asked one person for advice.</p><p class="sequence">Then another.<br>Then another.</p><p>Every person gave a different answer. Afraid of making the wrong choice, he spent so much time listening that he never really moved forward. The third friend carried a map that had guided him well for years. Halfway through his journey, an older traveler stopped him.</p><p>"That map is old," he said. "I know a better route."</p><p>The advice sounded reasonable. The traveler seemed experienced. So he folded the map and followed him. The road was pleasant at first. But it slowly took him further and further away from where he wanted to go.</p><p>Now tell me.</p><p>Which friend made the biggest mistake? The one who followed the crowd? The one who listened to everyone? Or the one who abandoned the map? Perhaps all three made the same mistake. They trusted every voice except the one that should have guided them.</p><p>Reflection</p><p>Every day we stand at our own crossroads. Some voices appeal to popularity. Some appeal to fear. Some appeal to comfort. Some simply tell us what we want to hear. The direction of our life is often determined by a simple question:</p></div>
     <p class="closing-question">Which voice have I given permission to guide me?</p>
 
     <div class="entry-actions">
-      <a class="action-btn" href="../../index.html#/entry/day-01-three-friends-at-a-crossroads">Open in full site</a>
+      <a class="action-btn primary" href="mailto:suji056@gmail.com?subject=Re%3A%20%22Three%20Friends%20at%20a%20Crossroads%22%20%E2%80%94%20The%20Daily%20Mirror&body=I%20read%20Day%201%2C%20%22Three%20Friends%20at%20a%20Crossroads%22%2C%20and%20wanted%20to%20share%20a%20thought%3A%0A%0A">Reply to me</a>
+      <button type="button" class="action-btn" id="share-btn">Share reflection</button>
     </div>
+    <p style="margin-top: var(--space-4);"><a class="view-all-link" href="../../index.html#/entry/day-01-three-friends-at-a-crossroads">Open in the full site (search, related entries) →</a></p>
   </article>
 </main>
 
@@ -68,7 +79,10 @@
 
 <!-- no_onload: true, matching index.html — tracked manually below under the same
      virtual path the SPA uses, so this page's views (arrived at via share links,
-     RSS, or search) count toward the same total instead of going unrecorded. -->
+     RSS, or search) count toward the same total instead of going unrecorded.
+     Recorded but not displayed — same policy as the SPA (reader counts are
+     tracked for the site owner via the GoatCounter dashboard, not shown
+     publicly; see script.js's history for why). -->
 <script data-goatcounter="https://dailymirror.goatcounter.com/count" data-goatcounter-settings='{"no_onload": true}' async src="//gc.zgo.at/count.js"></script>
 <script>
 (function() {
@@ -81,20 +95,15 @@
     }
   }
   window.addEventListener('load', function() { setTimeout(track, 300); });
-
-  fetch('https://dailymirror.goatcounter.com/counter/' + encodeURIComponent(path) + '.json')
-    .then(function(r) { return r.ok ? r.json() : Promise.reject(); })
-    .then(function(data) {
-      var count = data.count_unique || data.count;
-      var el = document.getElementById('page-meta');
-      if (count && el) {
-        el.innerHTML += '<span class="dot">·</span>' + count + ' ' + (count == 1 ? 'reader' : 'readers');
-      }
-    })
-    .catch(function() { /* counter not enabled yet, or blocked by an ad-blocker */ });
 })();
 </script>
 <script src="../../theme-toggle.js"></script>
+<script src="../../share.js"></script>
+<script>
+document.getElementById('share-btn').addEventListener('click', function() {
+  window.DailyMirrorShare.open({"title": "Three Friends at a Crossroads", "day": "1", "date": "2026-08-09", "hook": "Which voice have I given permission to guide me?", "url": "https://sujeeth-talluri.github.io/Daily-Mirror/entry/day-01-three-friends-at-a-crossroads/", "storyImageUrl": "https://sujeeth-talluri.github.io/Daily-Mirror/stories/day-01-three-friends-at-a-crossroads.png"});
+});
+</script>
 
 </body>
 </html>

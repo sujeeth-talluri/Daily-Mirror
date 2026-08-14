@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script>(function(){var t=localStorage.getItem('daily-mirror-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);})();</script>
 <title>When Did You Stop Making Pictures? — The Daily Mirror</title>
 <meta name="description" content="Am I still making new memories with the people I love... or am I only living on the ones we made long ago?">
 <link rel="canonical" href="https://sujeeth-talluri.github.io/Daily-Mirror/entry/day-27-when-did-you-stop-making-pictures/">
@@ -11,7 +10,17 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%AA%9E%3C/text%3E%3C/svg%3E">
 <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
 <link rel="manifest" href="../../manifest.json">
-<meta name="theme-color" content="#876522">
+<meta name="theme-color" content="#F7F5F0" id="theme-color-meta">
+<!-- Applies a saved theme choice before first paint and syncs theme-color to
+     match — same pattern and same ordering requirement as index.html (the
+     meta tag above must exist in the DOM before this script runs). -->
+<script>(function(){
+  var saved = localStorage.getItem('daily-mirror-theme');
+  var dark = saved === 'dark' || (saved !== 'light' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  if (saved === 'light' || saved === 'dark') document.documentElement.setAttribute('data-theme', saved);
+  var meta = document.getElementById('theme-color-meta');
+  if (meta) meta.setAttribute('content', dark ? '#1A1815' : '#F7F5F0');
+})();</script>
 
 <meta property="og:title" content="When Did You Stop Making Pictures?">
 <meta property="og:description" content="Am I still making new memories with the people I love... or am I only living on the ones we made long ago?">
@@ -47,14 +56,16 @@
     <a class="back-link" href="../../index.html">← All entries</a>
     <div class="entry-meta" id="page-meta">Day 27 · August 9, 2026</div>
     <h2 id="entry-title">When Did You Stop Making Pictures?</h2>
-    <div class="entry-chips"><span class="tag">distraction</span><span class="tag">postponement</span></div>
+    <div class="entry-chips">DISTRACTION · POSTPONEMENT</div>
     
-    <div class="entry-body"><p>Every evening, a husband and wife sat down for dinner together. The TV was on. He looked at his phone. She looked at hers. Their little daughter quietly got down from her chair and walked into the bedroom. A minute later, she came back carrying a thick photo album. She placed it on the dining table.</p><p>"Dad..."</p><p>She pointed to the first picture.</p><p>"Were you nervous here?"</p><p>He smiled.</p><p>"I was terrified."</p><p>Her mother laughed.</p><p>"He forgot his ring."</p><p>"No, I didn't."</p><p>"You did."</p><p>"I didn't forget it... I dropped it."</p><p>They both laughed.</p><p>She turned another page.</p><p>"Where was this?"</p><p>"Our first trip after we got married."</p><p>"And this?"</p><p>"Our first rented house."</p><p>"The one with the leaking roof?"</p><p>"Yes."</p><p>"And the pressure cooker that exploded!"</p><p>The three of them laughed.</p><p>Page after page...</p><p>Every picture had a story. Every story brought another smile.</p><p>Without realizing it...</p><p>their phones were lying untouched on the table. The TV was still on. Nobody was watching it. After a while, the little girl quietly closed the album. She looked at both of them.</p><p>"Dad..."</p><p>"Mom..."</p><p>"When did you stop making pictures like these?"</p><p>Neither of them answered. She wasn't asking about photographs.</p><div class="mirror-marker">🪞 Mirror</div><p>Funny, isn't it?</p><p>Very few relationships drift apart overnight. It's usually much quieter than that.</p><p>One busy day.</p><p>One distracted dinner.</p><p>One conversation that can wait until tomorrow.</p><p>Then another.</p><p>And another.</p><p>Until one day...</p><p>we realize we've become really good at remembering the moments we once had, but we're no longer making new ones. Sometimes a relationship doesn't need a big fight to grow distant. Sometimes it only needs two people who slowly stop noticing each other.</p><p>Think about it.</p></div>
+    <div class="entry-body"><p>Every evening, a husband and wife sat down for dinner together. The TV was on. He looked at his phone. She looked at hers. Their little daughter quietly got down from her chair and walked into the bedroom. A minute later, she came back carrying a thick photo album. She placed it on the dining table.</p><p>"Dad..."</p><p>She pointed to the first picture.</p><p class="sequence">"Were you nervous here?"<br>He smiled.<br>"I was terrified."<br>Her mother laughed.<br>"He forgot his ring."<br>"No, I didn't."<br>"You did."<br>"I didn't forget it... I dropped it."<br>They both laughed.</p><p>She turned another page.</p><p class="sequence">"Where was this?"<br>"Our first trip after we got married."<br>"And this?"<br>"Our first rented house."<br>"The one with the leaking roof?"<br>"Yes."<br>"And the pressure cooker that exploded!"</p><p>The three of them laughed.</p><p class="pause">Page after page...</p><p>Every picture had a story. Every story brought another smile.</p><p class="pause">Without realizing it...</p><p>their phones were lying untouched on the table. The TV was still on. Nobody was watching it. After a while, the little girl quietly closed the album. She looked at both of them.</p><p class="sequence">"Dad..."<br>"Mom..."<br>"When did you stop making pictures like these?"</p><p>Neither of them answered. She wasn't asking about photographs.</p><div class="mirror-marker">🪞 Mirror</div><p>Funny, isn't it?</p><p>Very few relationships drift apart overnight. It's usually much quieter than that.</p><p class="sequence">One busy day.<br>One distracted dinner.</p><p>One conversation that can wait until tomorrow.</p><p class="pause sequence">Then another.<br>And another.<br>Until one day...</p><p>we realize we've become really good at remembering the moments we once had, but we're no longer making new ones. Sometimes a relationship doesn't need a big fight to grow distant. Sometimes it only needs two people who slowly stop noticing each other.</p><p>Think about it.</p></div>
     <p class="closing-question">Am I still making new memories with the people I love... or am I only living on the ones we made long ago?</p>
 
     <div class="entry-actions">
-      <a class="action-btn" href="../../index.html#/entry/day-27-when-did-you-stop-making-pictures">Open in full site</a>
+      <a class="action-btn primary" href="mailto:suji056@gmail.com?subject=Re%3A%20%22When%20Did%20You%20Stop%20Making%20Pictures%3F%22%20%E2%80%94%20The%20Daily%20Mirror&body=I%20read%20Day%2027%2C%20%22When%20Did%20You%20Stop%20Making%20Pictures%3F%22%2C%20and%20wanted%20to%20share%20a%20thought%3A%0A%0A">Reply to me</a>
+      <button type="button" class="action-btn" id="share-btn">Share reflection</button>
     </div>
+    <p style="margin-top: var(--space-4);"><a class="view-all-link" href="../../index.html#/entry/day-27-when-did-you-stop-making-pictures">Open in the full site (search, related entries) →</a></p>
   </article>
 </main>
 
@@ -68,7 +79,10 @@
 
 <!-- no_onload: true, matching index.html — tracked manually below under the same
      virtual path the SPA uses, so this page's views (arrived at via share links,
-     RSS, or search) count toward the same total instead of going unrecorded. -->
+     RSS, or search) count toward the same total instead of going unrecorded.
+     Recorded but not displayed — same policy as the SPA (reader counts are
+     tracked for the site owner via the GoatCounter dashboard, not shown
+     publicly; see script.js's history for why). -->
 <script data-goatcounter="https://dailymirror.goatcounter.com/count" data-goatcounter-settings='{"no_onload": true}' async src="//gc.zgo.at/count.js"></script>
 <script>
 (function() {
@@ -81,20 +95,15 @@
     }
   }
   window.addEventListener('load', function() { setTimeout(track, 300); });
-
-  fetch('https://dailymirror.goatcounter.com/counter/' + encodeURIComponent(path) + '.json')
-    .then(function(r) { return r.ok ? r.json() : Promise.reject(); })
-    .then(function(data) {
-      var count = data.count_unique || data.count;
-      var el = document.getElementById('page-meta');
-      if (count && el) {
-        el.innerHTML += '<span class="dot">·</span>' + count + ' ' + (count == 1 ? 'reader' : 'readers');
-      }
-    })
-    .catch(function() { /* counter not enabled yet, or blocked by an ad-blocker */ });
 })();
 </script>
 <script src="../../theme-toggle.js"></script>
+<script src="../../share.js"></script>
+<script>
+document.getElementById('share-btn').addEventListener('click', function() {
+  window.DailyMirrorShare.open({"title": "When Did You Stop Making Pictures?", "day": "27", "date": "2026-08-09", "hook": "Am I still making new memories with the people I love... or am I only living on the ones we made long ago?", "url": "https://sujeeth-talluri.github.io/Daily-Mirror/entry/day-27-when-did-you-stop-making-pictures/", "storyImageUrl": "https://sujeeth-talluri.github.io/Daily-Mirror/stories/day-27-when-did-you-stop-making-pictures.png"});
+});
+</script>
 
 </body>
 </html>

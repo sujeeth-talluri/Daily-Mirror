@@ -388,22 +388,23 @@
     return `${location.origin}${baseDir}entry/${slug}/`;
   }
 
+  function storyImageUrl(slug) {
+    const baseDir = location.pathname.replace(/[^/]*$/, '');
+    return `${location.origin}${baseDir}stories/${slug}.png`;
+  }
+
+  // Opens the shared Share Reflection bottom sheet (share.js) — same sheet,
+  // same platform logic, the static per-entry pages use for this button.
   function wireShare(e, btn) {
-    btn.onclick = async () => {
-      const url = canonicalEntryUrl(e.slug);
-      const shareData = { title: e.title, text: e.closing_question || '', url };
-      if (navigator.share) {
-        try { await navigator.share(shareData); } catch (err) { /* user cancelled */ }
-      } else {
-        try {
-          await navigator.clipboard.writeText(url);
-          const original = btn.textContent;
-          btn.textContent = 'Link copied';
-          setTimeout(() => { btn.textContent = original; }, 1800);
-        } catch (err) {
-          prompt('Copy this link:', url);
-        }
-      }
+    btn.onclick = () => {
+      window.DailyMirrorShare.open({
+        title: e.title,
+        day: e.day,
+        date: e.date,
+        hook: e.hook,
+        url: canonicalEntryUrl(e.slug),
+        storyImageUrl: storyImageUrl(e.slug),
+      });
     };
   }
 

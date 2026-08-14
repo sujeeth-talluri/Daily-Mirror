@@ -11,18 +11,22 @@ daily-mirror/                    ← repo root, served directly by GitHub Pages
 ├── entries/                     ← source of truth. One markdown file per day.
 ├── images/                      ← optional per-entry header images (entries/*.md `image:` field)
 ├── entry/                       ← auto-generated. One static, crawlable, shareable page per entry.
+├── og/                          ← auto-generated. 1200x630 link-preview image per entry.
+├── stories/                     ← auto-generated. 1080x1920 Instagram Story card per entry.
+├── fonts/                       ← bundled fonts used to render og/ and stories/ in CI (see fonts/README.md)
 ├── index.html, style.css, script.js   ← the interactive site (search/filter/related)
-├── entries.json                 ← auto-generated index, powers search/themes
+├── share.js                     ← Share Reflection bottom sheet — shared by index.html AND entry/*/index.html
+├── entries.json                 ← auto-generated index, powers search/themes/Share sheet data
 ├── feed.xml, feed.xsl           ← auto-generated RSS feed
 ├── sitemap.xml, robots.txt      ← auto-generated, for search engines
 ├── scripts/
 │   ├── build_index.py           ← regenerates entries.json from entries/*.md
 │   ├── build_feed.py            ← regenerates feed.xml from entries.json
 │   ├── build_pages.py           ← regenerates entry/*, sitemap.xml, robots.txt from entries.json
+│   ├── generate_social_images.py← regenerates og/*.png and stories/*.png from entries.json
 │   ├── add_image.py             ← optional, needs Pillow — processes a header image for one entry
-│   ├── generate_og_images.py    ← optional, needs Pillow — see below
 │   └── generate_icons.py        ← one-off, needs Pillow — see below
-├── .github/workflows/build.yml  ← runs build_index/build_feed/build_pages automatically on push
+├── .github/workflows/build.yml  ← runs the full pipeline above automatically on push
 ├── TEMPLATE.md                  ← copy this for each new entry
 └── README.md
 ```
@@ -35,11 +39,11 @@ daily-mirror/                    ← repo root, served directly by GitHub Pages
 4. **Add a header image (required as of Day 46 onward).** Give Claude the image file directly (paste it into chat, or a local file path) rather than a cloud share link — a share link needs browser automation to resolve and download, which is the slow way. Then run `python3 scripts/add_image.py day-NN-slug path/to/source.png` — it compresses the image, saves it to `images/day-NN-slug.jpg`, and adds the `image:` field to the entry's frontmatter automatically (see `TEMPLATE.md` for the field format if doing this by hand). Entries before Day 46 don't have one; that's fine, not being backfilled.
 5. `git add entries/day-NN-*.md images/day-NN-*.jpg && git commit -m "Day N: <title>" && git push` — **don't run `build_index.py`/`build_feed.py`/`build_pages.py` locally for a routine daily publish.** Only commit source files (the entry + its image). Letting the GitHub Action be the only thing that ever regenerates `entries.json`/`feed.xml`/`entry/*` avoids local and CI copies diverging and needing a manual rebase to reconcile — reserve running those scripts locally for when you're actually testing a change to the scripts themselves.
 
-That's it. A GitHub Action (`.github/workflows/build.yml`) runs `build_index.py`, `build_feed.py`, and `build_pages.py` automatically on every push to `main`, and pushes a follow-up commit with the regenerated `entries.json`, `feed.xml`, `entry/*`, and `sitemap.xml` if anything changed. GitHub Pages then redeploys from that. Check the **Actions** tab on GitHub if a day's entry doesn't show up — that's where a failed build would surface.
+That's it. A GitHub Action (`.github/workflows/build.yml`) runs `build_index.py`, `build_feed.py`, `build_pages.py`, and `generate_social_images.py` automatically on every push to `main`, and pushes a follow-up commit with the regenerated `entries.json`, `feed.xml`, `entry/*`, `og/*`, `stories/*`, and `sitemap.xml` if anything changed. GitHub Pages then redeploys from that. Check the **Actions** tab on GitHub if a day's entry doesn't show up — that's where a failed build would surface.
 
-**Optional, not automated:** `python3 scripts/generate_og_images.py` (needs `pip install Pillow` locally) regenerates `og/<slug>.png`, the unique share-preview image for each entry. It's not in the GitHub Action because it depends on Windows-specific fonts (Cambria, Consolas, Segoe UI Emoji) that don't exist on the Action's Linux runner. Run it locally when you want a custom share image for a new entry; skip it and `build_pages.py` falls back to the shared `og-image.png` automatically.
+`generate_social_images.py` (the OG + Instagram Story cards) is allowed to fail without blocking the rest of the pipeline — publishing the reflection matters more than generating its share images, so that step shows a visible warning on a bad run instead of a red X, and `build_pages.py` falls back to the shared `og-image.png` for any entry it didn't produce a custom image for. See that script's docstring for the reasoning.
 
-`scripts/generate_icons.py` is a separate one-off (also needs Pillow, run locally) for the home-screen install icons — only re-run it if the site's mark ever changes, not part of the daily flow.
+`scripts/generate_icons.py` is a separate one-off (needs Pillow, run locally) for the home-screen install icons — only re-run it if the site's mark ever changes, not part of the daily flow.
 
 ## One-time setup (do this once)
 
@@ -51,7 +55,7 @@ That's it. A GitHub Action (`.github/workflows/build.yml`) runs `build_index.py`
 
 ## Before you go live — things only you can fill in
 
-1. **Your email**, in `script.js` — find `REPLY_EMAIL` near the top and replace it. This powers the "Reply to me" button (no public comments, by design — see below).
+1. **Your email**, in `script.js` (`REPLY_EMAIL`) **and** `scripts/build_pages.py` (`REPLY_EMAIL`) — both need it, same as `SITE_URL` below: one powers the "Reply to me" button in the interactive site, the other builds the same mailto link at build time for the static per-entry pages. No public comments, by design — see below.
 2. **Your GitHub Pages URL**, in `scripts/build_feed.py` and `scripts/build_pages.py` — both have a `SITE_URL` constant near the top; set it to your actual URL once you know it, then push (the GitHub Action will pick it up on the next build).
 3. **Your email-subscribe link** (optional), in `script.js` — find `SUBSCRIBE_URL` near the top and set it. Until it's set, the "Subscribe" link and the footer's "Get tomorrow's reflection by email" box stay hidden automatically. To get a link: since this is a static site with no server to send mail from, sign up at [follow.it](https://follow.it) (free), point it at this site's `feed.xml`, and it'll email subscribers whenever a new entry is published — no code on this end beyond pasting the link it gives you. Any similar RSS-to-email service (Buttondown, Mailchimp, etc.) works the same way; just drop its subscribe URL in.
 
@@ -67,6 +71,7 @@ That's it. A GitHub Action (`.github/workflows/build.yml`) runs `build_index.py`
 - **First-visit tip banner** (`pwa-install.js`) — a dismissible bar pointing new visitors to the dark-mode toggle and the "install as an app" option, since both were easy to miss. Remembers the dismissal in `localStorage` so returning readers don't see it again.
 - **"Install app" link** — in the header, next to RSS. Triggers the browser's native install prompt where supported, and shows manual "Add to Home Screen" steps on iOS Safari, which doesn't support that prompt.
 - **Email subscribe UI** — a "Subscribe" link in the header and a CTA box in the footer, both wired to the `SUBSCRIBE_URL` constant described above.
+- **Share Reflection** — tapping Share opens a bottom sheet (`share.js`) with one-tap WhatsApp/Facebook/X sharing (pre-filled, on-brand text — see `share.js` for the templates), an Instagram "Share Story Card" flow, and a "More sharing options" fallback to the native share sheet. Every entry automatically gets its own branded 1200x630 link-preview image and 1080x1920 Story card (`scripts/generate_social_images.py`) — nothing to design by hand per entry. An entry can optionally set `social_hook` in its frontmatter to control the hook line used in all of this; if it's not set (the normal case), `closing_question` is used automatically.
 
 
 

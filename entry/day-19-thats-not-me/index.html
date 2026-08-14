@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script>(function(){var t=localStorage.getItem('daily-mirror-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);})();</script>
 <title>That's Not Me. — The Daily Mirror</title>
 <meta name="description" content="My response decides who I become.">
 <link rel="canonical" href="https://sujeeth-talluri.github.io/Daily-Mirror/entry/day-19-thats-not-me/">
@@ -11,7 +10,17 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%AA%9E%3C/text%3E%3C/svg%3E">
 <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
 <link rel="manifest" href="../../manifest.json">
-<meta name="theme-color" content="#876522">
+<meta name="theme-color" content="#F7F5F0" id="theme-color-meta">
+<!-- Applies a saved theme choice before first paint and syncs theme-color to
+     match — same pattern and same ordering requirement as index.html (the
+     meta tag above must exist in the DOM before this script runs). -->
+<script>(function(){
+  var saved = localStorage.getItem('daily-mirror-theme');
+  var dark = saved === 'dark' || (saved !== 'light' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  if (saved === 'light' || saved === 'dark') document.documentElement.setAttribute('data-theme', saved);
+  var meta = document.getElementById('theme-color-meta');
+  if (meta) meta.setAttribute('content', dark ? '#1A1815' : '#F7F5F0');
+})();</script>
 
 <meta property="og:title" content="That's Not Me.">
 <meta property="og:description" content="My response decides who I become.">
@@ -47,14 +56,16 @@
     <a class="back-link" href="../../index.html">← All entries</a>
     <div class="entry-meta" id="page-meta">Day 19 · August 9, 2026</div>
     <h2 id="entry-title">That's Not Me.</h2>
-    <div class="entry-chips"><span class="tag">ignoring-warning-signs</span></div>
+    <div class="entry-chips">IGNORING WARNING SIGNS</div>
     
-    <div class="entry-body"><p>One thing I've observed in life is this. Truth rarely comes to us saying,</p><p>"I'm here to expose you."</p><p>Most of the time, it comes through ordinary people and ordinary situations.</p><p>Your spouse says,</p><p>"You've stopped listening to me. Even when I'm talking, your mind is somewhere else."</p><p>You immediately reply,</p><p>"No... you're just expecting too much."</p><p>Your closest friend says,</p><p>"You've changed. I don't feel I can talk to you like before."</p><p>You smile and say,</p><p>"Nothing like that. Life is just busy these days."</p><p>Your manager says,</p><p>"You're technically very good, but people hesitate to disagree with you."</p><p>You walk out thinking,</p><p>"They don't know the full picture. They think they know me, but they don't."</p><p>The doctor looks at your reports and says,</p><p>"Your body has been giving you warning signs for quite some time. Please don't ignore them."</p><p>You tell yourself,</p><p>"I'm still young. Doctors always make something look bigger than it is. I'll be fine."</p><p>Think about it.</p><p>None of these people were trying to insult you. None of them woke up wanting to put you down. They were simply holding up a mirror.</p><div class="mirror-marker">🪞 The Mirror...</div><p>Many times, truth comes into our lives through people who genuinely care about us. The first question that comes to our mind is usually,</p><p>"How do I explain myself?"</p><p>Maybe the better question is,</p><p>"Is there any truth in what they're saying?"</p><p>Not every criticism is true. But not every criticism is false either.</p><p>The day I stop defending myself long enough to honestly examine myself...</p><p>is the day I begin to grow.</p><p>Because...</p><p>Truth exposes.</p></div>
+    <div class="entry-body"><p>One thing I've observed in life is this. Truth rarely comes to us saying,</p><p>"I'm here to expose you."</p><p>Most of the time, it comes through ordinary people and ordinary situations.</p><p class="sequence">Your spouse says,<br>"You've stopped listening to me. Even when I'm talking, your mind is somewhere else."<br>You immediately reply,<br>"No... you're just expecting too much."</p><p>Your closest friend says,</p><p>"You've changed. I don't feel I can talk to you like before."</p><p>You smile and say,</p><p class="sequence">"Nothing like that. Life is just busy these days."<br>Your manager says,<br>"You're technically very good, but people hesitate to disagree with you."</p><p>You walk out thinking,</p><p>"They don't know the full picture. They think they know me, but they don't."</p><p>The doctor looks at your reports and says,</p><p class="sequence">"Your body has been giving you warning signs for quite some time. Please don't ignore them."<br>You tell yourself,<br>"I'm still young. Doctors always make something look bigger than it is. I'll be fine."<br>Think about it.</p><p>None of these people were trying to insult you. None of them woke up wanting to put you down. They were simply holding up a mirror.</p><div class="mirror-marker">🪞 The Mirror...</div><p>Many times, truth comes into our lives through people who genuinely care about us. The first question that comes to our mind is usually,</p><p>"How do I explain myself?"</p><p>Maybe the better question is,</p><p>"Is there any truth in what they're saying?"</p><p>Not every criticism is true. But not every criticism is false either.</p><p class="pause">The day I stop defending myself long enough to honestly examine myself...</p><p>is the day I begin to grow.</p><p class="pause sequence">Because...<br>Truth exposes.</p></div>
     <p class="closing-question">My response decides who I become.</p>
 
     <div class="entry-actions">
-      <a class="action-btn" href="../../index.html#/entry/day-19-thats-not-me">Open in full site</a>
+      <a class="action-btn primary" href="mailto:suji056@gmail.com?subject=Re%3A%20%22That%27s%20Not%20Me.%22%20%E2%80%94%20The%20Daily%20Mirror&body=I%20read%20Day%2019%2C%20%22That%27s%20Not%20Me.%22%2C%20and%20wanted%20to%20share%20a%20thought%3A%0A%0A">Reply to me</a>
+      <button type="button" class="action-btn" id="share-btn">Share reflection</button>
     </div>
+    <p style="margin-top: var(--space-4);"><a class="view-all-link" href="../../index.html#/entry/day-19-thats-not-me">Open in the full site (search, related entries) →</a></p>
   </article>
 </main>
 
@@ -68,7 +79,10 @@
 
 <!-- no_onload: true, matching index.html — tracked manually below under the same
      virtual path the SPA uses, so this page's views (arrived at via share links,
-     RSS, or search) count toward the same total instead of going unrecorded. -->
+     RSS, or search) count toward the same total instead of going unrecorded.
+     Recorded but not displayed — same policy as the SPA (reader counts are
+     tracked for the site owner via the GoatCounter dashboard, not shown
+     publicly; see script.js's history for why). -->
 <script data-goatcounter="https://dailymirror.goatcounter.com/count" data-goatcounter-settings='{"no_onload": true}' async src="//gc.zgo.at/count.js"></script>
 <script>
 (function() {
@@ -81,20 +95,15 @@
     }
   }
   window.addEventListener('load', function() { setTimeout(track, 300); });
-
-  fetch('https://dailymirror.goatcounter.com/counter/' + encodeURIComponent(path) + '.json')
-    .then(function(r) { return r.ok ? r.json() : Promise.reject(); })
-    .then(function(data) {
-      var count = data.count_unique || data.count;
-      var el = document.getElementById('page-meta');
-      if (count && el) {
-        el.innerHTML += '<span class="dot">·</span>' + count + ' ' + (count == 1 ? 'reader' : 'readers');
-      }
-    })
-    .catch(function() { /* counter not enabled yet, or blocked by an ad-blocker */ });
 })();
 </script>
 <script src="../../theme-toggle.js"></script>
+<script src="../../share.js"></script>
+<script>
+document.getElementById('share-btn').addEventListener('click', function() {
+  window.DailyMirrorShare.open({"title": "That's Not Me.", "day": "19", "date": "2026-08-09", "hook": "My response decides who I become.", "url": "https://sujeeth-talluri.github.io/Daily-Mirror/entry/day-19-thats-not-me/", "storyImageUrl": "https://sujeeth-talluri.github.io/Daily-Mirror/stories/day-19-thats-not-me.png"});
+});
+</script>
 
 </body>
 </html>

@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script>(function(){var t=localStorage.getItem('daily-mirror-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);})();</script>
 <title>The Premium Membership — The Daily Mirror</title>
 <meta name="description" content="Am I becoming a better person, or have I simply become good at being present?">
 <link rel="canonical" href="https://sujeeth-talluri.github.io/Daily-Mirror/entry/day-43-the-premium-membership/">
@@ -11,7 +10,17 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%AA%9E%3C/text%3E%3C/svg%3E">
 <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
 <link rel="manifest" href="../../manifest.json">
-<meta name="theme-color" content="#876522">
+<meta name="theme-color" content="#F7F5F0" id="theme-color-meta">
+<!-- Applies a saved theme choice before first paint and syncs theme-color to
+     match — same pattern and same ordering requirement as index.html (the
+     meta tag above must exist in the DOM before this script runs). -->
+<script>(function(){
+  var saved = localStorage.getItem('daily-mirror-theme');
+  var dark = saved === 'dark' || (saved !== 'light' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  if (saved === 'light' || saved === 'dark') document.documentElement.setAttribute('data-theme', saved);
+  var meta = document.getElementById('theme-color-meta');
+  if (meta) meta.setAttribute('content', dark ? '#1A1815' : '#F7F5F0');
+})();</script>
 
 <meta property="og:title" content="The Premium Membership">
 <meta property="og:description" content="Am I becoming a better person, or have I simply become good at being present?">
@@ -47,14 +56,16 @@
     <a class="back-link" href="../../index.html">← All entries</a>
     <div class="entry-meta" id="page-meta">Day 43 · August 9, 2026</div>
     <h2 id="entry-title">The Premium Membership</h2>
-    <div class="entry-chips"><span class="tag">complacency</span><span class="tag">self-examination</span></div>
+    <div class="entry-chips">COMPLACENCY · SELF-EXAMINATION</div>
     
-    <div class="entry-body"><p>I know quite a few people who proudly say,</p><p>"I have a premium gym membership."</p><p>It gives them access to one of the best fitness centres in the city. A fully equipped gym.</p><p>Swimming pool.</p><p>Indoor games.</p><p>Everything needed to become fit.</p><p>Whenever fitness comes up...</p><p>they happily talk about their membership. One day, a friend smiled and said,</p><p>"I go to the gym almost every day."</p><p>Then he laughed and added,</p><p>"Most days, I just meet my friends there, have a coffee, talk for a while, scroll through my phone... and come back home."</p><p>We both laughed.</p><p>But that sentence stayed with me. The membership wasn't the problem. The gym wasn't the problem. Even walking into the gym wasn't enough. Walking into the gym never made anyone fit.</p><p>Working out did.</p><div class="mirror-marker">🪞 The Mirror</div><p>That made me think. Life can be like that. Going to the gym doesn't make me fit.</p><p>Working out does.</p><p>Going to school doesn't make me knowledgeable.</p><p>Learning does.</p><p>Going to church doesn't change me. Living what I hear does. Going to the temple doesn't change me. Living what I learn there does.</p><p>Just being around something that can change my life...</p><p>doesn't change my life.</p><p>Real change begins...</p><p>when I stop being satisfied with showing up...</p><p>and start living what I already know.</p><div class="think-marker">💭 Think about it...</div><p>Where in my life have I mistaken showing up...</p><p>for actually changing?</p><p>What truth have I heard again and again...</p><p>but still haven't started living?</p></div>
+    <div class="entry-body"><p>I know quite a few people who proudly say,</p><p>"I have a premium gym membership."</p><p>It gives them access to one of the best fitness centres in the city. A fully equipped gym.</p><p class="sequence">Swimming pool.<br>Indoor games.</p><p>Everything needed to become fit.</p><p class="pause">Whenever fitness comes up...</p><p>they happily talk about their membership. One day, a friend smiled and said,</p><p>"I go to the gym almost every day."</p><p>Then he laughed and added,</p><p class="sequence">"Most days, I just meet my friends there, have a coffee, talk for a while, scroll through my phone... and come back home."<br>We both laughed.</p><p>But that sentence stayed with me. The membership wasn't the problem. The gym wasn't the problem. Even walking into the gym wasn't enough. Walking into the gym never made anyone fit.</p><p>Working out did.</p><div class="mirror-marker">🪞 The Mirror</div><p>That made me think. Life can be like that. Going to the gym doesn't make me fit.</p><p>Working out does.</p><p>Going to school doesn't make me knowledgeable.</p><p>Learning does.</p><p>Going to church doesn't change me. Living what I hear does. Going to the temple doesn't change me. Living what I learn there does.</p><p class="pause">Just being around something that can change my life...</p><p>doesn't change my life.</p><p class="pause sequence">Real change begins...<br>when I stop being satisfied with showing up...</p><p>and start living what I already know.</p><div class="think-marker">💭 Think about it...</div><p class="pause sequence">Where in my life have I mistaken showing up...<br>for actually changing?</p><p class="pause sequence">What truth have I heard again and again...<br>but still haven't started living?</p></div>
     <p class="closing-question">Am I becoming a better person, or have I simply become good at being present?</p>
 
     <div class="entry-actions">
-      <a class="action-btn" href="../../index.html#/entry/day-43-the-premium-membership">Open in full site</a>
+      <a class="action-btn primary" href="mailto:suji056@gmail.com?subject=Re%3A%20%22The%20Premium%20Membership%22%20%E2%80%94%20The%20Daily%20Mirror&body=I%20read%20Day%2043%2C%20%22The%20Premium%20Membership%22%2C%20and%20wanted%20to%20share%20a%20thought%3A%0A%0A">Reply to me</a>
+      <button type="button" class="action-btn" id="share-btn">Share reflection</button>
     </div>
+    <p style="margin-top: var(--space-4);"><a class="view-all-link" href="../../index.html#/entry/day-43-the-premium-membership">Open in the full site (search, related entries) →</a></p>
   </article>
 </main>
 
@@ -68,7 +79,10 @@
 
 <!-- no_onload: true, matching index.html — tracked manually below under the same
      virtual path the SPA uses, so this page's views (arrived at via share links,
-     RSS, or search) count toward the same total instead of going unrecorded. -->
+     RSS, or search) count toward the same total instead of going unrecorded.
+     Recorded but not displayed — same policy as the SPA (reader counts are
+     tracked for the site owner via the GoatCounter dashboard, not shown
+     publicly; see script.js's history for why). -->
 <script data-goatcounter="https://dailymirror.goatcounter.com/count" data-goatcounter-settings='{"no_onload": true}' async src="//gc.zgo.at/count.js"></script>
 <script>
 (function() {
@@ -81,20 +95,15 @@
     }
   }
   window.addEventListener('load', function() { setTimeout(track, 300); });
-
-  fetch('https://dailymirror.goatcounter.com/counter/' + encodeURIComponent(path) + '.json')
-    .then(function(r) { return r.ok ? r.json() : Promise.reject(); })
-    .then(function(data) {
-      var count = data.count_unique || data.count;
-      var el = document.getElementById('page-meta');
-      if (count && el) {
-        el.innerHTML += '<span class="dot">·</span>' + count + ' ' + (count == 1 ? 'reader' : 'readers');
-      }
-    })
-    .catch(function() { /* counter not enabled yet, or blocked by an ad-blocker */ });
 })();
 </script>
 <script src="../../theme-toggle.js"></script>
+<script src="../../share.js"></script>
+<script>
+document.getElementById('share-btn').addEventListener('click', function() {
+  window.DailyMirrorShare.open({"title": "The Premium Membership", "day": "43", "date": "2026-08-09", "hook": "Am I becoming a better person, or have I simply become good at being present?", "url": "https://sujeeth-talluri.github.io/Daily-Mirror/entry/day-43-the-premium-membership/", "storyImageUrl": "https://sujeeth-talluri.github.io/Daily-Mirror/stories/day-43-the-premium-membership.png"});
+});
+</script>
 
 </body>
 </html>

@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script>(function(){var t=localStorage.getItem('daily-mirror-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);})();</script>
 <title>The Call You Keep Postponing — The Daily Mirror</title>
 <meta name="description" content="Maybe He was simply waiting for your call.">
 <link rel="canonical" href="https://sujeeth-talluri.github.io/Daily-Mirror/entry/day-35-the-call-you-keep-postponing/">
@@ -11,7 +10,17 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%AA%9E%3C/text%3E%3C/svg%3E">
 <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
 <link rel="manifest" href="../../manifest.json">
-<meta name="theme-color" content="#876522">
+<meta name="theme-color" content="#F7F5F0" id="theme-color-meta">
+<!-- Applies a saved theme choice before first paint and syncs theme-color to
+     match — same pattern and same ordering requirement as index.html (the
+     meta tag above must exist in the DOM before this script runs). -->
+<script>(function(){
+  var saved = localStorage.getItem('daily-mirror-theme');
+  var dark = saved === 'dark' || (saved !== 'light' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  if (saved === 'light' || saved === 'dark') document.documentElement.setAttribute('data-theme', saved);
+  var meta = document.getElementById('theme-color-meta');
+  if (meta) meta.setAttribute('content', dark ? '#1A1815' : '#F7F5F0');
+})();</script>
 
 <meta property="og:title" content="The Call You Keep Postponing">
 <meta property="og:description" content="Maybe He was simply waiting for your call.">
@@ -47,14 +56,16 @@
     <a class="back-link" href="../../index.html">← All entries</a>
     <div class="entry-meta" id="page-meta">Day 35 · August 9, 2026</div>
     <h2 id="entry-title">The Call You Keep Postponing</h2>
-    <div class="entry-chips"><span class="tag">pride</span><span class="tag">postponement</span></div>
+    <div class="entry-chips">PRIDE · POSTPONEMENT</div>
     
-    <div class="entry-body"><p>A young man stared at his phone. His thumb hovered over one name.</p><p>"Dad."</p><p>He sighed... locked the phone... and slipped it back into his pocket. The business wasn't doing well. Bills were piling up. He had spent weeks trying to solve everything by himself.</p><p>"I'll call once I have some good news," he told himself.</p><p>Days turned into weeks.</p><p>Nothing changed.</p><p>Finally, one evening, he made the call. His father answered on the very first ring. Before the son could explain anything, his father quietly asked,</p><p>"What took you so long?"</p><p>The son replied,</p><p>"I wanted to fix it before I came to you."</p><p>There was a long silence. Then his father said,</p><p>"My son... if you could fix it yourself, you wouldn't have needed to call me."</p><div class="mirror-marker">🪞 The Mirror</div><p>How often do we postpone the very conversation we need the most?</p><p>Not because the door is closed...</p><p>but because we want to arrive with better news.</p><p>We tell ourselves,</p><p>"I'll pray after I overcome this."</p><p>"I'll come back once I've changed."</p><p>"I'll seek God after I've sorted my life out."</p><p>Yet the greatest barrier between us and God is rarely our problem. It's our pride that whispers,</p><p>"Handle it first... then go."</p><div class="think-marker">💭 Think about it...</div><p>What have you been trying to fix before bringing it to God? Maybe He was never waiting for your solution.</p></div>
+    <div class="entry-body"><p>A young man stared at his phone. His thumb hovered over one name.</p><p>"Dad."</p><p>He sighed... locked the phone... and slipped it back into his pocket. The business wasn't doing well. Bills were piling up. He had spent weeks trying to solve everything by himself.</p><p>"I'll call once I have some good news," he told himself.</p><p>Days turned into weeks.</p><p>Nothing changed.</p><p>Finally, one evening, he made the call. His father answered on the very first ring. Before the son could explain anything, his father quietly asked,</p><p class="sequence">"What took you so long?"<br>The son replied,<br>"I wanted to fix it before I came to you."</p><p>There was a long silence. Then his father said,</p><p>"My son... if you could fix it yourself, you wouldn't have needed to call me."</p><div class="mirror-marker">🪞 The Mirror</div><p>How often do we postpone the very conversation we need the most?</p><p class="pause">Not because the door is closed...</p><p>but because we want to arrive with better news.</p><p class="sequence">We tell ourselves,<br>"I'll pray after I overcome this."<br>"I'll come back once I've changed."<br>"I'll seek God after I've sorted my life out."</p><p>Yet the greatest barrier between us and God is rarely our problem. It's our pride that whispers,</p><p>"Handle it first... then go."</p><div class="think-marker">💭 Think about it...</div><p>What have you been trying to fix before bringing it to God? Maybe He was never waiting for your solution.</p></div>
     <p class="closing-question">Maybe He was simply waiting for your call.</p>
 
     <div class="entry-actions">
-      <a class="action-btn" href="../../index.html#/entry/day-35-the-call-you-keep-postponing">Open in full site</a>
+      <a class="action-btn primary" href="mailto:suji056@gmail.com?subject=Re%3A%20%22The%20Call%20You%20Keep%20Postponing%22%20%E2%80%94%20The%20Daily%20Mirror&body=I%20read%20Day%2035%2C%20%22The%20Call%20You%20Keep%20Postponing%22%2C%20and%20wanted%20to%20share%20a%20thought%3A%0A%0A">Reply to me</a>
+      <button type="button" class="action-btn" id="share-btn">Share reflection</button>
     </div>
+    <p style="margin-top: var(--space-4);"><a class="view-all-link" href="../../index.html#/entry/day-35-the-call-you-keep-postponing">Open in the full site (search, related entries) →</a></p>
   </article>
 </main>
 
@@ -68,7 +79,10 @@
 
 <!-- no_onload: true, matching index.html — tracked manually below under the same
      virtual path the SPA uses, so this page's views (arrived at via share links,
-     RSS, or search) count toward the same total instead of going unrecorded. -->
+     RSS, or search) count toward the same total instead of going unrecorded.
+     Recorded but not displayed — same policy as the SPA (reader counts are
+     tracked for the site owner via the GoatCounter dashboard, not shown
+     publicly; see script.js's history for why). -->
 <script data-goatcounter="https://dailymirror.goatcounter.com/count" data-goatcounter-settings='{"no_onload": true}' async src="//gc.zgo.at/count.js"></script>
 <script>
 (function() {
@@ -81,20 +95,15 @@
     }
   }
   window.addEventListener('load', function() { setTimeout(track, 300); });
-
-  fetch('https://dailymirror.goatcounter.com/counter/' + encodeURIComponent(path) + '.json')
-    .then(function(r) { return r.ok ? r.json() : Promise.reject(); })
-    .then(function(data) {
-      var count = data.count_unique || data.count;
-      var el = document.getElementById('page-meta');
-      if (count && el) {
-        el.innerHTML += '<span class="dot">·</span>' + count + ' ' + (count == 1 ? 'reader' : 'readers');
-      }
-    })
-    .catch(function() { /* counter not enabled yet, or blocked by an ad-blocker */ });
 })();
 </script>
 <script src="../../theme-toggle.js"></script>
+<script src="../../share.js"></script>
+<script>
+document.getElementById('share-btn').addEventListener('click', function() {
+  window.DailyMirrorShare.open({"title": "The Call You Keep Postponing", "day": "35", "date": "2026-08-09", "hook": "Maybe He was simply waiting for your call.", "url": "https://sujeeth-talluri.github.io/Daily-Mirror/entry/day-35-the-call-you-keep-postponing/", "storyImageUrl": "https://sujeeth-talluri.github.io/Daily-Mirror/stories/day-35-the-call-you-keep-postponing.png"});
+});
+</script>
 
 </body>
 </html>

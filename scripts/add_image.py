@@ -8,7 +8,7 @@ Usage:
   python3 scripts/add_image.py day-46-the-potters-hands path/to/source.png
 
 Needs Pillow (`pip install Pillow`) but no special fonts — unlike
-generate_og_images.py/generate_icons.py, this is fully portable.
+generate_social_images.py/generate_icons.py, this is fully portable.
 """
 import re
 import sys

@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script>(function(){var t=localStorage.getItem('daily-mirror-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);})();</script>
 <title>The Two Trees — The Daily Mirror</title>
 <meta name="description" content="It will simply reveal them.">
 <link rel="canonical" href="https://sujeeth-talluri.github.io/Daily-Mirror/entry/day-45-the-two-trees/">
@@ -11,7 +10,17 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%AA%9E%3C/text%3E%3C/svg%3E">
 <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
 <link rel="manifest" href="../../manifest.json">
-<meta name="theme-color" content="#876522">
+<meta name="theme-color" content="#F7F5F0" id="theme-color-meta">
+<!-- Applies a saved theme choice before first paint and syncs theme-color to
+     match — same pattern and same ordering requirement as index.html (the
+     meta tag above must exist in the DOM before this script runs). -->
+<script>(function(){
+  var saved = localStorage.getItem('daily-mirror-theme');
+  var dark = saved === 'dark' || (saved !== 'light' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  if (saved === 'light' || saved === 'dark') document.documentElement.setAttribute('data-theme', saved);
+  var meta = document.getElementById('theme-color-meta');
+  if (meta) meta.setAttribute('content', dark ? '#1A1815' : '#F7F5F0');
+})();</script>
 
 <meta property="og:title" content="The Two Trees">
 <meta property="og:description" content="It will simply reveal them.">
@@ -47,14 +56,16 @@
     <a class="back-link" href="../../index.html">← All entries</a>
     <div class="entry-meta" id="page-meta">Day 45 · August 11, 2026</div>
     <h2 id="entry-title">The Two Trees</h2>
-    <div class="entry-chips"><span class="tag">self-examination</span><span class="tag">false-security</span></div>
+    <div class="entry-chips">SELF-EXAMINATION · FALSE SECURITY</div>
     
-    <div class="entry-body"><p>A gardener planted two young trees on the same day. They stood only a few feet apart. Both received the same sunlight.</p><p>The same rain.</p><p>The same soil.</p><p>The same care.</p><p>Year after year...</p><p>both grew well.</p><p>Both looked green.</p><p>Both looked healthy.</p><p>Anyone passing by would have said,</p><p>"There is no difference between these two trees."</p><p>Then one year...</p><p>a long drought came.</p><p>Week after week...</p><p>there was no rain. Slowly, one tree began to dry up.</p><p>Its leaves fell.</p><p>Its branches became empty. The other tree stood just as green as before. When the drought was over, someone asked the gardener,</p><p>"Both trees received the same care. Why did one survive and the other die?"</p><p>The gardener smiled and said,</p><p>"The drought didn't make the difference."</p><p>"It only revealed it."</p><p>"One tree had roots that had gone deep into the ground."</p><p>"The other looked healthy above the ground... but its roots never grew deep enough."</p><div class="mirror-marker">🪞 The Mirror</div><p>That made me think. Life can be like that.</p><p>When life is good...</p><p>many of us look strong.</p><p>We smile.</p><p>We work.</p><p>We celebrate.</p><p>From the outside...</p><p>it's hard to tell the difference.</p><p>Then life changes.</p><p>A disappointment.</p><p>A sickness.</p><p>A broken relationship.</p><p>Financial pressure.</p><p>A loss.</p><p>That's when the roots begin to speak.</p><p>A faith that has quietly grown deep...</p><p>holds on.</p><p>A faith that only looked strong on the outside...</p><p>struggles to stand.</p><p>The pressure doesn't make my faith weak. It reveals how deep it really is.</p><div class="think-marker">💭 Think about it...</div><p>If a season of pressure came into my life today...</p><p>what would it reveal about the roots of my faith?</p><p>Am I really green...</p><p>or have I only looked green while life was easy? The drought won't decide the strength of my roots.</p></div>
+    <div class="entry-body"><p>A gardener planted two young trees on the same day. They stood only a few feet apart. Both received the same sunlight.</p><p class="pause sequence">The same rain.<br>The same soil.<br>The same care.<br>Year after year...<br>both grew well.<br>Both looked green.<br>Both looked healthy.</p><p>Anyone passing by would have said,</p><p class="pause sequence">"There is no difference between these two trees."<br>Then one year...</p><p>a long drought came.</p><p class="pause">Week after week...</p><p>there was no rain. Slowly, one tree began to dry up.</p><p>Its leaves fell.</p><p>Its branches became empty. The other tree stood just as green as before. When the drought was over, someone asked the gardener,</p><p>"Both trees received the same care. Why did one survive and the other die?"</p><p>The gardener smiled and said,</p><p class="sequence">"The drought didn't make the difference."<br>"It only revealed it."<br>"One tree had roots that had gone deep into the ground."<br>"The other looked healthy above the ground... but its roots never grew deep enough."</p><div class="mirror-marker">🪞 The Mirror</div><p>That made me think. Life can be like that.</p><p class="pause">When life is good...</p><p>many of us look strong.</p><p class="pause sequence">We smile.<br>We work.<br>We celebrate.<br>From the outside...</p><p>it's hard to tell the difference.</p><p class="sequence">Then life changes.<br>A disappointment.<br>A sickness.<br>A broken relationship.<br>Financial pressure.<br>A loss.</p><p>That's when the roots begin to speak.</p><p class="pause sequence">A faith that has quietly grown deep...<br>holds on.<br>A faith that only looked strong on the outside...<br>struggles to stand.</p><p>The pressure doesn't make my faith weak. It reveals how deep it really is.</p><div class="think-marker">💭 Think about it...</div><p class="pause sequence">If a season of pressure came into my life today...<br>what would it reveal about the roots of my faith?</p><p class="pause sequence">Am I really green...<br>or have I only looked green while life was easy?</p><p>The drought won't decide the strength of my roots.</p></div>
     <p class="closing-question">It will simply reveal them.</p>
 
     <div class="entry-actions">
-      <a class="action-btn" href="../../index.html#/entry/day-45-the-two-trees">Open in full site</a>
+      <a class="action-btn primary" href="mailto:suji056@gmail.com?subject=Re%3A%20%22The%20Two%20Trees%22%20%E2%80%94%20The%20Daily%20Mirror&body=I%20read%20Day%2045%2C%20%22The%20Two%20Trees%22%2C%20and%20wanted%20to%20share%20a%20thought%3A%0A%0A">Reply to me</a>
+      <button type="button" class="action-btn" id="share-btn">Share reflection</button>
     </div>
+    <p style="margin-top: var(--space-4);"><a class="view-all-link" href="../../index.html#/entry/day-45-the-two-trees">Open in the full site (search, related entries) →</a></p>
   </article>
 </main>
 
@@ -68,7 +79,10 @@
 
 <!-- no_onload: true, matching index.html — tracked manually below under the same
      virtual path the SPA uses, so this page's views (arrived at via share links,
-     RSS, or search) count toward the same total instead of going unrecorded. -->
+     RSS, or search) count toward the same total instead of going unrecorded.
+     Recorded but not displayed — same policy as the SPA (reader counts are
+     tracked for the site owner via the GoatCounter dashboard, not shown
+     publicly; see script.js's history for why). -->
 <script data-goatcounter="https://dailymirror.goatcounter.com/count" data-goatcounter-settings='{"no_onload": true}' async src="//gc.zgo.at/count.js"></script>
 <script>
 (function() {
@@ -81,20 +95,15 @@
     }
   }
   window.addEventListener('load', function() { setTimeout(track, 300); });
-
-  fetch('https://dailymirror.goatcounter.com/counter/' + encodeURIComponent(path) + '.json')
-    .then(function(r) { return r.ok ? r.json() : Promise.reject(); })
-    .then(function(data) {
-      var count = data.count_unique || data.count;
-      var el = document.getElementById('page-meta');
-      if (count && el) {
-        el.innerHTML += '<span class="dot">·</span>' + count + ' ' + (count == 1 ? 'reader' : 'readers');
-      }
-    })
-    .catch(function() { /* counter not enabled yet, or blocked by an ad-blocker */ });
 })();
 </script>
 <script src="../../theme-toggle.js"></script>
+<script src="../../share.js"></script>
+<script>
+document.getElementById('share-btn').addEventListener('click', function() {
+  window.DailyMirrorShare.open({"title": "The Two Trees", "day": "45", "date": "2026-08-11", "hook": "It will simply reveal them.", "url": "https://sujeeth-talluri.github.io/Daily-Mirror/entry/day-45-the-two-trees/", "storyImageUrl": "https://sujeeth-talluri.github.io/Daily-Mirror/stories/day-45-the-two-trees.png"});
+});
+</script>
 
 </body>
 </html>

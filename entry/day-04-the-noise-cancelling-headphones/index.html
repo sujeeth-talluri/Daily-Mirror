@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script>(function(){var t=localStorage.getItem('daily-mirror-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);})();</script>
 <title>The Noise-Cancelling Headphones — The Daily Mirror</title>
 <meta name="description" content="What quiet voice in my life have I stopped hearing because I've become too accustomed to the noise?">
 <link rel="canonical" href="https://sujeeth-talluri.github.io/Daily-Mirror/entry/day-04-the-noise-cancelling-headphones/">
@@ -11,7 +10,17 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%AA%9E%3C/text%3E%3C/svg%3E">
 <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
 <link rel="manifest" href="../../manifest.json">
-<meta name="theme-color" content="#876522">
+<meta name="theme-color" content="#F7F5F0" id="theme-color-meta">
+<!-- Applies a saved theme choice before first paint and syncs theme-color to
+     match — same pattern and same ordering requirement as index.html (the
+     meta tag above must exist in the DOM before this script runs). -->
+<script>(function(){
+  var saved = localStorage.getItem('daily-mirror-theme');
+  var dark = saved === 'dark' || (saved !== 'light' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  if (saved === 'light' || saved === 'dark') document.documentElement.setAttribute('data-theme', saved);
+  var meta = document.getElementById('theme-color-meta');
+  if (meta) meta.setAttribute('content', dark ? '#1A1815' : '#F7F5F0');
+})();</script>
 
 <meta property="og:title" content="The Noise-Cancelling Headphones">
 <meta property="og:description" content="What quiet voice in my life have I stopped hearing because I've become too accustomed to the noise?">
@@ -47,14 +56,16 @@
     <a class="back-link" href="../../index.html">← All entries</a>
     <div class="entry-meta" id="page-meta">Day 4 · August 9, 2026</div>
     <h2 id="entry-title">The Noise-Cancelling Headphones</h2>
-    <div class="entry-chips"><span class="tag">distraction</span><span class="tag">false-peace</span><span class="tag">postponement</span></div>
+    <div class="entry-chips">DISTRACTION · FALSE PEACE · POSTPONEMENT</div>
     
-    <div class="entry-body"><p>A young man bought an expensive pair of noise-cancelling headphones.</p><p>"They're amazing," he told his grandfather. "I can't hear anything around me."</p><p>A few days later, they were walking together through a park. The grandfather suddenly stopped.</p><p>"Do you hear that?" he asked.</p><p>"Hear what?"</p><p>"The birds."</p><p>The young man removed his headphones. The park was alive with birdsong.</p><p>"I never noticed them before," he admitted.</p><p>The grandfather smiled.</p><p>"The birds were always singing. You were just listening to something else."</p><p>That evening, those words stayed with him. He realised life is much the same.</p><p>The biggest opportunities... The best advice... The deepest relationships... Even moments of peace...</p><p>are often not absent. They're simply drowned out by everything else we're listening to.</p><div class="mirror-marker">🪞 The Mirror</div><p>Not everything valuable is loud.</p><p>Sometimes what changes our life isn't another voice shouting for our attention...</p><p>It's finally becoming quiet enough to hear what has been there all along.</p><div class="think-marker">💭 Reflection</div></div>
+    <div class="entry-body"><p>A young man bought an expensive pair of noise-cancelling headphones.</p><p>"They're amazing," he told his grandfather. "I can't hear anything around me."</p><p>A few days later, they were walking together through a park. The grandfather suddenly stopped.</p><p class="sequence">"Do you hear that?" he asked.<br>"Hear what?"<br>"The birds."</p><p>The young man removed his headphones. The park was alive with birdsong.</p><p class="sequence">"I never noticed them before," he admitted.<br>The grandfather smiled.<br>"The birds were always singing. You were just listening to something else."</p><p>That evening, those words stayed with him. He realised life is much the same.</p><p class="pause">The biggest opportunities... The best advice... The deepest relationships... Even moments of peace...</p><p>are often not absent. They're simply drowned out by everything else we're listening to.</p><div class="mirror-marker">🪞 The Mirror</div><p>Not everything valuable is loud.</p><p class="pause">Sometimes what changes our life isn't another voice shouting for our attention...</p><p>It's finally becoming quiet enough to hear what has been there all along.</p><div class="think-marker">💭 Reflection</div></div>
     <p class="closing-question">What quiet voice in my life have I stopped hearing because I've become too accustomed to the noise?</p>
 
     <div class="entry-actions">
-      <a class="action-btn" href="../../index.html#/entry/day-04-the-noise-cancelling-headphones">Open in full site</a>
+      <a class="action-btn primary" href="mailto:suji056@gmail.com?subject=Re%3A%20%22The%20Noise-Cancelling%20Headphones%22%20%E2%80%94%20The%20Daily%20Mirror&body=I%20read%20Day%204%2C%20%22The%20Noise-Cancelling%20Headphones%22%2C%20and%20wanted%20to%20share%20a%20thought%3A%0A%0A">Reply to me</a>
+      <button type="button" class="action-btn" id="share-btn">Share reflection</button>
     </div>
+    <p style="margin-top: var(--space-4);"><a class="view-all-link" href="../../index.html#/entry/day-04-the-noise-cancelling-headphones">Open in the full site (search, related entries) →</a></p>
   </article>
 </main>
 
@@ -68,7 +79,10 @@
 
 <!-- no_onload: true, matching index.html — tracked manually below under the same
      virtual path the SPA uses, so this page's views (arrived at via share links,
-     RSS, or search) count toward the same total instead of going unrecorded. -->
+     RSS, or search) count toward the same total instead of going unrecorded.
+     Recorded but not displayed — same policy as the SPA (reader counts are
+     tracked for the site owner via the GoatCounter dashboard, not shown
+     publicly; see script.js's history for why). -->
 <script data-goatcounter="https://dailymirror.goatcounter.com/count" data-goatcounter-settings='{"no_onload": true}' async src="//gc.zgo.at/count.js"></script>
 <script>
 (function() {
@@ -81,20 +95,15 @@
     }
   }
   window.addEventListener('load', function() { setTimeout(track, 300); });
-
-  fetch('https://dailymirror.goatcounter.com/counter/' + encodeURIComponent(path) + '.json')
-    .then(function(r) { return r.ok ? r.json() : Promise.reject(); })
-    .then(function(data) {
-      var count = data.count_unique || data.count;
-      var el = document.getElementById('page-meta');
-      if (count && el) {
-        el.innerHTML += '<span class="dot">·</span>' + count + ' ' + (count == 1 ? 'reader' : 'readers');
-      }
-    })
-    .catch(function() { /* counter not enabled yet, or blocked by an ad-blocker */ });
 })();
 </script>
 <script src="../../theme-toggle.js"></script>
+<script src="../../share.js"></script>
+<script>
+document.getElementById('share-btn').addEventListener('click', function() {
+  window.DailyMirrorShare.open({"title": "The Noise-Cancelling Headphones", "day": "4", "date": "2026-08-09", "hook": "What quiet voice in my life have I stopped hearing because I've become too accustomed to the noise?", "url": "https://sujeeth-talluri.github.io/Daily-Mirror/entry/day-04-the-noise-cancelling-headphones/", "storyImageUrl": "https://sujeeth-talluri.github.io/Daily-Mirror/stories/day-04-the-noise-cancelling-headphones.png"});
+});
+</script>
 
 </body>
 </html>

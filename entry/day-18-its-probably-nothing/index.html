@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script>(function(){var t=localStorage.getItem('daily-mirror-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);})();</script>
 <title>It's Probably Nothing. — The Daily Mirror</title>
 <meta name="description" content="When life keeps trying to get my attention... am I listening?">
 <link rel="canonical" href="https://sujeeth-talluri.github.io/Daily-Mirror/entry/day-18-its-probably-nothing/">
@@ -11,7 +10,17 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%AA%9E%3C/text%3E%3C/svg%3E">
 <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
 <link rel="manifest" href="../../manifest.json">
-<meta name="theme-color" content="#876522">
+<meta name="theme-color" content="#F7F5F0" id="theme-color-meta">
+<!-- Applies a saved theme choice before first paint and syncs theme-color to
+     match — same pattern and same ordering requirement as index.html (the
+     meta tag above must exist in the DOM before this script runs). -->
+<script>(function(){
+  var saved = localStorage.getItem('daily-mirror-theme');
+  var dark = saved === 'dark' || (saved !== 'light' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  if (saved === 'light' || saved === 'dark') document.documentElement.setAttribute('data-theme', saved);
+  var meta = document.getElementById('theme-color-meta');
+  if (meta) meta.setAttribute('content', dark ? '#1A1815' : '#F7F5F0');
+})();</script>
 
 <meta property="og:title" content="It's Probably Nothing.">
 <meta property="og:description" content="When life keeps trying to get my attention... am I listening?">
@@ -47,14 +56,16 @@
     <a class="back-link" href="../../index.html">← All entries</a>
     <div class="entry-meta" id="page-meta">Day 18 · August 9, 2026</div>
     <h2 id="entry-title">It's Probably Nothing.</h2>
-    <div class="entry-chips"><span class="tag">ignoring-warning-signs</span><span class="tag">false-peace</span><span class="tag">postponement</span></div>
+    <div class="entry-chips">IGNORING WARNING SIGNS · FALSE PEACE · POSTPONEMENT</div>
     
-    <div class="entry-body"><p>You're in your 30s. You take reasonably good care of your health.</p><p>You exercise.</p><p>You play sports.</p><p>You tell yourself,</p><p>"I'm healthy. I don't really need a health check-up."</p><p>One day, you feel a small discomfort in your chest.</p><p>"Probably gas. I didn't eat well yesterday."</p><p>After a while, it settles down.</p><p>You move on.</p><p>A couple of weeks later, it happens again.</p><p>"I've had this before. It'll be fine."</p><p>It settles down again. A few days later, while playing badminton, you feel unusually breathless.</p><p>"Maybe I'm just tired today."</p><p>You continue playing.</p><p>A few minutes later...</p><p>you collapse.</p><p>At the hospital, the doctor says,</p><p>"Your body didn't suddenly fail today. It has been trying to get your attention for weeks. Those weren't random incidents. They were warning signs."</p><p>You don't keep thinking about the heart attack.</p><p>You keep thinking about...</p><p>the first warning you chose to ignore.</p><div class="mirror-marker">🪞 The Mirror...</div><p>Life has its own warning lights too. A warning light on a car dashboard. The same health symptom that keeps coming back. Conversations at home that are no longer the same. The same feedback from different people. A friendship slowly drifting apart. A child who has suddenly stopped sharing things with you. A loss of peace that you can't explain. Most of the time, these are not the real problem. They're messages asking us to pause and pay attention. The biggest problems in life rarely arrive without first sending smaller messages. Life rarely shouts first.</p><p>It usually whispers.</p></div>
+    <div class="entry-body"><p>You're in your 30s. You take reasonably good care of your health.</p><p class="sequence">You exercise.<br>You play sports.<br>You tell yourself,<br>"I'm healthy. I don't really need a health check-up."</p><p>One day, you feel a small discomfort in your chest.</p><p>"Probably gas. I didn't eat well yesterday."</p><p>After a while, it settles down.</p><p>You move on.</p><p>A couple of weeks later, it happens again.</p><p>"I've had this before. It'll be fine."</p><p>It settles down again. A few days later, while playing badminton, you feel unusually breathless.</p><p class="pause sequence">"Maybe I'm just tired today."<br>You continue playing.<br>A few minutes later...<br>you collapse.</p><p>At the hospital, the doctor says,</p><p>"Your body didn't suddenly fail today. It has been trying to get your attention for weeks. Those weren't random incidents. They were warning signs."</p><p>You don't keep thinking about the heart attack.</p><p class="pause">You keep thinking about...</p><p>the first warning you chose to ignore.</p><div class="mirror-marker">🪞 The Mirror...</div><p>Life has its own warning lights too. A warning light on a car dashboard. The same health symptom that keeps coming back. Conversations at home that are no longer the same. The same feedback from different people. A friendship slowly drifting apart. A child who has suddenly stopped sharing things with you. A loss of peace that you can't explain. Most of the time, these are not the real problem. They're messages asking us to pause and pay attention. The biggest problems in life rarely arrive without first sending smaller messages. Life rarely shouts first.</p><p>It usually whispers.</p></div>
     <p class="closing-question">When life keeps trying to get my attention... am I listening?</p>
 
     <div class="entry-actions">
-      <a class="action-btn" href="../../index.html#/entry/day-18-its-probably-nothing">Open in full site</a>
+      <a class="action-btn primary" href="mailto:suji056@gmail.com?subject=Re%3A%20%22It%27s%20Probably%20Nothing.%22%20%E2%80%94%20The%20Daily%20Mirror&body=I%20read%20Day%2018%2C%20%22It%27s%20Probably%20Nothing.%22%2C%20and%20wanted%20to%20share%20a%20thought%3A%0A%0A">Reply to me</a>
+      <button type="button" class="action-btn" id="share-btn">Share reflection</button>
     </div>
+    <p style="margin-top: var(--space-4);"><a class="view-all-link" href="../../index.html#/entry/day-18-its-probably-nothing">Open in the full site (search, related entries) →</a></p>
   </article>
 </main>
 
@@ -68,7 +79,10 @@
 
 <!-- no_onload: true, matching index.html — tracked manually below under the same
      virtual path the SPA uses, so this page's views (arrived at via share links,
-     RSS, or search) count toward the same total instead of going unrecorded. -->
+     RSS, or search) count toward the same total instead of going unrecorded.
+     Recorded but not displayed — same policy as the SPA (reader counts are
+     tracked for the site owner via the GoatCounter dashboard, not shown
+     publicly; see script.js's history for why). -->
 <script data-goatcounter="https://dailymirror.goatcounter.com/count" data-goatcounter-settings='{"no_onload": true}' async src="//gc.zgo.at/count.js"></script>
 <script>
 (function() {
@@ -81,20 +95,15 @@
     }
   }
   window.addEventListener('load', function() { setTimeout(track, 300); });
-
-  fetch('https://dailymirror.goatcounter.com/counter/' + encodeURIComponent(path) + '.json')
-    .then(function(r) { return r.ok ? r.json() : Promise.reject(); })
-    .then(function(data) {
-      var count = data.count_unique || data.count;
-      var el = document.getElementById('page-meta');
-      if (count && el) {
-        el.innerHTML += '<span class="dot">·</span>' + count + ' ' + (count == 1 ? 'reader' : 'readers');
-      }
-    })
-    .catch(function() { /* counter not enabled yet, or blocked by an ad-blocker */ });
 })();
 </script>
 <script src="../../theme-toggle.js"></script>
+<script src="../../share.js"></script>
+<script>
+document.getElementById('share-btn').addEventListener('click', function() {
+  window.DailyMirrorShare.open({"title": "It's Probably Nothing.", "day": "18", "date": "2026-08-09", "hook": "When life keeps trying to get my attention... am I listening?", "url": "https://sujeeth-talluri.github.io/Daily-Mirror/entry/day-18-its-probably-nothing/", "storyImageUrl": "https://sujeeth-talluri.github.io/Daily-Mirror/stories/day-18-its-probably-nothing.png"});
+});
+</script>
 
 </body>
 </html>

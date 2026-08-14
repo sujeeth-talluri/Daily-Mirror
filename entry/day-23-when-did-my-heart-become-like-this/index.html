@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script>(function(){var t=localStorage.getItem('daily-mirror-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);})();</script>
 <title>When Did My Heart Become Like This? — The Daily Mirror</title>
 <meta name="description" content="It's the day their fall becomes the reason for my peace.">
 <link rel="canonical" href="https://sujeeth-talluri.github.io/Daily-Mirror/entry/day-23-when-did-my-heart-become-like-this/">
@@ -11,7 +10,17 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%AA%9E%3C/text%3E%3C/svg%3E">
 <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
 <link rel="manifest" href="../../manifest.json">
-<meta name="theme-color" content="#876522">
+<meta name="theme-color" content="#F7F5F0" id="theme-color-meta">
+<!-- Applies a saved theme choice before first paint and syncs theme-color to
+     match — same pattern and same ordering requirement as index.html (the
+     meta tag above must exist in the DOM before this script runs). -->
+<script>(function(){
+  var saved = localStorage.getItem('daily-mirror-theme');
+  var dark = saved === 'dark' || (saved !== 'light' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  if (saved === 'light' || saved === 'dark') document.documentElement.setAttribute('data-theme', saved);
+  var meta = document.getElementById('theme-color-meta');
+  if (meta) meta.setAttribute('content', dark ? '#1A1815' : '#F7F5F0');
+})();</script>
 
 <meta property="og:title" content="When Did My Heart Become Like This?">
 <meta property="og:description" content="It's the day their fall becomes the reason for my peace.">
@@ -47,14 +56,16 @@
     <a class="back-link" href="../../index.html">← All entries</a>
     <div class="entry-meta" id="page-meta">Day 23 · August 9, 2026</div>
     <h2 id="entry-title">When Did My Heart Become Like This?</h2>
-    <div class="entry-chips"><span class="tag">comparison</span><span class="tag">hidden-intentions</span><span class="tag">refusal-to-change</span><span class="tag">compassion</span></div>
+    <div class="entry-chips">COMPARISON · HIDDEN INTENTIONS · REFUSAL TO CHANGE · COMPASSION</div>
     
-    <div class="entry-body"><p>Think about it.</p><p>Your phone buzzes.</p><p>A close friend sends a message.</p><p>"I have some great news... I got promoted!"</p><p>You immediately reply,</p><p>"Wow! Congratulations! So happy for you. You deserve it."</p><p>You genuinely mean what you typed.</p><p>But after putting your phone aside...</p><p>your joy quietly fades. A few thoughts begin to creep in.</p><p>"I've worked just as hard."</p><p>"Why does this happen to everyone except me?"</p><p>"When will it be my turn?"</p><p>You brush those thoughts aside and continue with your day.</p><p>Months pass.</p><p>Your phone buzzes again.</p><p>The same friend.</p><p>"I lost my job today."</p><p>Your heart sinks.</p><p>You reply,</p><p>"I'm really sorry. Don't worry. You'll come back stronger."</p><p>You genuinely mean those words too.</p><p>But somewhere deep inside...</p><p>another thought quietly whispers,</p><p>"Life has a way of balancing things."</p><p>"At least now... we're on the same level."</p><p>You immediately hate that thought. Because that's not who you believe you are. That night, lying on your bed, one question refuses to leave your mind. When did I become this person?</p><p>Not the person who celebrates another person's success...</p><p>but the person whose own peace is disturbed by it.</p><p>Not the person who grieves over another person's pain...</p><p>but the person who somehow feels lighter because of it.</p><div class="mirror-marker">🪞 The Mirror...</div><p>One thing I've observed in life is this. Very few people are happy when others fail. Most of us are simply relieved. Relieved that someone who was ahead of us... isn't anymore. And that realization should make us pause.</p><p>Because if someone else's success steals my joy...</p><p>and someone else's failure gives it back...</p><p>then the real problem isn't their success or their failure. The real problem is my heart. Today, don't think about the people around you.</p><p>Think about yourself.</p><p>Can I genuinely celebrate when someone else goes ahead of me? Can I genuinely grieve when someone else falls behind me? Or has comparison quietly changed me into someone I never intended to become? Because the saddest day in life is not the day someone else falls.</p></div>
+    <div class="entry-body"><p class="sequence">Think about it.<br>Your phone buzzes.</p><p>A close friend sends a message.</p><p class="sequence">"I have some great news... I got promoted!"<br>You immediately reply,<br>"Wow! Congratulations! So happy for you. You deserve it."</p><p>You genuinely mean what you typed.</p><p class="pause">But after putting your phone aside...</p><p>your joy quietly fades. A few thoughts begin to creep in.</p><p class="sequence">"I've worked just as hard."<br>"Why does this happen to everyone except me?"<br>"When will it be my turn?"</p><p>You brush those thoughts aside and continue with your day.</p><p>Months pass.</p><p>Your phone buzzes again.</p><p class="sequence">The same friend.<br>"I lost my job today."<br>Your heart sinks.<br>You reply,<br>"I'm really sorry. Don't worry. You'll come back stronger."</p><p>You genuinely mean those words too.</p><p class="pause">But somewhere deep inside...</p><p>another thought quietly whispers,</p><p class="sequence">"Life has a way of balancing things."<br>"At least now... we're on the same level."</p><p>You immediately hate that thought. Because that's not who you believe you are. That night, lying on your bed, one question refuses to leave your mind. When did I become this person?</p><p class="pause">Not the person who celebrates another person's success...</p><p>but the person whose own peace is disturbed by it.</p><p class="pause">Not the person who grieves over another person's pain...</p><p>but the person who somehow feels lighter because of it.</p><div class="mirror-marker">🪞 The Mirror...</div><p>One thing I've observed in life is this. Very few people are happy when others fail. Most of us are simply relieved. Relieved that someone who was ahead of us... isn't anymore. And that realization should make us pause.</p><p class="pause sequence">Because if someone else's success steals my joy...<br>and someone else's failure gives it back...</p><p>then the real problem isn't their success or their failure. The real problem is my heart. Today, don't think about the people around you.</p><p>Think about yourself.</p><p>Can I genuinely celebrate when someone else goes ahead of me? Can I genuinely grieve when someone else falls behind me? Or has comparison quietly changed me into someone I never intended to become? Because the saddest day in life is not the day someone else falls.</p></div>
     <p class="closing-question">It's the day their fall becomes the reason for my peace.</p>
 
     <div class="entry-actions">
-      <a class="action-btn" href="../../index.html#/entry/day-23-when-did-my-heart-become-like-this">Open in full site</a>
+      <a class="action-btn primary" href="mailto:suji056@gmail.com?subject=Re%3A%20%22When%20Did%20My%20Heart%20Become%20Like%20This%3F%22%20%E2%80%94%20The%20Daily%20Mirror&body=I%20read%20Day%2023%2C%20%22When%20Did%20My%20Heart%20Become%20Like%20This%3F%22%2C%20and%20wanted%20to%20share%20a%20thought%3A%0A%0A">Reply to me</a>
+      <button type="button" class="action-btn" id="share-btn">Share reflection</button>
     </div>
+    <p style="margin-top: var(--space-4);"><a class="view-all-link" href="../../index.html#/entry/day-23-when-did-my-heart-become-like-this">Open in the full site (search, related entries) →</a></p>
   </article>
 </main>
 
@@ -68,7 +79,10 @@
 
 <!-- no_onload: true, matching index.html — tracked manually below under the same
      virtual path the SPA uses, so this page's views (arrived at via share links,
-     RSS, or search) count toward the same total instead of going unrecorded. -->
+     RSS, or search) count toward the same total instead of going unrecorded.
+     Recorded but not displayed — same policy as the SPA (reader counts are
+     tracked for the site owner via the GoatCounter dashboard, not shown
+     publicly; see script.js's history for why). -->
 <script data-goatcounter="https://dailymirror.goatcounter.com/count" data-goatcounter-settings='{"no_onload": true}' async src="//gc.zgo.at/count.js"></script>
 <script>
 (function() {
@@ -81,20 +95,15 @@
     }
   }
   window.addEventListener('load', function() { setTimeout(track, 300); });
-
-  fetch('https://dailymirror.goatcounter.com/counter/' + encodeURIComponent(path) + '.json')
-    .then(function(r) { return r.ok ? r.json() : Promise.reject(); })
-    .then(function(data) {
-      var count = data.count_unique || data.count;
-      var el = document.getElementById('page-meta');
-      if (count && el) {
-        el.innerHTML += '<span class="dot">·</span>' + count + ' ' + (count == 1 ? 'reader' : 'readers');
-      }
-    })
-    .catch(function() { /* counter not enabled yet, or blocked by an ad-blocker */ });
 })();
 </script>
 <script src="../../theme-toggle.js"></script>
+<script src="../../share.js"></script>
+<script>
+document.getElementById('share-btn').addEventListener('click', function() {
+  window.DailyMirrorShare.open({"title": "When Did My Heart Become Like This?", "day": "23", "date": "2026-08-09", "hook": "It's the day their fall becomes the reason for my peace.", "url": "https://sujeeth-talluri.github.io/Daily-Mirror/entry/day-23-when-did-my-heart-become-like-this/", "storyImageUrl": "https://sujeeth-talluri.github.io/Daily-Mirror/stories/day-23-when-did-my-heart-become-like-this.png"});
+});
+</script>
 
 </body>
 </html>

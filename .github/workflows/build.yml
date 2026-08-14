@@ -4,15 +4,15 @@ name: Build site
 # adding an entries/*.md file and pushing is the whole workflow — no need to
 # remember to run build_index.py / build_feed.py / build_pages.py by hand.
 #
-# generate_og_images.py and generate_icons.py are NOT run here: they need
-# Pillow plus specific fonts (cambria/consolas/segoe emoji) that only exist
-# on Windows, where they were originally written to run. Porting them to
-# Ubuntu would mean substituting different fonts and re-rendering all
-# existing share images to match, which is a bigger, separate decision, not
-# an "automate what already exists" one. build_pages.py already falls back
-# to the shared og-image.png for any entry without a custom one, so skipping
-# this step here doesn't break anything — it stays a manual, optional,
-# local step exactly as documented in the README.
+# generate_social_images.py (OG + Instagram Story cards) runs here too, using
+# fonts bundled in fonts/ rather than the old generate_og_images.py's
+# Windows-only C:/Windows/Fonts/ paths — that's what makes image generation
+# "automatic" instead of a manual local step. It has its own step with
+# continue-on-error: publishing the reflection matters more than generating
+# its share images (see that script's docstring) — a failure there shows as
+# a visible warning on this workflow but never blocks the commit/push of
+# everything else. generate_icons.py still isn't run here: it's a one-off,
+# not part of the daily flow (only re-run locally if the site's mark changes).
 
 on:
   push:
@@ -30,6 +30,10 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+          cache: 'pip'
+
+      - name: Install Pillow (needed only for social image generation)
+        run: pip install Pillow
 
       - name: Run build pipeline
         run: |
@@ -37,14 +41,18 @@ jobs:
           python scripts/build_feed.py
           python scripts/build_pages.py
 
+      - name: Generate social share images (OG + Story cards)
+        continue-on-error: true
+        run: python scripts/generate_social_images.py
+
       - name: Commit generated files if anything changed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add entries.json feed.xml entry/ sitemap.xml robots.txt
+          git add entries.json feed.xml entry/ sitemap.xml robots.txt og/ stories/
           if git diff --cached --quiet; then
             echo "Nothing to commit — generated output already up to date."
           else
-            git commit -m "Auto-build: regenerate entries.json, feed.xml, entry pages, sitemap"
+            git commit -m "Auto-build: regenerate entries.json, feed.xml, entry pages, sitemap, social images"
             git push
           fi

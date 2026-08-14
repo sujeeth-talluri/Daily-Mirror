@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script>(function(){var t=localStorage.getItem('daily-mirror-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);})();</script>
 <title>The Announcement — The Daily Mirror</title>
 <meta name="description" content="Do I react to every voice I hear... or do I first stop and check if it's true?">
 <link rel="canonical" href="https://sujeeth-talluri.github.io/Daily-Mirror/entry/day-31-the-announcement/">
@@ -11,7 +10,17 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%AA%9E%3C/text%3E%3C/svg%3E">
 <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
 <link rel="manifest" href="../../manifest.json">
-<meta name="theme-color" content="#876522">
+<meta name="theme-color" content="#F7F5F0" id="theme-color-meta">
+<!-- Applies a saved theme choice before first paint and syncs theme-color to
+     match — same pattern and same ordering requirement as index.html (the
+     meta tag above must exist in the DOM before this script runs). -->
+<script>(function(){
+  var saved = localStorage.getItem('daily-mirror-theme');
+  var dark = saved === 'dark' || (saved !== 'light' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  if (saved === 'light' || saved === 'dark') document.documentElement.setAttribute('data-theme', saved);
+  var meta = document.getElementById('theme-color-meta');
+  if (meta) meta.setAttribute('content', dark ? '#1A1815' : '#F7F5F0');
+})();</script>
 
 <meta property="og:title" content="The Announcement">
 <meta property="og:description" content="Do I react to every voice I hear... or do I first stop and check if it's true?">
@@ -47,14 +56,16 @@
     <a class="back-link" href="../../index.html">← All entries</a>
     <div class="entry-meta" id="page-meta">Day 31 · August 9, 2026</div>
     <h2 id="entry-title">The Announcement</h2>
-    <div class="entry-chips"><span class="tag">comparison</span><span class="tag">urgency-vs-truth</span><span class="tag">postponement</span></div>
+    <div class="entry-chips">COMPARISON · URGENCY VS TRUTH · POSTPONEMENT</div>
     
-    <div class="entry-body"><p>A train was expected any minute. The platform was crowded.</p><p>Families.</p><p>Students.</p><p>Office-goers.</p><p>People carrying bags bigger than themselves.</p><p>Suddenly someone shouted,</p><p>"Wrong platform! The train is coming on Platform 2."</p><p>Within seconds people started running. Some picked up two bags. Some dragged their children. Some didn't even know who shouted. They simply followed everyone else. Nobody stopped to check. Only one elderly porter stayed where he was. A man running past asked,</p><p>"Why are you still sitting? Didn't you hear?"</p><p>The porter smiled.</p><p>"I heard."</p><p>"I'm just waiting for the announcement."</p><p>Less than a minute later, the station announcement came.</p><p>"The train will arrive on Platform 5."</p><p>The same platform everyone had left.</p><p>People slowly walked back...</p><p>carrying the same luggage they had hurried away with. The porter hadn't moved an inch.</p><div class="mirror-marker">🪞 Mirror</div><p>Nobody stopped to check.</p><p>One person shouted.</p><p>Everyone reacted.</p><p>Makes me think.</p></div>
+    <div class="entry-body"><p>A train was expected any minute. The platform was crowded.</p><p class="sequence">Families.<br>Students.<br>Office-goers.</p><p>People carrying bags bigger than themselves.</p><p class="sequence">Suddenly someone shouted,<br>"Wrong platform! The train is coming on Platform 2."</p><p>Within seconds people started running. Some picked up two bags. Some dragged their children. Some didn't even know who shouted. They simply followed everyone else. Nobody stopped to check. Only one elderly porter stayed where he was. A man running past asked,</p><p class="sequence">"Why are you still sitting? Didn't you hear?"<br>The porter smiled.<br>"I heard."<br>"I'm just waiting for the announcement."</p><p>Less than a minute later, the station announcement came.</p><p>"The train will arrive on Platform 5."</p><p>The same platform everyone had left.</p><p class="pause">People slowly walked back...</p><p>carrying the same luggage they had hurried away with. The porter hadn't moved an inch.</p><div class="mirror-marker">🪞 Mirror</div><p>Nobody stopped to check.</p><p class="sequence">One person shouted.<br>Everyone reacted.<br>Makes me think.</p></div>
     <p class="closing-question">Do I react to every voice I hear... or do I first stop and check if it's true?</p>
 
     <div class="entry-actions">
-      <a class="action-btn" href="../../index.html#/entry/day-31-the-announcement">Open in full site</a>
+      <a class="action-btn primary" href="mailto:suji056@gmail.com?subject=Re%3A%20%22The%20Announcement%22%20%E2%80%94%20The%20Daily%20Mirror&body=I%20read%20Day%2031%2C%20%22The%20Announcement%22%2C%20and%20wanted%20to%20share%20a%20thought%3A%0A%0A">Reply to me</a>
+      <button type="button" class="action-btn" id="share-btn">Share reflection</button>
     </div>
+    <p style="margin-top: var(--space-4);"><a class="view-all-link" href="../../index.html#/entry/day-31-the-announcement">Open in the full site (search, related entries) →</a></p>
   </article>
 </main>
 
@@ -68,7 +79,10 @@
 
 <!-- no_onload: true, matching index.html — tracked manually below under the same
      virtual path the SPA uses, so this page's views (arrived at via share links,
-     RSS, or search) count toward the same total instead of going unrecorded. -->
+     RSS, or search) count toward the same total instead of going unrecorded.
+     Recorded but not displayed — same policy as the SPA (reader counts are
+     tracked for the site owner via the GoatCounter dashboard, not shown
+     publicly; see script.js's history for why). -->
 <script data-goatcounter="https://dailymirror.goatcounter.com/count" data-goatcounter-settings='{"no_onload": true}' async src="//gc.zgo.at/count.js"></script>
 <script>
 (function() {
@@ -81,20 +95,15 @@
     }
   }
   window.addEventListener('load', function() { setTimeout(track, 300); });
-
-  fetch('https://dailymirror.goatcounter.com/counter/' + encodeURIComponent(path) + '.json')
-    .then(function(r) { return r.ok ? r.json() : Promise.reject(); })
-    .then(function(data) {
-      var count = data.count_unique || data.count;
-      var el = document.getElementById('page-meta');
-      if (count && el) {
-        el.innerHTML += '<span class="dot">·</span>' + count + ' ' + (count == 1 ? 'reader' : 'readers');
-      }
-    })
-    .catch(function() { /* counter not enabled yet, or blocked by an ad-blocker */ });
 })();
 </script>
 <script src="../../theme-toggle.js"></script>
+<script src="../../share.js"></script>
+<script>
+document.getElementById('share-btn').addEventListener('click', function() {
+  window.DailyMirrorShare.open({"title": "The Announcement", "day": "31", "date": "2026-08-09", "hook": "Do I react to every voice I hear... or do I first stop and check if it's true?", "url": "https://sujeeth-talluri.github.io/Daily-Mirror/entry/day-31-the-announcement/", "storyImageUrl": "https://sujeeth-talluri.github.io/Daily-Mirror/stories/day-31-the-announcement.png"});
+});
+</script>
 
 </body>
 </html>

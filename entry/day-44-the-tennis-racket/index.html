@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script>(function(){var t=localStorage.getItem('daily-mirror-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);})();</script>
 <title>The Tennis Racket — The Daily Mirror</title>
 <meta name="description" content="If God picked up my life today, would He find something that has been faithfully used, or something that has only been carefully kept?">
 <link rel="canonical" href="https://sujeeth-talluri.github.io/Daily-Mirror/entry/day-44-the-tennis-racket/">
@@ -11,7 +10,17 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%AA%9E%3C/text%3E%3C/svg%3E">
 <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
 <link rel="manifest" href="../../manifest.json">
-<meta name="theme-color" content="#876522">
+<meta name="theme-color" content="#F7F5F0" id="theme-color-meta">
+<!-- Applies a saved theme choice before first paint and syncs theme-color to
+     match — same pattern and same ordering requirement as index.html (the
+     meta tag above must exist in the DOM before this script runs). -->
+<script>(function(){
+  var saved = localStorage.getItem('daily-mirror-theme');
+  var dark = saved === 'dark' || (saved !== 'light' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  if (saved === 'light' || saved === 'dark') document.documentElement.setAttribute('data-theme', saved);
+  var meta = document.getElementById('theme-color-meta');
+  if (meta) meta.setAttribute('content', dark ? '#1A1815' : '#F7F5F0');
+})();</script>
 
 <meta property="og:title" content="The Tennis Racket">
 <meta property="og:description" content="If God picked up my life today, would He find something that has been faithfully used, or something that has only been carefully kept?">
@@ -47,14 +56,16 @@
     <a class="back-link" href="../../index.html">← All entries</a>
     <div class="entry-meta" id="page-meta">Day 44 · August 10, 2026</div>
     <h2 id="entry-title">The Tennis Racket</h2>
-    <div class="entry-chips"><span class="tag">complacency</span><span class="tag">self-examination</span></div>
+    <div class="entry-chips">COMPLACENCY · SELF-EXAMINATION</div>
     
-    <div class="entry-body"><p>Back in 2009, I joined a tennis academy.</p><p>I was excited.</p><p>I bought a good tennis racket. Back then, it was one of the most expensive things I had ever bought for myself. Every morning, I would wake up early, go for coaching, play for a couple of hours, come back home, get ready, and then leave for the office. For a few months, that racket did exactly what it was made for.</p><p>Then life changed.</p><p>I moved to the U.S. The racket stayed back at my parents' home. They hung it neatly on the wall.</p><p>Years passed.</p><p>Every time I visited home, I would see it hanging there. It looked just as good as before. Recently, I took it off the wall. For a moment I thought,</p><p>"Maybe I should start playing again."</p><p>But the moment I held it...</p><p>I knew.</p><p>The strings had become loose. The grip had become hard. It still looked like a tennis racket. But it was no longer ready for a game.</p><p>For years...</p><p>it had become a beautiful decoration. It had stopped serving the purpose for which it was made.</p><div class="mirror-marker">🪞 The Mirror</div><p>That made me think. Life can be like that.</p><p>Sometimes I'm so busy protecting what God has given me...</p><p>that I stop using it.</p><p>My time.</p><p>My abilities.</p><p>The opportunities He gives me.</p><p>Even my life.</p><p>I can become so comfortable...</p><p>that I slowly forget why He gave them to me in the first place. A tennis racket wasn't made to hang on a wall. It was made to be used.</p><p>Maybe it's better for a racket to have worn-out strings from years of playing...</p><p>than to look brand new because it was never used.</p><div class="think-marker">💭 Think about it...</div><p>What in my life has slowly become a decoration...</p><p>when it was meant to make a difference?</p><p>Am I spending my life...</p><p>or simply preserving it?</p></div>
+    <div class="entry-body"><p>Back in 2009, I joined a tennis academy.</p><p>I was excited.</p><p>I bought a good tennis racket. Back then, it was one of the most expensive things I had ever bought for myself. Every morning, I would wake up early, go for coaching, play for a couple of hours, come back home, get ready, and then leave for the office. For a few months, that racket did exactly what it was made for.</p><p>Then life changed.</p><p>I moved to the U.S. The racket stayed back at my parents' home. They hung it neatly on the wall.</p><p>Years passed.</p><p>Every time I visited home, I would see it hanging there. It looked just as good as before. Recently, I took it off the wall. For a moment I thought,</p><p class="pause sequence">"Maybe I should start playing again."<br>But the moment I held it...<br>I knew.</p><p>The strings had become loose. The grip had become hard. It still looked like a tennis racket. But it was no longer ready for a game.</p><p class="pause">For years...</p><p>it had become a beautiful decoration. It had stopped serving the purpose for which it was made.</p><div class="mirror-marker">🪞 The Mirror</div><p>That made me think. Life can be like that.</p><p class="pause">Sometimes I'm so busy protecting what God has given me...</p><p>that I stop using it.</p><p class="sequence">My time.<br>My abilities.</p><p>The opportunities He gives me.</p><p class="pause sequence">Even my life.<br>I can become so comfortable...</p><p>that I slowly forget why He gave them to me in the first place. A tennis racket wasn't made to hang on a wall. It was made to be used.</p><p class="pause">Maybe it's better for a racket to have worn-out strings from years of playing...</p><p>than to look brand new because it was never used.</p><div class="think-marker">💭 Think about it...</div><p class="pause sequence">What in my life has slowly become a decoration...<br>when it was meant to make a difference?</p><p class="pause sequence">Am I spending my life...<br>or simply preserving it?</p></div>
     <p class="closing-question">If God picked up my life today, would He find something that has been faithfully used, or something that has only been carefully kept?</p>
 
     <div class="entry-actions">
-      <a class="action-btn" href="../../index.html#/entry/day-44-the-tennis-racket">Open in full site</a>
+      <a class="action-btn primary" href="mailto:suji056@gmail.com?subject=Re%3A%20%22The%20Tennis%20Racket%22%20%E2%80%94%20The%20Daily%20Mirror&body=I%20read%20Day%2044%2C%20%22The%20Tennis%20Racket%22%2C%20and%20wanted%20to%20share%20a%20thought%3A%0A%0A">Reply to me</a>
+      <button type="button" class="action-btn" id="share-btn">Share reflection</button>
     </div>
+    <p style="margin-top: var(--space-4);"><a class="view-all-link" href="../../index.html#/entry/day-44-the-tennis-racket">Open in the full site (search, related entries) →</a></p>
   </article>
 </main>
 
@@ -68,7 +79,10 @@
 
 <!-- no_onload: true, matching index.html — tracked manually below under the same
      virtual path the SPA uses, so this page's views (arrived at via share links,
-     RSS, or search) count toward the same total instead of going unrecorded. -->
+     RSS, or search) count toward the same total instead of going unrecorded.
+     Recorded but not displayed — same policy as the SPA (reader counts are
+     tracked for the site owner via the GoatCounter dashboard, not shown
+     publicly; see script.js's history for why). -->
 <script data-goatcounter="https://dailymirror.goatcounter.com/count" data-goatcounter-settings='{"no_onload": true}' async src="//gc.zgo.at/count.js"></script>
 <script>
 (function() {
@@ -81,20 +95,15 @@
     }
   }
   window.addEventListener('load', function() { setTimeout(track, 300); });
-
-  fetch('https://dailymirror.goatcounter.com/counter/' + encodeURIComponent(path) + '.json')
-    .then(function(r) { return r.ok ? r.json() : Promise.reject(); })
-    .then(function(data) {
-      var count = data.count_unique || data.count;
-      var el = document.getElementById('page-meta');
-      if (count && el) {
-        el.innerHTML += '<span class="dot">·</span>' + count + ' ' + (count == 1 ? 'reader' : 'readers');
-      }
-    })
-    .catch(function() { /* counter not enabled yet, or blocked by an ad-blocker */ });
 })();
 </script>
 <script src="../../theme-toggle.js"></script>
+<script src="../../share.js"></script>
+<script>
+document.getElementById('share-btn').addEventListener('click', function() {
+  window.DailyMirrorShare.open({"title": "The Tennis Racket", "day": "44", "date": "2026-08-10", "hook": "If God picked up my life today, would He find something that has been faithfully used, or something that has only been carefully kept?", "url": "https://sujeeth-talluri.github.io/Daily-Mirror/entry/day-44-the-tennis-racket/", "storyImageUrl": "https://sujeeth-talluri.github.io/Daily-Mirror/stories/day-44-the-tennis-racket.png"});
+});
+</script>
 
 </body>
 </html>

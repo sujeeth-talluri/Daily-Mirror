@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script>(function(){var t=localStorage.getItem('daily-mirror-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);})();</script>
 <title>Think About It... — The Daily Mirror</title>
 <meta name="description" content="Many times, doing another good thing is easier than changing the one thing that's hurting the people I love.">
 <link rel="canonical" href="https://sujeeth-talluri.github.io/Daily-Mirror/entry/day-21-think-about-it/">
@@ -11,7 +10,17 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%AA%9E%3C/text%3E%3C/svg%3E">
 <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
 <link rel="manifest" href="../../manifest.json">
-<meta name="theme-color" content="#876522">
+<meta name="theme-color" content="#F7F5F0" id="theme-color-meta">
+<!-- Applies a saved theme choice before first paint and syncs theme-color to
+     match — same pattern and same ordering requirement as index.html (the
+     meta tag above must exist in the DOM before this script runs). -->
+<script>(function(){
+  var saved = localStorage.getItem('daily-mirror-theme');
+  var dark = saved === 'dark' || (saved !== 'light' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  if (saved === 'light' || saved === 'dark') document.documentElement.setAttribute('data-theme', saved);
+  var meta = document.getElementById('theme-color-meta');
+  if (meta) meta.setAttribute('content', dark ? '#1A1815' : '#F7F5F0');
+})();</script>
 
 <meta property="og:title" content="Think About It...">
 <meta property="og:description" content="Many times, doing another good thing is easier than changing the one thing that's hurting the people I love.">
@@ -47,14 +56,16 @@
     <a class="back-link" href="../../index.html">← All entries</a>
     <div class="entry-meta" id="page-meta">Day 21 · August 9, 2026</div>
     <h2 id="entry-title">Think About It...</h2>
-    <div class="entry-chips"><span class="tag">false-security</span><span class="tag">postponement</span></div>
+    <div class="entry-chips">FALSE SECURITY · POSTPONEMENT</div>
     
-    <div class="entry-body"><p>Think about it.</p><p>A husband hurts his wife during an argument. He knows he messed up. The next day, he buys her flowers. A few weeks later, it happens again. This time, an expensive dinner.</p><p>Then jewellery.</p><p>The gifts keep changing.</p><p>But the words that hurt her...</p><p>never do.</p><p>Think about it.</p><p>Parents work day and night for their daughter.</p><p>The best school.</p><p>The best clothes.</p><p>The best vacations.</p><p>The best phone.</p><p>One day, their daughter quietly says,</p><p>"I know you're doing all this because you love me... but I just wish you had more time for me."</p><p>Think about it.</p><p>A manager appreciates his team in every town hall. He celebrates every success. Rewards the best performers. But inside the meeting room, nobody feels comfortable telling him,</p><p>"I think you're wrong."</p><p>One thing I've observed in life is this.</p><p>Many times, when changing is difficult...</p><p>we become busy doing other good things to compensate.</p><p>Instead of rebuilding trust...</p><p>we buy gifts.</p><p>Instead of giving our time...</p><p>we spend more money.</p><p>Instead of changing our attitude...</p><p>we increase our activities. The good things we do are still good.</p><p>The problem is...</p><p>they quietly become a replacement for the one thing that actually needs to change.</p><div class="mirror-marker">🪞 The Mirror...</div><p>Think about my own life for a moment. Am I also doing this somewhere?</p><p>Am I becoming busy doing many good things...</p><p>because changing one part of me feels much harder? Maybe the question isn't,</p><p>"What more should I do?"</p><p>Maybe the better question is,</p><p>"What in me needs to change?"</p><p>Because...</p></div>
+    <div class="entry-body"><p>Think about it.</p><p>A husband hurts his wife during an argument. He knows he messed up. The next day, he buys her flowers. A few weeks later, it happens again. This time, an expensive dinner.</p><p>Then jewellery.</p><p>The gifts keep changing.</p><p class="pause sequence">But the words that hurt her...<br>never do.<br>Think about it.</p><p>Parents work day and night for their daughter.</p><p class="sequence">The best school.<br>The best clothes.<br>The best vacations.<br>The best phone.</p><p>One day, their daughter quietly says,</p><p class="sequence">"I know you're doing all this because you love me... but I just wish you had more time for me."<br>Think about it.</p><p>A manager appreciates his team in every town hall. He celebrates every success. Rewards the best performers. But inside the meeting room, nobody feels comfortable telling him,</p><p>"I think you're wrong."</p><p>One thing I've observed in life is this.</p><p class="pause">Many times, when changing is difficult...</p><p>we become busy doing other good things to compensate.</p><p class="pause sequence">Instead of rebuilding trust...<br>we buy gifts.<br>Instead of giving our time...</p><p>we spend more money.</p><p class="pause">Instead of changing our attitude...</p><p>we increase our activities. The good things we do are still good.</p><p class="pause">The problem is...</p><p>they quietly become a replacement for the one thing that actually needs to change.</p><div class="mirror-marker">🪞 The Mirror...</div><p>Think about my own life for a moment. Am I also doing this somewhere?</p><p class="pause sequence">Am I becoming busy doing many good things...<br>because changing one part of me feels much harder?</p><p>Maybe the question isn't,</p><p>"What more should I do?"</p><p>Maybe the better question is,</p><p class="pause sequence">"What in me needs to change?"<br>Because...</p></div>
     <p class="closing-question">Many times, doing another good thing is easier than changing the one thing that's hurting the people I love.</p>
 
     <div class="entry-actions">
-      <a class="action-btn" href="../../index.html#/entry/day-21-think-about-it">Open in full site</a>
+      <a class="action-btn primary" href="mailto:suji056@gmail.com?subject=Re%3A%20%22Think%20About%20It...%22%20%E2%80%94%20The%20Daily%20Mirror&body=I%20read%20Day%2021%2C%20%22Think%20About%20It...%22%2C%20and%20wanted%20to%20share%20a%20thought%3A%0A%0A">Reply to me</a>
+      <button type="button" class="action-btn" id="share-btn">Share reflection</button>
     </div>
+    <p style="margin-top: var(--space-4);"><a class="view-all-link" href="../../index.html#/entry/day-21-think-about-it">Open in the full site (search, related entries) →</a></p>
   </article>
 </main>
 
@@ -68,7 +79,10 @@
 
 <!-- no_onload: true, matching index.html — tracked manually below under the same
      virtual path the SPA uses, so this page's views (arrived at via share links,
-     RSS, or search) count toward the same total instead of going unrecorded. -->
+     RSS, or search) count toward the same total instead of going unrecorded.
+     Recorded but not displayed — same policy as the SPA (reader counts are
+     tracked for the site owner via the GoatCounter dashboard, not shown
+     publicly; see script.js's history for why). -->
 <script data-goatcounter="https://dailymirror.goatcounter.com/count" data-goatcounter-settings='{"no_onload": true}' async src="//gc.zgo.at/count.js"></script>
 <script>
 (function() {
@@ -81,20 +95,15 @@
     }
   }
   window.addEventListener('load', function() { setTimeout(track, 300); });
-
-  fetch('https://dailymirror.goatcounter.com/counter/' + encodeURIComponent(path) + '.json')
-    .then(function(r) { return r.ok ? r.json() : Promise.reject(); })
-    .then(function(data) {
-      var count = data.count_unique || data.count;
-      var el = document.getElementById('page-meta');
-      if (count && el) {
-        el.innerHTML += '<span class="dot">·</span>' + count + ' ' + (count == 1 ? 'reader' : 'readers');
-      }
-    })
-    .catch(function() { /* counter not enabled yet, or blocked by an ad-blocker */ });
 })();
 </script>
 <script src="../../theme-toggle.js"></script>
+<script src="../../share.js"></script>
+<script>
+document.getElementById('share-btn').addEventListener('click', function() {
+  window.DailyMirrorShare.open({"title": "Think About It...", "day": "21", "date": "2026-08-09", "hook": "Many times, doing another good thing is easier than changing the one thing that's hurting the people I love.", "url": "https://sujeeth-talluri.github.io/Daily-Mirror/entry/day-21-think-about-it/", "storyImageUrl": "https://sujeeth-talluri.github.io/Daily-Mirror/stories/day-21-think-about-it.png"});
+});
+</script>
 
 </body>
 </html>

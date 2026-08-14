@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script>(function(){var t=localStorage.getItem('daily-mirror-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);})();</script>
 <title>The Dusty Recipe Book — The Daily Mirror</title>
 <meta name="description" content="Maybe it's waiting for me to open it again.">
 <link rel="canonical" href="https://sujeeth-talluri.github.io/Daily-Mirror/entry/day-39-the-dusty-recipe-book/">
@@ -11,7 +10,17 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%AA%9E%3C/text%3E%3C/svg%3E">
 <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
 <link rel="manifest" href="../../manifest.json">
-<meta name="theme-color" content="#876522">
+<meta name="theme-color" content="#F7F5F0" id="theme-color-meta">
+<!-- Applies a saved theme choice before first paint and syncs theme-color to
+     match — same pattern and same ordering requirement as index.html (the
+     meta tag above must exist in the DOM before this script runs). -->
+<script>(function(){
+  var saved = localStorage.getItem('daily-mirror-theme');
+  var dark = saved === 'dark' || (saved !== 'light' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  if (saved === 'light' || saved === 'dark') document.documentElement.setAttribute('data-theme', saved);
+  var meta = document.getElementById('theme-color-meta');
+  if (meta) meta.setAttribute('content', dark ? '#1A1815' : '#F7F5F0');
+})();</script>
 
 <meta property="og:title" content="The Dusty Recipe Book">
 <meta property="og:description" content="Maybe it's waiting for me to open it again.">
@@ -47,14 +56,16 @@
     <a class="back-link" href="../../index.html">← All entries</a>
     <div class="entry-meta" id="page-meta">Day 39 · August 9, 2026</div>
     <h2 id="entry-title">The Dusty Recipe Book</h2>
-    <div class="entry-chips"><span class="tag">postponement</span></div>
+    <div class="entry-chips">POSTPONEMENT</div>
     
-    <div class="entry-body"><p>A young woman wanted to recreate her late mother's famous biryani. She remembered the aroma.</p><p>The taste.</p><p>The joy it brought to every family gathering.</p><p>She searched everywhere.</p><p>Watched countless cooking videos.</p><p>Tried different recipes.</p><p>Asked relatives.</p><p>Still...</p><p>it never tasted the same. One day, while cleaning an old kitchen cupboard, she noticed a dusty notebook tucked away at the back.</p><p>She opened it.</p><p>Every recipe was there. Written carefully in her mother's own handwriting. She stood there quietly, holding it for a long time. The recipe had never been lost. It had simply been forgotten.</p><p>She had spent months searching everywhere else...</p><p>while the answer had been waiting in her own kitchen.</p><div class="mirror-marker">🪞 The Mirror</div><p>That made me think. Sometimes I do the same.</p><p>When life becomes confusing...</p><p>I start searching everywhere for answers.</p><p>New ideas.</p><p>New voices.</p><p>New solutions.</p><p>Yet I quietly neglect the truth that has been with me all along. The problem isn't always that I don't have direction.</p><p>Sometimes...</p><p>I've simply stopped opening it.</p><div class="think-marker">💭 Think about it...</div><p>What answer am I searching everywhere else for...</p><p>when it has been waiting patiently for me all along?</p><p>Have I neglected what I already know...</p><p>while chasing something new?</p><p>Maybe the answer I'm looking for...</p><p>isn't waiting somewhere else.</p></div>
+    <div class="entry-body"><p>A young woman wanted to recreate her late mother's famous biryani. She remembered the aroma.</p><p>The taste.</p><p>The joy it brought to every family gathering.</p><p>She searched everywhere.</p><p>Watched countless cooking videos.</p><p class="pause sequence">Tried different recipes.<br>Asked relatives.<br>Still...</p><p>it never tasted the same. One day, while cleaning an old kitchen cupboard, she noticed a dusty notebook tucked away at the back.</p><p>She opened it.</p><p>Every recipe was there. Written carefully in her mother's own handwriting. She stood there quietly, holding it for a long time. The recipe had never been lost. It had simply been forgotten.</p><p class="pause">She had spent months searching everywhere else...</p><p>while the answer had been waiting in her own kitchen.</p><div class="mirror-marker">🪞 The Mirror</div><p>That made me think. Sometimes I do the same.</p><p class="pause">When life becomes confusing...</p><p>I start searching everywhere for answers.</p><p class="sequence">New ideas.<br>New voices.<br>New solutions.</p><p>Yet I quietly neglect the truth that has been with me all along. The problem isn't always that I don't have direction.</p><p class="pause">Sometimes...</p><p>I've simply stopped opening it.</p><div class="think-marker">💭 Think about it...</div><p class="pause sequence">What answer am I searching everywhere else for...<br>when it has been waiting patiently for me all along?</p><p class="pause sequence">Have I neglected what I already know...<br>while chasing something new?</p><p class="pause">Maybe the answer I'm looking for...</p><p>isn't waiting somewhere else.</p></div>
     <p class="closing-question">Maybe it's waiting for me to open it again.</p>
 
     <div class="entry-actions">
-      <a class="action-btn" href="../../index.html#/entry/day-39-the-dusty-recipe-book">Open in full site</a>
+      <a class="action-btn primary" href="mailto:suji056@gmail.com?subject=Re%3A%20%22The%20Dusty%20Recipe%20Book%22%20%E2%80%94%20The%20Daily%20Mirror&body=I%20read%20Day%2039%2C%20%22The%20Dusty%20Recipe%20Book%22%2C%20and%20wanted%20to%20share%20a%20thought%3A%0A%0A">Reply to me</a>
+      <button type="button" class="action-btn" id="share-btn">Share reflection</button>
     </div>
+    <p style="margin-top: var(--space-4);"><a class="view-all-link" href="../../index.html#/entry/day-39-the-dusty-recipe-book">Open in the full site (search, related entries) →</a></p>
   </article>
 </main>
 
@@ -68,7 +79,10 @@
 
 <!-- no_onload: true, matching index.html — tracked manually below under the same
      virtual path the SPA uses, so this page's views (arrived at via share links,
-     RSS, or search) count toward the same total instead of going unrecorded. -->
+     RSS, or search) count toward the same total instead of going unrecorded.
+     Recorded but not displayed — same policy as the SPA (reader counts are
+     tracked for the site owner via the GoatCounter dashboard, not shown
+     publicly; see script.js's history for why). -->
 <script data-goatcounter="https://dailymirror.goatcounter.com/count" data-goatcounter-settings='{"no_onload": true}' async src="//gc.zgo.at/count.js"></script>
 <script>
 (function() {
@@ -81,20 +95,15 @@
     }
   }
   window.addEventListener('load', function() { setTimeout(track, 300); });
-
-  fetch('https://dailymirror.goatcounter.com/counter/' + encodeURIComponent(path) + '.json')
-    .then(function(r) { return r.ok ? r.json() : Promise.reject(); })
-    .then(function(data) {
-      var count = data.count_unique || data.count;
-      var el = document.getElementById('page-meta');
-      if (count && el) {
-        el.innerHTML += '<span class="dot">·</span>' + count + ' ' + (count == 1 ? 'reader' : 'readers');
-      }
-    })
-    .catch(function() { /* counter not enabled yet, or blocked by an ad-blocker */ });
 })();
 </script>
 <script src="../../theme-toggle.js"></script>
+<script src="../../share.js"></script>
+<script>
+document.getElementById('share-btn').addEventListener('click', function() {
+  window.DailyMirrorShare.open({"title": "The Dusty Recipe Book", "day": "39", "date": "2026-08-09", "hook": "Maybe it's waiting for me to open it again.", "url": "https://sujeeth-talluri.github.io/Daily-Mirror/entry/day-39-the-dusty-recipe-book/", "storyImageUrl": "https://sujeeth-talluri.github.io/Daily-Mirror/stories/day-39-the-dusty-recipe-book.png"});
+});
+</script>
 
 </body>
 </html>

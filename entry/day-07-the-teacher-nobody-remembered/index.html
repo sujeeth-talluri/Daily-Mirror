@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script>(function(){var t=localStorage.getItem('daily-mirror-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);})();</script>
 <title>The Teacher Nobody Remembered — The Daily Mirror</title>
 <meta name="description" content="Or have I quietly moved on, thinking they were "just words," when for me, they became so much more?">
 <link rel="canonical" href="https://sujeeth-talluri.github.io/Daily-Mirror/entry/day-07-the-teacher-nobody-remembered/">
@@ -11,7 +10,17 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%AA%9E%3C/text%3E%3C/svg%3E">
 <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
 <link rel="manifest" href="../../manifest.json">
-<meta name="theme-color" content="#876522">
+<meta name="theme-color" content="#F7F5F0" id="theme-color-meta">
+<!-- Applies a saved theme choice before first paint and syncs theme-color to
+     match — same pattern and same ordering requirement as index.html (the
+     meta tag above must exist in the DOM before this script runs). -->
+<script>(function(){
+  var saved = localStorage.getItem('daily-mirror-theme');
+  var dark = saved === 'dark' || (saved !== 'light' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  if (saved === 'light' || saved === 'dark') document.documentElement.setAttribute('data-theme', saved);
+  var meta = document.getElementById('theme-color-meta');
+  if (meta) meta.setAttribute('content', dark ? '#1A1815' : '#F7F5F0');
+})();</script>
 
 <meta property="og:title" content="The Teacher Nobody Remembered">
 <meta property="og:description" content="Or have I quietly moved on, thinking they were "just words," when for me, they became so much more?">
@@ -47,14 +56,16 @@
     <a class="back-link" href="../../index.html">← All entries</a>
     <div class="entry-meta" id="page-meta">Day 7 · August 9, 2026</div>
     <h2 id="entry-title">The Teacher Nobody Remembered</h2>
-    <div class="entry-chips"><span class="tag">self-examination</span></div>
+    <div class="entry-chips">SELF-EXAMINATION</div>
     
-    <div class="entry-body"><p>At a school reunion, everyone was busy catching up. Some spoke about their promotions. Some about their businesses. Others shared stories about their families. In one corner of the hall, an old retired teacher was quietly having a cup of tea. Most people smiled at him as they walked past. After a while, a man in his forties walked up to him, bent down respectfully and said,</p><p>"Sir... I don't know if you remember me."</p><p>The teacher smiled.</p><p>"I'm sorry... help me."</p><p>The man replied,</p><p>"When I was in Class 10, I had decided to quit school. You called me aside one afternoon and said, 'I think you're giving up too early. I believe you can do much more than you think.'"</p><p>"I don't remember much from that year."</p><p>"But I've never forgotten those words."</p><p>The teacher looked at him and smiled.</p><p>"I'm glad they helped."</p><p>The man smiled back.</p><p>"Sir... today I perform heart surgeries."</p><p>There was a brief silence.</p><p>Then he added,</p><p>"But years ago, you repaired something much more important... my confidence."</p><p>The teacher's eyes filled with tears.</p><p>Softly, he said,</p><p>"I don't even remember saying those words."</p><p>The surgeon replied,</p><p>"I never forgot them."</p><p>That got me thinking...</p><p>There are conversations we forget because they were ordinary to us. And then there are conversations we never forget because they quietly changed the direction of our lives. Sometimes, a few words spoken at the right time stay with us for years.</p><p>Just a thought...</p><p>Can I remember one conversation that changed my life?</p><p>Have I ever thanked that person...</p></div>
+    <div class="entry-body"><p>At a school reunion, everyone was busy catching up. Some spoke about their promotions. Some about their businesses. Others shared stories about their families. In one corner of the hall, an old retired teacher was quietly having a cup of tea. Most people smiled at him as they walked past. After a while, a man in his forties walked up to him, bent down respectfully and said,</p><p class="sequence">"Sir... I don't know if you remember me."<br>The teacher smiled.<br>"I'm sorry... help me."<br>The man replied,<br>"When I was in Class 10, I had decided to quit school. You called me aside one afternoon and said, 'I think you're giving up too early. I believe you can do much more than you think.'"<br>"I don't remember much from that year."<br>"But I've never forgotten those words."</p><p>The teacher looked at him and smiled.</p><p>"I'm glad they helped."</p><p>The man smiled back.</p><p>"Sir... today I perform heart surgeries."</p><p>There was a brief silence.</p><p class="sequence">Then he added,<br>"But years ago, you repaired something much more important... my confidence."</p><p>The teacher's eyes filled with tears.</p><p class="pause sequence">Softly, he said,<br>"I don't even remember saying those words."<br>The surgeon replied,<br>"I never forgot them."<br>That got me thinking...</p><p>There are conversations we forget because they were ordinary to us. And then there are conversations we never forget because they quietly changed the direction of our lives. Sometimes, a few words spoken at the right time stay with us for years.</p><p class="pause sequence">Just a thought...<br>Can I remember one conversation that changed my life?</p><p class="pause">Have I ever thanked that person...</p></div>
     <p class="closing-question">Or have I quietly moved on, thinking they were "just words," when for me, they became so much more?</p>
 
     <div class="entry-actions">
-      <a class="action-btn" href="../../index.html#/entry/day-07-the-teacher-nobody-remembered">Open in full site</a>
+      <a class="action-btn primary" href="mailto:suji056@gmail.com?subject=Re%3A%20%22The%20Teacher%20Nobody%20Remembered%22%20%E2%80%94%20The%20Daily%20Mirror&body=I%20read%20Day%207%2C%20%22The%20Teacher%20Nobody%20Remembered%22%2C%20and%20wanted%20to%20share%20a%20thought%3A%0A%0A">Reply to me</a>
+      <button type="button" class="action-btn" id="share-btn">Share reflection</button>
     </div>
+    <p style="margin-top: var(--space-4);"><a class="view-all-link" href="../../index.html#/entry/day-07-the-teacher-nobody-remembered">Open in the full site (search, related entries) →</a></p>
   </article>
 </main>
 
@@ -68,7 +79,10 @@
 
 <!-- no_onload: true, matching index.html — tracked manually below under the same
      virtual path the SPA uses, so this page's views (arrived at via share links,
-     RSS, or search) count toward the same total instead of going unrecorded. -->
+     RSS, or search) count toward the same total instead of going unrecorded.
+     Recorded but not displayed — same policy as the SPA (reader counts are
+     tracked for the site owner via the GoatCounter dashboard, not shown
+     publicly; see script.js's history for why). -->
 <script data-goatcounter="https://dailymirror.goatcounter.com/count" data-goatcounter-settings='{"no_onload": true}' async src="//gc.zgo.at/count.js"></script>
 <script>
 (function() {
@@ -81,20 +95,15 @@
     }
   }
   window.addEventListener('load', function() { setTimeout(track, 300); });
-
-  fetch('https://dailymirror.goatcounter.com/counter/' + encodeURIComponent(path) + '.json')
-    .then(function(r) { return r.ok ? r.json() : Promise.reject(); })
-    .then(function(data) {
-      var count = data.count_unique || data.count;
-      var el = document.getElementById('page-meta');
-      if (count && el) {
-        el.innerHTML += '<span class="dot">·</span>' + count + ' ' + (count == 1 ? 'reader' : 'readers');
-      }
-    })
-    .catch(function() { /* counter not enabled yet, or blocked by an ad-blocker */ });
 })();
 </script>
 <script src="../../theme-toggle.js"></script>
+<script src="../../share.js"></script>
+<script>
+document.getElementById('share-btn').addEventListener('click', function() {
+  window.DailyMirrorShare.open({"title": "The Teacher Nobody Remembered", "day": "7", "date": "2026-08-09", "hook": "Or have I quietly moved on, thinking they were \"just words,\" when for me, they became so much more?", "url": "https://sujeeth-talluri.github.io/Daily-Mirror/entry/day-07-the-teacher-nobody-remembered/", "storyImageUrl": "https://sujeeth-talluri.github.io/Daily-Mirror/stories/day-07-the-teacher-nobody-remembered.png"});
+});
+</script>
 
 </body>
 </html>
