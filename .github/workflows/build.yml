@@ -30,7 +30,13 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-          cache: 'pip'
+          # No cache: 'pip' here — that option needs a requirements.txt/
+          # pyproject.toml to hash for a cache key, which this repo
+          # deliberately doesn't have, and setup-python fails outright
+          # without one rather than just skipping the cache (confirmed:
+          # broke the very first real run of this workflow). Pillow is one
+          # small package; installing it fresh each run is fast enough that
+          # caching isn't worth a fragile new file to maintain.
 
       - name: Install Pillow (needed only for social image generation)
         run: pip install Pillow
