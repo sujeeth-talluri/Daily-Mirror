@@ -442,6 +442,25 @@
     return !!prevLine && isDramaticBeat(prevLine) && line.trim().endsWith('?');
   }
 
+  // Mid-sequence continuation that isn't independently "isolated" and
+  // doesn't complete a question: when the open beat line trails off with
+  // "…" (an explicit unfinished-thought signal) and the next line starts
+  // lowercase, it's this writer's grammatical continuation of that same
+  // sentence ("...different people... / until someone finally says," / a
+  // dialogue tag; "...isn't clear... / but because I don't like the answer
+  // I've already received."), not a new independent line or a fresh prose
+  // sentence (those start uppercase by ordinary grammar). Deliberately
+  // narrower than "any lowercase line while a group is open" — that also
+  // swallowed short, independently-isolated lines that just happened to
+  // follow another isolated line, merging otherwise-separate beats/lists
+  // that had no unfinished-thought signal between them. Requiring the
+  // ellipsis keeps this to true sentence-continuations.
+  function continuesSequence(prevLine, line) {
+    if (!prevLine || !line || !isDramaticBeat(prevLine)) return false;
+    const ch = line[0];
+    return ch === ch.toLowerCase() && ch !== ch.toUpperCase();
+  }
+
   // Three rhythms (QA round-3 item 1-2): normal prose, an intentional
   // pause, and major transitions (Mirror/Think markers, below) — and
   // "grouped" is orthogonal to that: a run of isolated lines renders as
@@ -476,7 +495,7 @@
     paragraphs.forEach(p => {
       if (/^🪞/.test(p)) { flushProse(); flushBeats(); blocks.push({ kind: 'mirror', lines: [p] }); return; }
       if (/^💭/.test(p)) { flushProse(); flushBeats(); blocks.push({ kind: 'think', lines: [p] }); return; }
-      if (isIsolatedBeat(p) || continuesEllipsisQuestion(lastBeatLine, p)) {
+      if (isIsolatedBeat(p) || continuesEllipsisQuestion(lastBeatLine, p) || continuesSequence(lastBeatLine, p)) {
         flushProse();
         beatBuffer.push(p);
         lastBeatLine = p;

@@ -122,6 +122,24 @@ def continues_ellipsis_question(prev_line, line):
     return bool(prev_line) and is_dramatic_beat(prev_line) and line.strip().endswith("?")
 
 
+def continues_sequence(prev_line, line):
+    """Mid-sequence continuation that isn't independently "isolated" and
+    doesn't complete a question: when the open beat line trails off with
+    "…" (an explicit unfinished-thought signal) and the next line starts
+    lowercase, it's this writer's grammatical continuation of that same
+    sentence ("...different people... / until someone finally says," / a
+    dialogue tag; "...isn't clear... / but because I don't like the answer
+    I've already received."), not a new independent line or a fresh prose
+    sentence (those start uppercase by ordinary grammar). Deliberately
+    narrower than "any lowercase line while a group is open" — that also
+    swallowed short, independently-isolated lines that just happened to
+    follow another isolated line, merging otherwise-separate beats/lists
+    that had no unfinished-thought signal between them. Requiring the
+    ellipsis keeps this to true sentence-continuations. Mirrors script.js's
+    continuesSequence() exactly."""
+    return bool(prev_line) and is_dramatic_beat(prev_line) and bool(line) and line[0].islower()
+
+
 def render_body(body, closing_question):
     """Three rhythms — normal prose, an intentional pause, and a grouped
     multi-line sequence (tight internal line breaks, one pause-or-normal
@@ -158,7 +176,7 @@ def render_body(body, closing_question):
             flush_prose(); flush_beats()
             blocks.append({"kind": "think", "lines": [p]})
             continue
-        if is_isolated_beat(p) or continues_ellipsis_question(last_beat_line[0], p):
+        if is_isolated_beat(p) or continues_ellipsis_question(last_beat_line[0], p) or continues_sequence(last_beat_line[0], p):
             flush_prose()
             beat_buffer.append(p)
             last_beat_line[0] = p
