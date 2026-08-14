@@ -59,6 +59,15 @@ def escape_html(text):
     return _escape(text or "", quote=False)
 
 
+def escape_attr(text):
+    """For text landing inside an HTML attribute value (content="...") rather
+    than element text — quotes must be entity-escaped there or a title/hook
+    containing a literal " truncates the attribute and corrupts every tag
+    after it. escape_html() deliberately leaves quotes literal for element
+    text (cleaner raw HTML, harmless there); this is the attribute-safe twin."""
+    return _escape(text or "", quote=True)
+
+
 def meta_line(parts):
     return " · ".join(p for p in parts if p)
 
@@ -260,7 +269,7 @@ def render_page(entry, older, newer, gc_code):
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{escape_html(title)} — The Daily Mirror</title>
-<meta name="description" content="{escape_html(description)}">
+<meta name="description" content="{escape_attr(description)}">
 <link rel="canonical" href="{canonical}">
 
 <link rel="icon" href="{FAVICON}">
@@ -278,14 +287,14 @@ def render_page(entry, older, newer, gc_code):
   if (meta) meta.setAttribute('content', dark ? '#1A1815' : '#F7F5F0');
 }})();</script>
 
-<meta property="og:title" content="{escape_html(title)}">
-<meta property="og:description" content="{escape_html(description)}">
+<meta property="og:title" content="{escape_attr(title)}">
+<meta property="og:description" content="{escape_attr(description)}">
 <meta property="og:type" content="article">
 <meta property="og:url" content="{canonical}">
 <meta property="og:image" content="{og_image}">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="{escape_html(title)}">
-<meta name="twitter:description" content="{escape_html(description)}">
+<meta name="twitter:title" content="{escape_attr(title)}">
+<meta name="twitter:description" content="{escape_attr(description)}">
 <meta name="twitter:image" content="{og_image}">
 
 <script type="application/ld+json">{json.dumps(json_ld, ensure_ascii=False)}</script>

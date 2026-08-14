@@ -13,6 +13,13 @@ name: Build site
 # a visible warning on this workflow but never blocks the commit/push of
 # everything else. generate_icons.py still isn't run here: it's a one-off,
 # not part of the daily flow (only re-run locally if the site's mark changes).
+#
+# Ordering matters: generate_social_images.py must run between build_index.py
+# and build_pages.py, not after. build_pages.py decides each entry's og:image
+# by checking whether og/<slug>.png already exists on disk — running it first
+# meant every brand-new entry's page shipped with the generic fallback image
+# for its first day, only self-correcting on the next day's rebuild (caught
+# publishing Day 48, the first entry that also exposed the escape_attr bug).
 
 on:
   push:
@@ -41,15 +48,17 @@ jobs:
       - name: Install Pillow (needed only for social image generation)
         run: pip install Pillow
 
-      - name: Run build pipeline
-        run: |
-          python scripts/build_index.py
-          python scripts/build_feed.py
-          python scripts/build_pages.py
+      - name: Build entries index
+        run: python scripts/build_index.py
 
       - name: Generate social share images (OG + Story cards)
         continue-on-error: true
         run: python scripts/generate_social_images.py
+
+      - name: Build feed and entry pages
+        run: |
+          python scripts/build_feed.py
+          python scripts/build_pages.py
 
       - name: Commit generated files if anything changed
         run: |
