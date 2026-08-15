@@ -11,6 +11,17 @@ fonts/README.md) — no local/Windows dependency, unlike the generate_og_images.
 this replaces, which only ever ran manually on Windows and was never part of
 the automated pipeline.
 
+Each card has two layouts, chosen automatically per entry: the *_photo()
+variant when the entry has a header image (entries/*.md `image:` field,
+required from Day 46 on), the *_text() variant when it doesn't. The photo
+layout always keeps the photo in its own panel/band and text on plain paper
+— never text drawn on top of the photo — after an earlier full-bleed-with-
+gradient-scrim design turned out to have a real per-photo legibility failure
+(a bright-sky photo washed out one line of text) with no way to fix it
+without manual per-entry tuning, which contradicts this whole pipeline's
+"fully automatic" requirement. Keeping photo and text in separate regions
+means any photo's own brightness/color is a non-issue.
+
 Resilience policy: publishing the reflection matters more than generating its
 share images. A failure on one entry is logged and skipped, not fatal — every
 other entry still gets its images, and build_pages.py already falls back to
@@ -157,11 +168,30 @@ def dawn_strip(draw, x0, y0, x1, y1):
 # Job: read as a link preview, often rendered small (WhatsApp/iMessage/X cards
 # can be quite compact). Title recognition matters more than decorative detail,
 # so the title is the single largest element — bigger priority than the hook.
+#
+# Two layouts, chosen per entry: render_og_image_photo() when the entry has a
+# header image, render_og_image_text() when it doesn't (Days 1-45 minus the
+# backfilled ones). The photo layout keeps text on plain paper and the photo
+# in its own column — never text drawn over the photo — deliberately, after
+# an earlier full-bleed-photo-with-scrim design turned out to have a real,
+# per-photo legibility failure mode (a bright-sky photo washed out the day
+# number) with no way to fix it without per-entry manual tuning, which
+# contradicts the "fully automatic, zero manual work" requirement this whole
+# pipeline was built around. A photo column can be any brightness/color and
+# never risks that, because text is never drawn on top of it.
 
 OG_W, OG_H = 1200, 630
+OG_PANEL_W = 460  # photo column — ~38% of the card, big enough to be the
+                   # actual visual draw, not a token badge
 
 
-def render_og_image(entry):
+def render_og_image(entry, photo_path=None):
+    if photo_path is not None:
+        return render_og_image_photo(entry, photo_path)
+    return render_og_image_text(entry)
+
+
+def render_og_image_text(entry):
     img = Image.new("RGB", (OG_W, OG_H), PAPER)
     draw = ImageDraw.Draw(img)
     dawn_strip(draw, 0, 0, OG_W, 7)
@@ -220,6 +250,79 @@ def render_og_image(entry):
     return img
 
 
+def render_og_image_photo(entry, photo_path):
+    img = Image.new("RGB", (OG_W, OG_H), PAPER)
+    draw = ImageDraw.Draw(img)
+    dawn_strip(draw, 0, 0, OG_W, 7)
+
+    text_w = OG_W - OG_PANEL_W
+    margin = 72
+    x = margin
+    max_text_width = text_w - margin - 28  # breathing room before the panel edge
+
+    # Photo column: cover-cropped to fill, full height below the dawn-strip.
+    # Center-cropped — simple and safe. (A photo with important content very
+    # close to its own left/right edge, like Day 47's billboard, can get
+    # trimmed by this; no per-entry cropping control exists, and none is
+    # planned — see the module-level note above on why automatic-only.)
+    photo = Image.open(photo_path).convert("RGB")
+    panel_h = OG_H - 7
+    scale = max(OG_PANEL_W / photo.width, panel_h / photo.height)
+    photo = photo.resize((round(photo.width * scale), round(photo.height * scale)), Image.LANCZOS)
+    left = (photo.width - OG_PANEL_W) // 2
+    top = (photo.height - panel_h) // 2
+    photo = photo.crop((left, top, left + OG_PANEL_W, top + panel_h))
+    img.paste(photo, (OG_W - OG_PANEL_W, 7))
+    draw.rectangle([OG_W - OG_PANEL_W - 4, 7, OG_W - OG_PANEL_W, OG_H], fill=GOLD)
+
+    mark_w = draw_mirror_mark(draw, x, 44, 32)
+    draw.text((x + mark_w + 18, 56), tracked("THE DAILY MIRROR"), font=mono(18), fill=INK_SOFT)
+    day = entry.get("day")
+    if day:
+        draw.text((x, 108), tracked(f"DAY {day}"), font=mono(20, semibold=True), fill=GOLD)
+
+    # Quiet footer label, fixed position — same "TODAY'S REFLECTION" language
+    # the Story card uses, so the two card types read as one family. It also
+    # gives the title/hook block a fixed lower boundary to center within
+    # instead of a large empty zone that reads as unfinished on short entries.
+    footer_y = OG_H - 68
+    draw.text((x, footer_y), tracked("TODAY'S REFLECTION"), font=mono(15, semibold=True), fill=GOLD)
+
+    title_font, title_lines = fit_text(
+        draw, entry.get("title", ""), max_text_width, 3,
+        fraunces, start_size=72, min_size=44, weight=580,
+    )
+    hook = (entry.get("hook") or "").strip()
+    show_hook = bool(hook) and _normalize(hook) != _normalize(entry.get("title", ""))
+    hook_font, hook_lines = (None, [])
+    if show_hook:
+        hook_font, hook_lines = fit_text(
+            draw, hook, max_text_width, 4,
+            source_serif, start_size=28, min_size=22, italic=True, weight=420,
+        )
+
+    RULE_GAP_ABOVE, RULE_GAP_BELOW = 18, 26
+    block_h = sum(title_font.size + 10 for _ in title_lines)
+    if show_hook:
+        block_h += RULE_GAP_ABOVE + 3 + RULE_GAP_BELOW + sum(hook_font.size + 12 for _ in hook_lines)
+    zone_top, zone_bottom = 164, footer_y - 32
+    y = zone_top + max(0, (zone_bottom - zone_top - block_h) // 2)
+
+    for line in title_lines:
+        draw.text((x, y), line, font=title_font, fill=INK)
+        y += title_font.size + 10
+
+    if show_hook:
+        y += RULE_GAP_ABOVE
+        draw.line([(x, y), (x + 72, y)], fill=GOLD, width=3)
+        y += RULE_GAP_BELOW
+        for line in hook_lines:
+            draw.text((x, y), line, font=hook_font, fill=INK_SOFT)
+            y += hook_font.size + 12
+
+    return img
+
+
 # ============================ Story card (1080x1920) ============================
 # A different job entirely: full-screen, glanced at for a second or two while
 # scrolling Stories. The hook/curiosity line is the largest, most prominent
@@ -239,9 +342,18 @@ STORY_FOOTER_Y = 1654     # fixed regardless of content length — the gap above
                           # competing content) while staying clear of both the
                           # Link sticker's usual placement and Instagram's own
                           # reply bar at the very bottom.
+STORY_PHOTO_H = 1040      # top band for the photo variant — full width, ~55%
+                          # of the canvas, leaves room for text + the same
+                          # Link-sticker safe zone below it.
 
 
-def render_story_image(entry):
+def render_story_image(entry, photo_path=None):
+    if photo_path is not None:
+        return render_story_image_photo(entry, photo_path)
+    return render_story_image_text(entry)
+
+
+def render_story_image_text(entry):
     img = Image.new("RGB", (STORY_W, STORY_H), PAPER)
     draw = ImageDraw.Draw(img)
     dawn_strip(draw, 0, 0, STORY_W, 10)
@@ -306,11 +418,76 @@ def render_story_image(entry):
     return img
 
 
+def render_story_image_photo(entry, photo_path):
+    img = Image.new("RGB", (STORY_W, STORY_H), PAPER)
+    draw = ImageDraw.Draw(img)
+
+    # Photo band: full width, top ~55% — unlike the OG card's narrow side
+    # column, the Story format's full width means even a photo with content
+    # near its own edges (e.g. Day 47's billboard) usually survives the crop.
+    photo = Image.open(photo_path).convert("RGB")
+    scale = max(STORY_W / photo.width, STORY_PHOTO_H / photo.height)
+    photo = photo.resize((round(photo.width * scale), round(photo.height * scale)), Image.LANCZOS)
+    left = (photo.width - STORY_W) // 2
+    top = (photo.height - STORY_PHOTO_H) // 2
+    photo = photo.crop((left, top, left + STORY_W, top + STORY_PHOTO_H))
+    img.paste(photo, (0, 0))
+
+    dawn_strip(draw, 0, 0, STORY_W, 10)
+    draw.rectangle([0, STORY_PHOTO_H, STORY_W, STORY_PHOTO_H + 6], fill=GOLD)
+
+    x = STORY_MARGIN
+    y = STORY_PHOTO_H + 60
+
+    mark_w = draw_mirror_mark(draw, x, y - 2, 28)
+    label = tracked(f"THE DAILY MIRROR · DAY {entry.get('day', '')}")
+    draw.text((x + mark_w + 16, y + 4), label, font=mono(20), fill=INK_SOFT)
+    y += 76
+
+    # Hook is still the dominant text element, just working with less
+    # vertical room than the text-only layout (the photo band takes the
+    # space that used to hold it) — capped tighter accordingly.
+    hook = (entry.get("hook") or entry.get("title") or "").strip()
+    hook_font, hook_lines = fit_text(
+        draw, hook, STORY_W - STORY_MARGIN * 2, 4,
+        fraunces, start_size=64, min_size=42, weight=560,
+    )
+    for line in hook_lines:
+        draw.text((x, y), line, font=hook_font, fill=INK)
+        y += hook_font.size + 14
+
+    y += 26
+    draw.line([(x, y), (x + 90, y)], fill=GOLD, width=4)
+    y += 36
+
+    title = entry.get("title", "")
+    if title and _normalize(title) != _normalize(hook):
+        title_font, title_lines = fit_text(
+            draw, title, STORY_W - STORY_MARGIN * 2, 2,
+            source_serif, start_size=34, min_size=26, italic=True, weight=420,
+        )
+        for line in title_lines:
+            draw.text((x, y), line, font=title_font, fill=INK_SOFT)
+            y += title_font.size + 10
+
+    y += 30
+    draw.text((x, y), tracked("TODAY'S REFLECTION"), font=mono(18, semibold=True), fill=GOLD)
+
+    # Everything below this point is deliberately untouched — the Link
+    # sticker safe zone, same principle as the text-only layout.
+    return img
+
+
 def process_entry(entry):
     slug = entry["slug"]
-    og_img = render_og_image(entry)
+    image_rel = entry.get("image")
+    photo_path = ROOT / image_rel if image_rel else None
+    if photo_path is not None and not photo_path.exists():
+        photo_path = None
+
+    og_img = render_og_image(entry, photo_path)
     og_img.save(OG_DIR / f"{slug}.png")
-    story_img = render_story_image(entry)
+    story_img = render_story_image(entry, photo_path)
     story_img.save(STORY_DIR / f"{slug}.png")
 
 
