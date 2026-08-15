@@ -20,6 +20,14 @@ name: Build site
 # meant every brand-new entry's page shipped with the generic fallback image
 # for its first day, only self-correcting on the next day's rebuild (caught
 # publishing Day 48, the first entry that also exposed the escape_attr bug).
+#
+# The PDF ebook-volume backup (generate_pdf_backup.py) is entry-count
+# triggered, not part of every push: scripts/generate_pdf_backup.py --check
+# reports whether a new 100-entry volume is ready and not yet written, and
+# WeasyPrint (plus its system libs) is only installed on the rare run where
+# that's true — keeping the daily publish path fast on the other ~99 days.
+# continue-on-error like the social images step: a backup volume lagging by
+# a day never blocks publishing the day's actual reflection.
 
 on:
   push:
@@ -60,11 +68,28 @@ jobs:
           python scripts/build_feed.py
           python scripts/build_pages.py
 
+      - name: Check if a new PDF volume is ready
+        id: pdf_check
+        run: echo "ready=$(python scripts/generate_pdf_backup.py --check)" >> "$GITHUB_OUTPUT"
+
+      - name: Install WeasyPrint (only when a new volume is ready)
+        if: steps.pdf_check.outputs.ready == 'true'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libpango-1.0-0 libpangocairo-1.0-0 libpangoft2-1.0-0 libgdk-pixbuf2.0-0 libcairo2
+          pip install weasyprint
+
+      - name: Generate PDF ebook volume backup (every 100 entries)
+        if: steps.pdf_check.outputs.ready == 'true'
+        continue-on-error: true
+        run: python scripts/generate_pdf_backup.py
+
       - name: Commit generated files if anything changed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add entries.json feed.xml entry/ sitemap.xml robots.txt og/ stories/
+          if [ -d backups ]; then git add backups/; fi
           if git diff --cached --quiet; then
             echo "Nothing to commit — generated output already up to date."
           else

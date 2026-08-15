@@ -21,8 +21,6 @@ import json
 import sys
 from pathlib import Path
 
-from weasyprint import HTML, CSS
-
 sys.path.insert(0, str(Path(__file__).parent))
 from build_pages import render_body, format_themes, format_date, escape_html, escape_attr  # noqa: E402
 
@@ -272,6 +270,8 @@ def build_volume_html(entries, volume_num, first_day, last_day):
 
 
 def generate_volume(entries, volume_num):
+    from weasyprint import HTML  # deferred: --check must work without WeasyPrint installed
+
     start = (volume_num - 1) * VOLUME_SIZE
     end = start + VOLUME_SIZE
     volume_entries = entries[start:end]
@@ -284,27 +284,36 @@ def generate_volume(entries, volume_num):
     return out_path
 
 
+def pending_volumes(entries):
+    """Volume numbers that are count-eligible but not yet written to disk."""
+    ready_volumes = len(entries) // VOLUME_SIZE  # 100 entries -> volume 1 ready, 250 -> volumes 1-2 ready
+    return [
+        vol for vol in range(1, ready_volumes + 1)
+        if not (BACKUPS_DIR / f"the-daily-mirror-volume-{vol}.pdf").exists()
+    ]
+
+
 def main():
     entries = json.loads(ENTRIES_JSON.read_text(encoding="utf-8"))
     entries = sorted(entries, key=lambda e: int(e["day"]))
-    count = len(entries)
-    ready_volumes = count // VOLUME_SIZE  # 100 entries -> volume 1 ready, 250 -> volumes 1-2 ready
 
-    if ready_volumes == 0:
-        print(f"{count}/{VOLUME_SIZE} entries — no volume ready yet.")
+    # --check: report readiness only, for CI to decide whether to install
+    # WeasyPrint at all — too heavy to pull in on every push for a job that
+    # only matters once every hundred days.
+    if "--check" in sys.argv:
+        print("true" if pending_volumes(entries) else "false")
         return
 
-    made_any = False
-    for vol in range(1, ready_volumes + 1):
-        out_path = BACKUPS_DIR / f"the-daily-mirror-volume-{vol}.pdf"
-        if out_path.exists():
-            continue
+    pending = pending_volumes(entries)
+    if not pending:
+        count = len(entries)
+        print(f"{count}/{VOLUME_SIZE} entries — no volume ready yet."
+              if count < VOLUME_SIZE else "All ready volume(s) already exist — nothing to do.")
+        return
+
+    for vol in pending:
         path = generate_volume(entries, vol)
         print(f"Wrote {path}")
-        made_any = True
-
-    if not made_any:
-        print(f"All {ready_volumes} ready volume(s) already exist — nothing to do.")
 
 
 if __name__ == "__main__":
