@@ -5,6 +5,7 @@ title: "The Tennis Racket"
 passage: ""
 themes: ["complacency", "self-examination"]
 closing_question: "If God picked up my life today, would He find something that has been faithfully used, or something that has only been carefully kept?"
+image: "images/day-44-the-tennis-racket.jpg"
 ---
 
 Back in 2009, I joined a tennis academy.

@@ -5,6 +5,7 @@ title: "The Dusty Recipe Book"
 passage: ""
 themes: ["postponement"]
 closing_question: "Maybe it's waiting for me to open it again."
+image: "images/day-39-the-dusty-recipe-book.jpg"
 ---
 
 A young woman wanted to recreate her late mother's famous biryani.

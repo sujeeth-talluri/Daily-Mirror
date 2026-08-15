@@ -5,6 +5,7 @@ title: "What Smell?"
 passage: ""
 themes: ["ignoring-warning-signs", "self-examination"]
 closing_question: "Did those things really become right, or have I simply become comfortable living with them?"
+image: "images/day-42-what-smell.jpg"
 ---
 
 When I was in school, we lived in a town that had a factory nearby.

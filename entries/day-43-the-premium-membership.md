@@ -5,6 +5,7 @@ title: "The Premium Membership"
 passage: ""
 themes: ["complacency", "self-examination"]
 closing_question: "Am I becoming a better person, or have I simply become good at being present?"
+image: "images/day-43-the-premium-membership.jpg"
 ---
 
 I know quite a few people who proudly say,

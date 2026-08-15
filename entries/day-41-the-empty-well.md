@@ -5,6 +5,7 @@ title: "The Empty Well"
 passage: ""
 themes: ["self-reliance", "distraction"]
 closing_question: "Why did I stop going to it?"
+image: "images/day-41-the-empty-well.jpg"
 ---
 
 A village was blessed with a fresh water stream.

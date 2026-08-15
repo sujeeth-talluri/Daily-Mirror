@@ -5,6 +5,7 @@ title: "The Small Crack"
 passage: ""
 themes: ["ignoring-warning-signs", "postponement"]
 closing_question: "Maybe today is the day."
+image: "images/day-38-the-small-crack.jpg"
 ---
 
 For decades, a village depended on a large dam.

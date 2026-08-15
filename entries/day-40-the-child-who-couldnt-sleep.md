@@ -5,6 +5,7 @@ title: "The Child Who Couldn't Sleep"
 passage: ""
 themes: ["fear", "presence", "false-peace"]
 closing_question: "My heart does."
+image: "images/day-40-the-child-who-couldnt-sleep.jpg"
 ---
 
 One night, a little boy woke up to the sound of thunder.

@@ -5,6 +5,7 @@ title: "The Two Trees"
 passage: ""
 themes: ["self-examination", "false-security"]
 closing_question: "It will simply reveal them."
+image: "images/day-45-the-two-trees.jpg"
 ---
 
 A gardener planted two young trees on the same day.
