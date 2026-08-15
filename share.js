@@ -242,7 +242,7 @@
       const response = await fetch(e.storyImageUrl);
       if (!response.ok) throw new Error('story image not available');
       const blob = await response.blob();
-      const file = new File([blob], 'daily-mirror-story.png', { type: blob.type || 'image/png' });
+      const file = new File([blob], 'daily-mirror-story.jpg', { type: blob.type || 'image/jpeg' });
       if (navigator.canShare && navigator.canShare({ files: [file] })) {
         await navigator.share({ files: [file] });
         return;
@@ -252,7 +252,7 @@
       // Graceful fallback: download the image directly rather than a failed share.
       const a = document.createElement('a');
       a.href = e.storyImageUrl;
-      a.download = 'daily-mirror-story.png';
+      a.download = 'daily-mirror-story.jpg';
       document.body.appendChild(a);
       a.click();
       a.remove();

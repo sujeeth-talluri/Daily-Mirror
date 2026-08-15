@@ -228,7 +228,7 @@
       // every row's title/text starting at the same left edge instead of
       // the list visibly jumping left wherever a thumbnail is missing.
       const thumbnail = e.image
-        ? `<img class="row-image" src="${e.image}" alt="" loading="lazy">`
+        ? `<img class="row-image" src="${e.image}" alt="${escapeAttr(e.title)}" loading="lazy">`
         : '<span class="row-image" aria-hidden="true"></span>';
       li.innerHTML = `
         <a class="entry-row" href="#/entry/${e.slug}">
@@ -396,7 +396,7 @@
 
   function storyImageUrl(slug) {
     const baseDir = location.pathname.replace(/[^/]*$/, '');
-    return `${location.origin}${baseDir}stories/${slug}.png`;
+    return `${location.origin}${baseDir}stories/${slug}.jpg`;
   }
 
   // Opens the shared Share Reflection bottom sheet (share.js) — same sheet,
@@ -559,5 +559,14 @@
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;');
+  }
+
+  // For text landing inside an HTML attribute (alt="...") rather than element
+  // text — quotes must be entity-escaped there or a title containing a
+  // literal " truncates the attribute. escapeHtml() deliberately leaves
+  // quotes literal for element text; this is the attribute-safe twin (same
+  // split as build_pages.py's escape_html/escape_attr).
+  function escapeAttr(str) {
+    return escapeHtml(str).replace(/"/g, '&quot;').replace(/'/g, '&#x27;');
   }
 })();

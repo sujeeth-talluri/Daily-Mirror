@@ -16,7 +16,7 @@ name: Build site
 #
 # Ordering matters: generate_social_images.py must run between build_index.py
 # and build_pages.py, not after. build_pages.py decides each entry's og:image
-# by checking whether og/<slug>.png already exists on disk — running it first
+# by checking whether og/<slug>.jpg already exists on disk — running it first
 # meant every brand-new entry's page shipped with the generic fallback image
 # for its first day, only self-correcting on the next day's rebuild (caught
 # publishing Day 48, the first entry that also exposed the escape_attr bug).

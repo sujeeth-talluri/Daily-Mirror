@@ -219,19 +219,22 @@ def render_page(entry, older, newer, gc_code):
     themes_html = escape_html(format_themes(entry.get("themes")))
     body_html = render_body(entry.get("body", ""), entry.get("closing_question", ""))
     # Optional per-entry header image (entries/*.md `image:` field). Most entries
-    # won't have one — this is opt-in, not required.
+    # won't have one — this is opt-in, not required. alt text is the entry's own
+    # title — these illustrate the reflection, not decoration, so an empty alt
+    # would leave a screen reader with nothing (there's no per-image description
+    # field to draw a better one from; the title is the honest minimum).
     header_image_html = (
-        f'<img class="entry-header-image" src="../../{entry["image"]}" alt="" loading="eager">'
+        f'<img class="entry-header-image" src="../../{entry["image"]}" alt="{escape_attr(title)}" loading="eager">'
         if entry.get("image") else ""
     )
     # generate_social_images.py runs automatically in CI and produces this for
     # every entry — this fallback exists for resilience (that step is allowed
     # to fail without blocking publishing; see its docstring) rather than as
     # the normal case.
-    has_custom_image = (OG_IMAGES_DIR / f"{slug}.png").exists()
-    og_image = f"{SITE_URL}og/{slug}.png" if has_custom_image else f"{SITE_URL}og-image.png"
-    has_story_image = (ROOT / "stories" / f"{slug}.png").exists()
-    story_image = f"{SITE_URL}stories/{slug}.png" if has_story_image else ""
+    has_custom_image = (OG_IMAGES_DIR / f"{slug}.jpg").exists()
+    og_image = f"{SITE_URL}og/{slug}.jpg" if has_custom_image else f"{SITE_URL}og-image.png"
+    has_story_image = (ROOT / "stories" / f"{slug}.jpg").exists()
+    story_image = f"{SITE_URL}stories/{slug}.jpg" if has_story_image else ""
 
     # Mirrors script.js's wireReply() exactly, computed at build time instead
     # of on click since this page has no SPA data to build it from client-side.

@@ -3,8 +3,8 @@
 Generates two branded share images per entry, automatically, as part of the
 required publish pipeline (.github/workflows/build.yml):
 
-  og/<slug>.png       1200x630  — link-preview card (WhatsApp/Facebook/X/iMessage)
-  stories/<slug>.png  1080x1920 — Instagram Story card
+  og/<slug>.jpg       1200x630  — link-preview card (WhatsApp/Facebook/X/iMessage)
+  stories/<slug>.jpg  1080x1920 — Instagram Story card
 
 Runs on the Action's plain Ubuntu runner using fonts bundled in fonts/ (see
 fonts/README.md) — no local/Windows dependency, unlike the generate_og_images.py
@@ -485,10 +485,16 @@ def process_entry(entry):
     if photo_path is not None and not photo_path.exists():
         photo_path = None
 
+    # JPEG, not PNG: since the photo layouts (render_*_photo) landed, these
+    # canvases are mostly continuous-tone photograph, not flat text/graphics
+    # — PNG's lossless compression on that content is pure waste (~5x larger
+    # for no visible quality difference at this quality setting, measured on
+    # a real card). Quality 88 matches "public-facing share asset," a step
+    # above add_image.py's 82 for header thumbnails.
     og_img = render_og_image(entry, photo_path)
-    og_img.save(OG_DIR / f"{slug}.png")
+    og_img.convert("RGB").save(OG_DIR / f"{slug}.jpg", "JPEG", quality=88, optimize=True)
     story_img = render_story_image(entry, photo_path)
-    story_img.save(STORY_DIR / f"{slug}.png")
+    story_img.convert("RGB").save(STORY_DIR / f"{slug}.jpg", "JPEG", quality=88, optimize=True)
 
 
 def main():
