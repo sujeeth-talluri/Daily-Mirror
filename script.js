@@ -15,14 +15,15 @@
   // the Archive page's filter row shows instead of all 20 at once. Every
   // existing tag maps to exactly one group here.
   const THEME_GROUPS = {
-    'Self-Examination': ['self-examination', 'hidden-intentions'],
+    'Self-Examination': ['self-examination', 'hidden-intentions', 'self-deception'],
     'Fear & Security': ['fear', 'false-security', 'false-peace'],
-    'Pride & Comparison': ['pride', 'comparison', 'love-of-approval'],
+    'Pride & Comparison': ['pride', 'comparison', 'love-of-approval', 'seeking-approval'],
     'Postponement': ['postponement', 'complacency', 'urgency-vs-truth', 'ignoring-warning-signs', 'distraction'],
     'Refusal to Change': ['refusal-to-change', 'self-reliance', 'milestone-vs-journey'],
     'Identity': ['identity'],
     'Gratitude & Compassion': ['gratitude', 'compassion'],
     'Presence': ['presence'],
+    'Hope': ['hope', 'premature-surrender'],
   };
 
   const archiveView = document.getElementById('archive-view');
