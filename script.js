@@ -24,6 +24,7 @@
     'Gratitude & Compassion': ['gratitude', 'compassion'],
     'Presence': ['presence'],
     'Hope': ['hope', 'premature-surrender'],
+    'Trust & Obedience': ['trust'],
   };
 
   const archiveView = document.getElementById('archive-view');
