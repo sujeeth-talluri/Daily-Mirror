@@ -25,6 +25,7 @@
     'Presence': ['presence'],
     'Hope': ['hope', 'premature-surrender'],
     'Trust & Obedience': ['trust'],
+    'Grief & Healing': ['grief'],
   };
 
   const archiveView = document.getElementById('archive-view');
