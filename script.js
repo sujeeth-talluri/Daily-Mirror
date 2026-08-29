@@ -9,6 +9,16 @@
   let entries = [];
   let activeGroup = null;
 
+  // The archive renders PAGE_SIZE rows at a time instead of the full archive
+  // at once — at 60+ entries (and growing daily for years, per the site's
+  // own stated horizon) rendering every row up front turned the page into
+  // an ever-lengthening single scroll with no natural stopping point.
+  // Search/theme filtering still runs over the complete in-memory `entries`
+  // array either way — this only limits how many matching rows get painted
+  // into the DOM before "Load more" reveals the next page.
+  const PAGE_SIZE = 20;
+  let visibleCount = PAGE_SIZE;
+
   // Reader-facing theme taxonomy (brief §21): the 20 granular tags authored
   // per-entry stay exactly as-is in entries.json and on each entry's own
   // chips — they're useful, specific, and not going away. This is just what
@@ -37,6 +47,7 @@
   const searchInput = document.getElementById('search');
   const chipsWrap = document.getElementById('theme-chips');
   const backBtn = document.getElementById('back-btn');
+  const loadMoreBtn = document.getElementById('load-more-btn');
   const dayNav = document.getElementById('day-nav');
   const shareBtn = document.getElementById('share-btn');
   const replyBtn = document.getElementById('reply-btn');
@@ -79,7 +90,8 @@
     // Archive list or a shared link, not the Today page — Archive is the
     // more useful "back" destination either way.
     backBtn.addEventListener('click', () => { location.hash = '#/archive'; });
-    searchInput.addEventListener('input', renderList);
+    searchInput.addEventListener('input', resetAndRenderList);
+    loadMoreBtn.addEventListener('click', () => { visibleCount += PAGE_SIZE; renderList(); });
     window.addEventListener('hashchange', route);
     route();
   }
@@ -173,7 +185,7 @@
       chip.addEventListener('click', () => {
         activeGroup = activeGroup === group ? null : group;
         renderThemeChips();
-        renderList();
+        resetAndRenderList();
       });
       if (group === activeGroup) chip.classList.add('active');
       chipsWrap.appendChild(chip);
@@ -198,6 +210,15 @@
     }).join(' · ');
   }
 
+  // Any change that alters *which* entries match (a new search query, a
+  // theme filter toggle, or freshly opening the Archive) starts back at
+  // page one — otherwise "Load more" clicks from a previous, wider list
+  // would leave the reader stranded past the end of a narrower one.
+  function resetAndRenderList() {
+    visibleCount = PAGE_SIZE;
+    renderList();
+  }
+
   function renderList() {
     // Archive is the complete archive (brief §18/§19) — includes today's
     // entry too, unlike the old homepage list which excluded it because it
@@ -214,7 +235,7 @@
     });
 
     listLabel.textContent = isFiltering
-      ? 'Results'
+      ? `Results · ${filtered.length} ${filtered.length === 1 ? 'entry' : 'entries'}`
       : `Past Reflections · ${entries.length} ${entries.length === 1 ? 'entry' : 'entries'}`;
 
     entriesList.innerHTML = '';
@@ -223,7 +244,10 @@
       ? `No reflections found for "${searchInput.value.trim()}".`
       : 'No reflections match yet. Try a different word or theme.';
 
-    filtered.forEach(e => {
+    const visible = filtered.slice(0, visibleCount);
+    loadMoreBtn.hidden = visibleCount >= filtered.length;
+
+    visible.forEach(e => {
       const li = document.createElement('li');
       const meta = metaLine([`Day ${e.day}`, e.date ? formatDate(e.date) : '', e.passage || '']);
       // Entries before the Day-46 header-image policy have no thumbnail —
@@ -334,7 +358,7 @@
     dayNav.hidden = true;
     featured.hidden = true;
     archiveView.hidden = false;
-    renderList();
+    resetAndRenderList();
     window.scrollTo(0, 0);
   }
 

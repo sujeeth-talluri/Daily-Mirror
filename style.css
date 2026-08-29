@@ -612,6 +612,17 @@ html[data-theme="dark"] body {
   padding: 40px 0;
 }
 
+/* Archive renders PAGE_SIZE rows at a time (script.js) — without this the
+   list becomes one uninterrupted scroll that only ever gets longer as more
+   entries are published. Centered like the empty-state message above it.
+   :not([hidden]) matters here — a bare #load-more-btn { display: block }
+   would outrank the UA's [hidden] { display: none } on specificity alone
+   and the button would never actually disappear once exhausted. */
+#load-more-btn:not([hidden]) {
+  display: block;
+  margin: var(--space-6) auto 0;
+}
+
 /* ===== Single entry view ===== */
 #entry-view { padding-bottom: 60px; }
 
