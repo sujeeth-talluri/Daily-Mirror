@@ -36,6 +36,7 @@
     'Hope': ['hope', 'premature-surrender'],
     'Trust & Obedience': ['trust'],
     'Grief & Healing': ['grief'],
+    'Moving Forward': ['moving-forward', 'dwelling-on-the-past'],
   };
 
   const archiveView = document.getElementById('archive-view');
